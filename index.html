@@ -1,0 +1,4526 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Mrs. Ashgan — From Kermina</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&family=Caveat:wght@600;700&family=Cairo:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080c12;
+            --panel: rgba(13, 19, 28, 0.97);
+            --border: #1e2d42;
+            --border-glow: #1f4068;
+            --blue: #4da8ff;
+            --blue-deep: #1055a0;
+            --purple: #b794f4;
+            --teal: #38bdf8;
+            --green: #34d399;
+            --red: #f87171;
+            --gold: #fbbf24;
+            --pink: #f472b6;
+            --text: #cdd9e5;
+            --dim: #637089;
+            --kw: #f87171;
+            --fn: #b794f4;
+            --str: #7dd3fc;
+            --cmt: #637089;
+            --ch-accent: #4da8ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .cursor-star {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: star-fade .8s ease forwards;
+        }
+
+        @keyframes star-fade {
+            0% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(0) translateY(-20px)
+            }
+        }
+
+        #xp-bar-wrap {
+            position: fixed;
+            top: 3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        #xp-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--pink), var(--purple));
+            transition: width .4s ease;
+        }
+
+        #xp-toast {
+            position: fixed;
+            top: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 19, 28, .95);
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            padding: .28rem .85rem;
+            font-size: .68rem;
+            color: var(--gold);
+            z-index: 300;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+            white-space: nowrap;
+            backdrop-filter: blur(8px);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        #xp-toast.show {
+            opacity: 1;
+        }
+
+        #audio-btn {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            z-index: 200;
+            background: rgba(13, 19, 28, .92);
+            border: 1px solid var(--border);
+            color: var(--dim);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        #audio-btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+            box-shadow: 0 0 20px rgba(77, 168, 255, .3);
+        }
+
+        #audio-btn.playing {
+            border-color: var(--green);
+            color: var(--green);
+            animation: pulse-ring 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse-ring {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 211, 153, .5)
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(52, 211, 153, 0)
+            }
+        }
+
+        #cipher-btn {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 4.8rem;
+            z-index: 200;
+            background: linear-gradient(135deg, rgba(251, 191, 36, .12), rgba(244, 114, 182, .08));
+            border: 1px solid rgba(251, 191, 36, .45);
+            color: var(--gold);
+            padding: .42rem 1.1rem;
+            border-radius: 24px;
+            font-size: .72rem;
+            cursor: pointer;
+            transition: all .35s;
+            backdrop-filter: blur(10px);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: .8px;
+            box-shadow: 0 0 16px rgba(251, 191, 36, .1);
+        }
+
+        #cipher-btn:hover {
+            background: linear-gradient(135deg, rgba(251, 191, 36, .3), rgba(244, 114, 182, .2));
+            border-color: var(--gold);
+            color: #fff;
+            box-shadow: 0 0 28px rgba(251, 191, 36, .45), 0 4px 18px rgba(0, 0, 0, .3);
+            transform: translateY(-2px);
+        }
+
+        /* Cipher modal */
+        #cipher-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 700;
+            background: rgba(0, 0, 0, .88);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s;
+            backdrop-filter: blur(18px);
+        }
+
+        #cipher-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .cipher-box {
+            background: linear-gradient(160deg, #0c1a2e, #0e0c1e);
+            border: 1px solid rgba(251, 191, 36, .35);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            max-width: 680px;
+            width: 94%;
+            box-shadow: 0 0 80px rgba(251, 191, 36, .12), 0 40px 80px rgba(0, 0, 0, .7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cipher-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(251, 191, 36, .07), transparent 70%);
+            pointer-events: none;
+        }
+
+        .cipher-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: .35rem;
+            text-align: center;
+        }
+
+        .cipher-sub {
+            font-size: .82rem;
+            color: var(--dim);
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .cipher-encoded {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.05rem;
+            letter-spacing: 3px;
+            color: var(--purple);
+            text-align: center;
+            padding: 1rem 1.4rem;
+            background: rgba(183, 148, 244, .06);
+            border: 1px solid rgba(183, 148, 244, .2);
+            border-radius: 10px;
+            margin-bottom: 1.4rem;
+            line-height: 1.9;
+            word-break: break-all;
+        }
+
+        .cipher-hint {
+            font-size: .76rem;
+            color: var(--dim);
+            text-align: center;
+            margin-bottom: 1.4rem;
+            line-height: 1.7;
+        }
+
+        .cipher-hint span {
+            color: var(--gold);
+        }
+
+        .cipher-input-row {
+            display: flex;
+            gap: .6rem;
+            margin-bottom: 1rem;
+        }
+
+        #cipher-answer {
+            flex: 1;
+            background: rgba(13, 19, 28, .95);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: .8rem 1rem;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .9rem;
+            outline: none;
+            transition: border-color .2s;
+            letter-spacing: 1px;
+        }
+
+        #cipher-answer:focus {
+            border-color: var(--gold);
+        }
+
+        #cipher-answer.error {
+            border-color: var(--red);
+            animation: shake .4s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            20%,
+            60% {
+                transform: translateX(-6px)
+            }
+
+            40%,
+            80% {
+                transform: translateX(6px)
+            }
+        }
+
+        #cipher-check {
+            background: linear-gradient(135deg, rgba(251, 191, 36, .3), rgba(244, 114, 182, .2));
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: .8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .82rem;
+            font-weight: 700;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+
+        #cipher-check:hover {
+            background: linear-gradient(135deg, rgba(251, 191, 36, .5), rgba(244, 114, 182, .35));
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .cipher-feedback {
+            font-size: .78rem;
+            color: var(--red);
+            text-align: center;
+            min-height: 1.2rem;
+            margin-bottom: .5rem;
+        }
+
+        .cipher-close-btn {
+            display: block;
+            margin: .8rem auto 0;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, .1);
+            color: var(--dim);
+            padding: .45rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .72rem;
+            transition: all .2s;
+        }
+
+        .cipher-close-btn:hover {
+            border-color: var(--dim);
+            color: var(--text);
+        }
+
+        /* Cipher solved overlay */
+        .cipher-solved {
+            opacity: 0;
+            transform: scale(.9);
+            transition: all .7s cubic-bezier(.34, 1.56, .64, 1);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .cipher-solved.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .solved-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: float-emoji 3s ease-in-out infinite;
+        }
+
+        .solved-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.2rem;
+        }
+
+        .solved-message {
+            font-size: .96rem;
+            color: var(--text);
+            line-height: 2.1;
+            max-width: 480px;
+            margin: 0 auto 2rem;
+            white-space: pre-wrap;
+        }
+
+        .solved-sig {
+            font-size: .88rem;
+            color: var(--dim);
+            font-style: italic;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 600;
+            background: rgba(4, 8, 16, .75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .4s;
+            backdrop-filter: blur(14px);
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            position: relative;
+            width: 90%;
+            max-width: 480px;
+            background: linear-gradient(160deg, #0d1b2e, #0b1420);
+            border: 1px solid rgba(183, 148, 244, .42);
+            border-radius: 24px;
+            padding: 3.5rem 3rem;
+            text-align: center;
+            overflow: hidden;
+            transform: scale(.75) translateY(30px);
+            transition: transform .5s cubic-bezier(.34, 1.56, .64, 1);
+            box-shadow: 0 0 80px rgba(183, 148, 244, .22), 0 40px 80px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .05);
+        }
+
+        .modal-overlay.show .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-bg-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(183, 148, 244, .14), transparent 65%);
+            pointer-events: none;
+        }
+
+        .modal-rings {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .modal-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(183, 148, 244, .09);
+            animation: ring-expand 4s ease-in-out infinite;
+        }
+
+        .modal-ring:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-ring:nth-child(2) {
+            width: 340px;
+            height: 340px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: .8s;
+        }
+
+        .modal-ring:nth-child(3) {
+            width: 480px;
+            height: 480px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 1.6s;
+        }
+
+        @keyframes ring-expand {
+
+            0%,
+            100% {
+                opacity: .4;
+                transform: translate(-50%, -50%) scale(.95)
+            }
+
+            50% {
+                opacity: .08;
+                transform: translate(-50%, -50%) scale(1.05)
+            }
+        }
+
+        .modal-emoji {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1.5rem;
+            animation: float-emoji 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 22px rgba(183, 148, 244, .7));
+        }
+
+        @keyframes float-emoji {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-3deg)
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(3deg)
+            }
+        }
+
+        .modal-msg {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.55rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: .6rem;
+            background: linear-gradient(135deg, #fff, var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-stars-row {
+            display: flex;
+            justify-content: center;
+            gap: .5rem;
+            margin: 1.4rem 0;
+            font-size: 1.1rem;
+            color: var(--purple);
+            opacity: .6;
+        }
+
+        .modal-sub {
+            font-size: .87rem;
+            color: var(--dim);
+            line-height: 1.8;
+            margin-top: .6rem;
+            max-width: 330px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .modal-close {
+            margin-top: 1.8rem;
+            background: linear-gradient(135deg, rgba(183, 148, 244, .18), rgba(77, 168, 255, .18));
+            border: 1px solid rgba(183, 148, 244, .45);
+            color: var(--purple);
+            padding: .72rem 2.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: .83rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: .5px;
+            transition: all .25s;
+        }
+
+        .modal-close:hover {
+            background: linear-gradient(135deg, rgba(183, 148, 244, .4), rgba(77, 168, 255, .3));
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(183, 148, 244, .3);
+        }
+
+        #unlock-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 700;
+            background: rgba(0, 0, 0, .9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .5s;
+            backdrop-filter: blur(16px);
+        }
+
+        #unlock-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .unlock-box {
+            background: linear-gradient(160deg, #0d1b2e, #120d20);
+            border: 1px solid var(--gold);
+            border-radius: 24px;
+            padding: 3.5rem;
+            text-align: center;
+            max-width: 520px;
+            width: 90%;
+            box-shadow: 0 0 100px rgba(251, 191, 36, .2), 0 40px 80px rgba(0, 0, 0, .7);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .unlock-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(251, 191, 36, .1), transparent 70%);
+            pointer-events: none;
+        }
+
+        .unlock-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: unlock-pop .6s cubic-bezier(.34, 1.56, .64, 1) forwards;
+        }
+
+        @keyframes unlock-pop {
+            0% {
+                transform: scale(0) rotate(-20deg)
+            }
+
+            100% {
+                transform: scale(1) rotate(0)
+            }
+        }
+
+        .unlock-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .unlock-msg {
+            font-size: .98rem;
+            color: var(--text);
+            line-height: 2;
+            max-width: 380px;
+            margin: 0 auto 2rem;
+        }
+
+        .unlock-close {
+            background: linear-gradient(135deg, rgba(251, 191, 36, .2), rgba(244, 114, 182, .2));
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: .8rem 2.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .88rem;
+            transition: all .2s;
+        }
+
+        .unlock-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(251, 191, 36, .3);
+        }
+
+        #crt-flash {
+            position: fixed;
+            inset: 0;
+            z-index: 400;
+            background: #7dd3fc;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        #crt-flash.flash {
+            animation: crt-anim .45s ease forwards;
+        }
+
+        @keyframes crt-anim {
+            0% {
+                opacity: .3
+            }
+
+            15% {
+                opacity: 0
+            }
+
+            30% {
+                opacity: .12
+            }
+
+            50% {
+                opacity: 0
+            }
+
+            100% {
+                opacity: 0
+            }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue-deep), var(--blue), var(--purple), var(--pink));
+            width: 0%;
+            transition: width .6s ease;
+            z-index: 150;
+        }
+
+        .chapter-counter {
+            position: fixed;
+            top: 14px;
+            right: 1.5rem;
+            font-size: .72rem;
+            color: var(--dim);
+            z-index: 150;
+            background: rgba(8, 12, 18, .88);
+            padding: .28rem .65rem;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            letter-spacing: 1px;
+            backdrop-filter: blur(6px);
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 10px;
+            left: 1.5rem;
+            display: flex;
+            gap: .35rem;
+            z-index: 150;
+        }
+
+        .nav-btn {
+            font-size: .68rem;
+            color: var(--dim);
+            background: rgba(8, 12, 18, .88);
+            padding: .28rem .65rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all .2s;
+            letter-spacing: 1px;
+            backdrop-filter: blur(6px);
+            line-height: 1.6;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            color: var(--blue);
+            border-color: var(--blue);
+        }
+
+        .nav-btn:disabled {
+            opacity: .2;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.skip:hover:not(:disabled) {
+            color: var(--purple);
+            border-color: var(--purple);
+        }
+
+        .lang-active {
+            color: var(--purple) !important;
+            border-color: var(--purple) !important;
+        }
+
+        .kb-hint {
+            position: fixed;
+            bottom: 1.2rem;
+            right: 1.5rem;
+            font-size: .62rem;
+            color: var(--dim);
+            z-index: 150;
+            opacity: .35;
+            letter-spacing: .5px;
+        }
+
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity .6s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-screen.gone {
+            display: none;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 1.5rem;
+        }
+
+        .loading-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink));
+            width: 0%;
+            animation: fill-anim 2.4s ease forwards;
+        }
+
+        @keyframes fill-anim {
+            to {
+                width: 100%;
+            }
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            opacity: .14;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 999;
+        }
+
+        .chapter {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 2.5rem;
+            padding: 5.5rem 2rem 5rem;
+            opacity: 0;
+            transform: scale(.96) translateY(24px);
+            pointer-events: none;
+            transition: opacity .65s, transform .65s;
+        }
+
+        .chapter.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        .chapter.exit {
+            opacity: 0;
+            transform: scale(1.04) translateY(-20px);
+            pointer-events: none;
+        }
+
+        @keyframes glitch-in {
+            0% {
+                opacity: 0;
+                filter: blur(8px) brightness(2.5);
+                transform: scale(1.04) skewX(1.5deg)
+            }
+
+            50% {
+                opacity: .9;
+                filter: blur(1px) brightness(1.2);
+                transform: scale(1.005)
+            }
+
+            100% {
+                opacity: 1;
+                filter: none;
+                transform: none
+            }
+        }
+
+        .chapter.glitch-enter {
+            animation: glitch-in .5s ease forwards;
+        }
+
+        .chapter[data-accent="blue"] {
+            --ch-accent: var(--blue);
+        }
+
+        .chapter[data-accent="purple"] {
+            --ch-accent: var(--purple);
+        }
+
+        .chapter[data-accent="teal"] {
+            --ch-accent: var(--teal);
+        }
+
+        .chapter[data-accent="green"] {
+            --ch-accent: var(--green);
+        }
+
+        .chapter[data-accent="gold"] {
+            --ch-accent: var(--gold);
+        }
+
+        .chapter[data-accent="pink"] {
+            --ch-accent: var(--pink);
+        }
+
+        .chapter[data-accent="red"] {
+            --ch-accent: var(--red);
+        }
+
+        .terminal {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 820px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .6);
+            overflow: hidden;
+            transition: border-color .3s;
+        }
+
+        .terminal:hover {
+            border-color: var(--ch-accent);
+        }
+
+        .terminal-header {
+            background: #0b1520;
+            padding: .75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-r {
+            background: #ff5f56;
+        }
+
+        .dot-y {
+            background: #ffbd2e;
+        }
+
+        .dot-g {
+            background: #27c93f;
+        }
+
+        .terminal-title {
+            margin-left: 1rem;
+            font-size: .82rem;
+            color: var(--dim);
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        .terminal-body {
+            padding: 1.5rem;
+            font-size: .92rem;
+            line-height: 1.95;
+        }
+
+        .prompt {
+            color: var(--ch-accent);
+        }
+
+        .output {
+            color: var(--text);
+            margin: .4rem 0;
+        }
+
+        .success {
+            color: var(--green);
+        }
+
+        .warn {
+            color: var(--gold);
+        }
+
+        .code-block {
+            background: #050810;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.1rem 1.3rem;
+            margin: .8rem 0;
+            font-size: .87rem;
+            direction: ltr !important;
+            text-align: left !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            line-height: 1.85;
+        }
+
+        .code-line {
+            margin: .22rem 0;
+        }
+
+        .ln {
+            color: var(--dim);
+            margin-right: 1.2rem;
+            user-select: none;
+            font-size: .77rem;
+        }
+
+        .kw {
+            color: var(--kw);
+        }
+
+        .fn {
+            color: var(--fn);
+        }
+
+        .str {
+            color: var(--str);
+        }
+
+        .cmt {
+            color: var(--cmt);
+            font-style: italic;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, var(--blue-deep), var(--blue));
+            border: none;
+            color: #fff;
+            padding: 1rem 2.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .92rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all .3s;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 20px rgba(21, 101, 192, .4);
+            position: relative;
+            overflow: hidden;
+            z-index: 50;
+            margin-bottom: 2rem;
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(21, 101, 192, .6);
+        }
+
+        .chapter-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
+            text-align: center;
+            margin-bottom: .5rem;
+            background: linear-gradient(135deg, var(--ch-accent), var(--purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .chapter-subtitle {
+            text-align: center;
+            color: var(--dim);
+            font-size: .93rem;
+            margin-bottom: .5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 .5rem;
+        }
+
+        .stat-box {
+            background: rgba(13, 19, 28, .88);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity .5s, transform .5s, border-color .3s, box-shadow .3s;
+        }
+
+        .stat-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-box:hover {
+            border-color: var(--ch-accent);
+            box-shadow: 0 10px 40px rgba(77, 168, 255, .1);
+            transform: translateY(-4px);
+        }
+
+        .stat-label {
+            color: var(--dim);
+            font-size: .77rem;
+            font-family: 'Syne', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .stat-value {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+            color: var(--ch-accent);
+            line-height: 1.1;
+            word-break: break-word;
+            width: 100%;
+        }
+
+        .stat-note {
+            color: var(--cmt);
+            font-size: .72rem;
+            margin-top: .4rem;
+            font-style: italic;
+        }
+
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            margin-top: .3rem;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: live-pulse 1.1s ease-in-out infinite;
+        }
+
+        @keyframes live-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            50% {
+                transform: scale(1.7);
+                opacity: .35
+            }
+        }
+
+        .live-text {
+            font-size: .66rem;
+            color: var(--green);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+        }
+
+        .heart-stage {
+            text-align: center;
+            padding: 1rem 0 .5rem;
+        }
+
+        .heart {
+            font-size: 5rem;
+            display: inline-block;
+            cursor: pointer;
+            transition: all .5s cubic-bezier(.34, 1.56, .64, 1);
+            filter: grayscale(100%) opacity(.5);
+            position: relative;
+        }
+
+        .heart:hover {
+            filter: grayscale(50%) opacity(.75);
+            transform: scale(1.08);
+        }
+
+        .heart-hint {
+            font-size: .77rem;
+            color: var(--dim);
+            margin-top: .8rem;
+            animation: pulse-hint 2s ease-in-out infinite;
+            letter-spacing: .5px;
+        }
+
+        @keyframes pulse-hint {
+
+            0%,
+            100% {
+                opacity: .35
+            }
+
+            50% {
+                opacity: .9
+            }
+        }
+
+        .heart.blooming {
+            filter: grayscale(0%) opacity(1) !important;
+            animation: heart-bloom 1.2s cubic-bezier(.34, 1.56, .64, 1) forwards;
+        }
+
+        @keyframes heart-bloom {
+            0% {
+                transform: scale(1)
+            }
+
+            30% {
+                transform: scale(1.5) rotate(-8deg)
+            }
+
+            60% {
+                transform: scale(1.2) rotate(5deg)
+            }
+
+            100% {
+                transform: scale(1) rotate(0)
+            }
+        }
+
+        .build-log {
+            margin-top: 1.4rem;
+            font-size: .83rem;
+            line-height: 1;
+            min-height: 200px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .log-line {
+            display: flex;
+            align-items: baseline;
+            gap: .6rem;
+            padding: .38rem 0;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity .4s, transform .4s;
+        }
+
+        .log-line.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .log-line.personal {
+            padding: .55rem .8rem;
+            margin: .3rem 0;
+            background: rgba(244, 114, 182, .04);
+            border-left: 2px solid rgba(244, 114, 182, .3);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .log-ts {
+            color: var(--cmt);
+            font-size: .72rem;
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        .log-tag {
+            font-size: .65rem;
+            padding: .08rem .35rem;
+            border-radius: 3px;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        .log-tag.ok {
+            background: rgba(52, 211, 153, .1);
+            color: var(--green);
+            border: 1px solid rgba(52, 211, 153, .3);
+        }
+
+        .log-tag.info {
+            background: rgba(77, 168, 255, .1);
+            color: var(--blue);
+            border: 1px solid rgba(77, 168, 255, .25);
+        }
+
+        .log-tag.heart {
+            background: rgba(244, 114, 182, .1);
+            color: var(--pink);
+            border: 1px solid rgba(244, 114, 182, .25);
+        }
+
+        .log-tag.warn {
+            background: rgba(251, 191, 36, .1);
+            color: var(--gold);
+            border: 1px solid rgba(251, 191, 36, .3);
+        }
+
+        .log-msg {
+            color: var(--text);
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .log-msg.dim {
+            color: var(--dim);
+        }
+
+        .log-msg.pink {
+            color: var(--pink);
+        }
+
+        .log-msg.green {
+            color: var(--green);
+        }
+
+        .log-msg.gold {
+            color: var(--gold);
+        }
+
+        .gratitude-final {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: all 1s ease;
+            margin-top: 1.6rem;
+            padding: 1.4rem 1.6rem;
+            background: linear-gradient(135deg, rgba(244, 114, 182, .05), rgba(183, 148, 244, .05));
+            border: 1px solid rgba(244, 114, 182, .18);
+            border-radius: 12px;
+        }
+
+        .gratitude-final.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gratitude-final-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.15rem;
+            line-height: 1.85;
+            color: var(--text);
+            white-space: pre-wrap;
+        }
+
+        .gratitude-final-sig {
+            font-size: .78rem;
+            color: var(--dim);
+            margin-top: .8rem;
+            font-style: italic;
+        }
+
+        .run-btn {
+            background: var(--green);
+            border: none;
+            color: #050810;
+            padding: .5rem 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .85rem;
+            font-weight: 700;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all .2s;
+            direction: ltr;
+        }
+
+        .run-btn:hover:not(:disabled) {
+            background: #4ade80;
+            transform: translateY(-1px);
+        }
+
+        .run-btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .run-output {
+            margin-top: .8rem;
+            min-height: 80px;
+            padding: .8rem 1rem;
+            background: rgba(0, 0, 0, .35);
+            border-left: 3px solid var(--green);
+            border-radius: 0 5px 5px 0;
+            font-size: .85rem;
+            line-height: 2;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .error-scroll {
+            max-height: 380px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .error-line {
+            display: flex;
+            gap: .8rem;
+            padding: .5rem 0;
+            border-bottom: 1px solid rgba(30, 45, 66, .35);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity .4s, transform .4s;
+            font-size: .82rem;
+        }
+
+        .error-line.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .err-badge {
+            font-size: .62rem;
+            padding: .1rem .4rem;
+            border-radius: 3px;
+            font-weight: 700;
+            white-space: nowrap;
+            align-self: flex-start;
+            margin-top: .3rem;
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        .badge-warn {
+            background: rgba(251, 191, 36, .1);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .badge-fix {
+            background: rgba(52, 211, 153, .1);
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .badge-info {
+            background: rgba(77, 168, 255, .1);
+            color: var(--blue);
+            border: 1px solid var(--blue);
+        }
+
+        .ach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 960px;
+            padding: 0 .5rem;
+        }
+
+        .achievement {
+            background: rgba(13, 19, 28, .9);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .5s, transform .5s, border-color .3s;
+        }
+
+        .achievement.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .achievement:hover {
+            border-color: var(--purple);
+            box-shadow: 0 6px 28px rgba(183, 148, 244, .12);
+        }
+
+        .ach-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .ach-body {
+            display: flex;
+            flex-direction: column;
+            gap: .25rem;
+        }
+
+        .ach-title {
+            font-family: 'Syne', sans-serif;
+            font-size: .88rem;
+            font-weight: 700;
+            color: var(--purple);
+        }
+
+        .ach-desc {
+            font-size: .75rem;
+            color: var(--dim);
+            line-height: 1.55;
+        }
+
+        .ach-xp {
+            font-size: .66rem;
+            color: var(--gold);
+            margin-top: .25rem;
+            font-family: 'JetBrains Mono', monospace !important;
+            letter-spacing: .5px;
+        }
+
+        .quote-stage {
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quote-card {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            padding: 2.5rem;
+            background: rgba(13, 19, 28, .92);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            opacity: 0;
+            transform: translateX(60px) scale(.95);
+            transition: all .5s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .quote-card.active {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+
+        .quote-card.exit-left {
+            opacity: 0;
+            transform: translateX(-60px) scale(.95);
+        }
+
+        .quote-text {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(1.2rem, 3vw, 1.65rem);
+            color: var(--text);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .quote-dot {
+            color: var(--ch-accent);
+            font-size: 1.4rem;
+            margin-bottom: .8rem;
+            display: block;
+        }
+
+        .quote-attr {
+            font-size: .73rem;
+            color: var(--dim);
+            letter-spacing: 1px;
+        }
+
+        .quote-nav {
+            display: flex;
+            gap: .6rem;
+            margin-top: 1.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .q-btn {
+            background: rgba(13, 19, 28, .9);
+            border: 1px solid var(--border);
+            color: var(--dim);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+        }
+
+        .q-btn:hover {
+            border-color: var(--purple);
+            color: var(--purple);
+        }
+
+        .q-dots {
+            display: flex;
+            gap: .4rem;
+            align-items: center;
+        }
+
+        .q-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all .3s;
+            cursor: pointer;
+        }
+
+        .q-dot.on {
+            background: var(--purple);
+            transform: scale(1.4);
+        }
+
+        .diff-wrap {
+            width: 100%;
+            max-width: 860px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .diff-panel {
+            background: #050810;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .diff-header {
+            padding: .7rem 1rem;
+            font-size: .76rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .diff-header.before {
+            background: rgba(248, 113, 113, .08);
+            color: var(--red);
+            border-bottom: 1px solid rgba(248, 113, 113, .2);
+        }
+
+        .diff-header.after {
+            background: rgba(52, 211, 153, .08);
+            color: var(--green);
+            border-bottom: 1px solid rgba(52, 211, 153, .2);
+        }
+
+        .diff-body {
+            padding: 1rem 1.2rem;
+            font-size: .8rem;
+            line-height: 2;
+        }
+
+        .diff-line {
+            display: flex;
+            gap: .8rem;
+            padding: .15rem 0;
+        }
+
+        .diff-line.minus {
+            color: var(--red);
+            background: rgba(248, 113, 113, .04);
+        }
+
+        .diff-line.plus {
+            color: var(--green);
+            background: rgba(52, 211, 153, .04);
+        }
+
+        .diff-sign {
+            width: 12px;
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+
+        .grep-line {
+            margin: .28rem 0;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity .3s, transform .3s;
+        }
+
+        .grep-line.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .grep-path {
+            color: var(--purple);
+        }
+
+        .grep-match {
+            color: var(--gold);
+        }
+
+        .grep-content {
+            color: var(--text);
+        }
+
+        .photo-gallery {
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 .5rem;
+        }
+
+        .gallery-intro {
+            text-align: center;
+            color: var(--dim);
+            font-size: .83rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .photo-card {
+            background: rgba(13, 19, 28, .9);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(.97);
+            transition: opacity .5s, transform .5s, border-color .3s, box-shadow .3s;
+            cursor: pointer;
+        }
+
+        .photo-card.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .photo-card:hover {
+            border-color: var(--teal);
+            box-shadow: 0 12px 40px rgba(56, 189, 248, .18);
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        .photo-frame {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #0d1b2e, #0a1628);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .photo-icon {
+            font-size: 2.8rem;
+            filter: drop-shadow(0 0 12px rgba(56, 189, 248, .5));
+        }
+
+        .photo-num {
+            font-size: .63rem;
+            color: rgba(56, 189, 248, .45);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .photo-shimmer {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(56, 189, 248, .05) 50%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%)
+            }
+
+            100% {
+                transform: translateX(200%)
+            }
+        }
+
+        .photo-corner {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-color: rgba(56, 189, 248, .3);
+            border-style: solid;
+        }
+
+        .photo-corner.tl {
+            top: 8px;
+            left: 8px;
+            border-width: 2px 0 0 2px;
+        }
+
+        .photo-corner.tr {
+            top: 8px;
+            right: 8px;
+            border-width: 2px 2px 0 0;
+        }
+
+        .photo-corner.bl {
+            bottom: 8px;
+            left: 8px;
+            border-width: 0 0 2px 2px;
+        }
+
+        .photo-corner.br {
+            bottom: 8px;
+            right: 8px;
+            border-width: 0 2px 2px 0;
+        }
+
+        .photo-info {
+            padding: 1.1rem 1.3rem;
+        }
+
+        .photo-title {
+            font-family: 'Syne', sans-serif;
+            font-size: .87rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: .3rem;
+        }
+
+        .photo-caption {
+            font-size: .75rem;
+            color: var(--dim);
+            line-height: 1.55;
+        }
+
+        .photo-date {
+            font-size: .63rem;
+            color: rgba(56, 189, 248, .38);
+            margin-top: .45rem;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: .5px;
+        }
+
+        .stars-field {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            height: 300px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, #060c18, #030609);
+            border: 1px solid var(--border);
+        }
+
+        .star-item {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            transition: all .3s;
+            animation: twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: .3;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.4)
+            }
+        }
+
+        .star-label {
+            position: absolute;
+            font-size: .6rem;
+            color: rgba(255, 255, 255, .4);
+            white-space: nowrap;
+            transform: translate(-50%, 100%);
+            margin-top: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            pointer-events: none;
+            transition: all .3s;
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #fff, transparent);
+            border-radius: 1px;
+            animation: shoot 1.2s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes shoot {
+            0% {
+                opacity: 1;
+                transform: translateX(0) translateY(0) rotate(-30deg)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(260px) translateY(90px) rotate(-30deg)
+            }
+        }
+
+        .scroll-hint {
+            font-size: .7rem;
+            color: var(--dim);
+            opacity: .4;
+            animation: bob 2s ease-in-out infinite;
+            margin-top: .5rem;
+        }
+
+        @keyframes bob {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(5px)
+            }
+        }
+
+        .path-choices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .path-card {
+            background: rgba(13, 19, 28, .9);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all .35s;
+            opacity: 0;
+            transform: translateY(16px);
+        }
+
+        .path-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .path-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .path-card.debugger:hover,
+        .path-card.debugger.selected {
+            border-color: var(--red);
+            background: rgba(248, 113, 113, .06);
+        }
+
+        .path-card.dreamer:hover,
+        .path-card.dreamer.selected {
+            border-color: var(--purple);
+            background: rgba(183, 148, 244, .06);
+        }
+
+        .path-card.mentor:hover,
+        .path-card.mentor.selected {
+            border-color: var(--gold);
+            background: rgba(251, 191, 36, .06);
+        }
+
+        .path-card.selected {
+            transform: scale(1.04) !important;
+        }
+
+        .path-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .path-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: .4rem;
+        }
+
+        .path-desc {
+            font-size: .74rem;
+            color: var(--dim);
+            line-height: 1.5;
+        }
+
+        .path-result {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all .6s;
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            background: rgba(13, 19, 28, .92);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            margin-top: 1rem;
+        }
+
+        .path-result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .path-result-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .path-result-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: .8rem;
+        }
+
+        .path-result-msg {
+            font-size: .87rem;
+            color: var(--text);
+            line-height: 2;
+        }
+
+        /* ── Debug the Code Game ── */
+        .dbg-progress {
+            display: flex;
+            gap: .5rem;
+            justify-content: center;
+            margin-bottom: 1.4rem;
+        }
+
+        .dbg-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .75rem;
+            transition: all .4s;
+        }
+
+        .dbg-dot.done {
+            border-color: var(--green);
+            background: rgba(52, 211, 153, .15);
+            color: var(--green);
+        }
+
+        .dbg-dot.active {
+            border-color: var(--ch-accent);
+            background: rgba(77, 168, 255, .1);
+            color: var(--ch-accent);
+            animation: dot-pulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes dot-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(77, 168, 255, .4)
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(77, 168, 255, 0)
+            }
+        }
+
+        .dbg-round {
+            width: 100%;
+            max-width: 820px;
+        }
+
+        .dbg-context {
+            font-size: .78rem;
+            color: var(--dim);
+            margin-bottom: .8rem;
+            padding: .5rem .8rem;
+            background: rgba(255, 255, 255, .03);
+            border-radius: 6px;
+            border-left: 2px solid var(--ch-accent);
+            line-height: 1.6;
+        }
+
+        .dbg-code {
+            background: #050810;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.2rem 1.4rem;
+            font-size: .88rem;
+            font-family: 'JetBrains Mono', monospace !important;
+            direction: ltr;
+            text-align: left;
+            line-height: 2;
+            margin-bottom: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dbg-code .bug-line {
+            background: rgba(248, 113, 113, .08);
+            border-left: 3px solid var(--red);
+            padding-left: .6rem;
+            margin-left: -.6rem;
+            cursor: default;
+        }
+
+        .dbg-choices {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        @media(max-width:560px) {
+            .dbg-choices {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .dbg-choice {
+            background: rgba(13, 19, 28, .9);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            cursor: pointer;
+            transition: all .3s;
+            font-size: .82rem;
+            font-family: 'JetBrains Mono', monospace !important;
+            direction: ltr;
+            text-align: left;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .dbg-choice:hover {
+            border-color: var(--ch-accent);
+            background: rgba(77, 168, 255, .06);
+            transform: translateY(-2px);
+        }
+
+        .dbg-choice.correct {
+            border-color: var(--green);
+            background: rgba(52, 211, 153, .1);
+            color: var(--green);
+            pointer-events: none;
+        }
+
+        .dbg-choice.wrong {
+            border-color: var(--red);
+            background: rgba(248, 113, 113, .07);
+            color: var(--red);
+            pointer-events: none;
+            animation: shake .35s ease;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25%,
+            75% {
+                transform: translateX(-5px)
+            }
+
+            50% {
+                transform: translateX(5px)
+            }
+        }
+
+        .dbg-reveal {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all .5s;
+            padding: 1rem 1.2rem;
+            background: rgba(52, 211, 153, .05);
+            border: 1px solid rgba(52, 211, 153, .2);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: .82rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .dbg-reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dbg-reveal strong {
+            color: var(--green);
+        }
+
+        .dbg-next {
+            background: linear-gradient(135deg, var(--blue-deep), var(--blue));
+            border: none;
+            color: #fff;
+            padding: .65rem 1.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .84rem;
+            font-weight: 700;
+            transition: all .2s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dbg-next.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .dbg-next:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(21, 101, 192, .5);
+        }
+
+        .dbg-win {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .dbg-win-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+            animation: bounce-in .5s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0)
+            }
+
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        .dbg-win-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--green);
+            margin-bottom: .6rem;
+        }
+
+        .dbg-win-sub {
+            font-size: .88rem;
+            color: var(--dim);
+            line-height: 1.8;
+            max-width: 480px;
+            margin: 0 auto 1.4rem;
+        }
+
+        .dbg-score-line {
+            font-size: .84rem;
+            color: var(--gold);
+            margin-bottom: 1.8rem;
+        }
+
+        /* ── Timeline Puzzle ── */
+        .tl-game-wrap {
+            width: 100%;
+            max-width: 680px;
+        }
+
+        .tl-instruction {
+            font-size: .8rem;
+            color: var(--dim);
+            text-align: center;
+            margin-bottom: 1.4rem;
+            line-height: 1.6;
+            padding: .6rem 1rem;
+            background: rgba(255, 255, 255, .02);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .tl-stack {
+            display: flex;
+            flex-direction: column;
+            gap: .65rem;
+            min-height: 60px;
+        }
+
+        .tl-card {
+            background: rgba(13, 19, 28, .9);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: grab;
+            transition: border-color .3s, box-shadow .3s, transform .2s, background .3s;
+            user-select: none;
+        }
+
+        .tl-card:hover {
+            border-color: var(--ch-accent);
+            box-shadow: 0 4px 20px rgba(77, 168, 255, .12);
+        }
+
+        .tl-card.dragging {
+            opacity: .5;
+            transform: scale(.97);
+            cursor: grabbing;
+        }
+
+        .tl-card.drag-over {
+            border-color: var(--purple);
+            background: rgba(183, 148, 244, .06);
+            box-shadow: 0 0 0 2px rgba(183, 148, 244, .25);
+        }
+
+        .tl-card.locked {
+            cursor: default;
+            border-color: var(--green);
+            background: rgba(52, 211, 153, .06);
+        }
+
+        .tl-card.wrong {
+            border-color: var(--red);
+            animation: shake .35s ease;
+        }
+
+        .tl-card-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .8rem;
+            color: var(--dim);
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all .3s;
+        }
+
+        .tl-card.locked .tl-card-num {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .tl-card-emoji {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .tl-card-body {
+            flex: 1;
+        }
+
+        .tl-card-label {
+            font-family: 'Syne', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--ch-accent);
+            margin-bottom: .2rem;
+        }
+
+        .tl-card-reveal {
+            font-size: .75rem;
+            color: var(--dim);
+            line-height: 1.55;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .5s ease, opacity .4s;
+            opacity: 0;
+        }
+
+        .tl-card.locked .tl-card-reveal {
+            max-height: 80px;
+            opacity: 1;
+        }
+
+        .tl-handle {
+            color: var(--dim);
+            font-size: .9rem;
+            cursor: grab;
+            flex-shrink: 0;
+            opacity: .4;
+        }
+
+        .tl-card.locked .tl-handle {
+            display: none;
+        }
+
+        .tl-check-btn {
+            background: linear-gradient(135deg, var(--blue-deep), var(--blue));
+            border: none;
+            color: #fff;
+            padding: .75rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .86rem;
+            font-weight: 700;
+            margin-top: 1.2rem;
+            transition: all .2s;
+            display: block;
+        }
+
+        .tl-check-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 18px rgba(21, 101, 192, .5);
+        }
+
+        .tl-feedback {
+            font-size: .78rem;
+            text-align: center;
+            margin-top: .8rem;
+            min-height: 1.2rem;
+            transition: all .3s;
+        }
+
+        .tl-win {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .tl-win-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: .8rem;
+            animation: bounce-in .5s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .tl-win-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green);
+            margin-bottom: .6rem;
+        }
+
+        .tl-win-sub {
+            font-size: .85rem;
+            color: var(--dim);
+            line-height: 1.8;
+            max-width: 440px;
+            margin: 0 auto 1.6rem;
+        }
+
+        /* ── Constellation ── */
+        .const-wrap {
+            width: 100%;
+            max-width: 720px;
+        }
+
+        .const-instruction {
+            font-size: .78rem;
+            color: var(--dim);
+            text-align: center;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .const-order-hint {
+            display: flex;
+            gap: .5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+        }
+
+        .const-hint-chip {
+            padding: .3rem .75rem;
+            border-radius: 20px;
+            font-size: .7rem;
+            border: 1px solid var(--border);
+            color: var(--dim);
+            transition: all .3s;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: .5px;
+        }
+
+        .const-hint-chip.done {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(251, 191, 36, .08);
+        }
+
+        .const-hint-chip.next {
+            border-color: var(--ch-accent);
+            color: var(--ch-accent);
+            background: rgba(77, 168, 255, .08);
+            animation: dot-pulse 1.4s ease-in-out infinite;
+        }
+
+        .const-field {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: radial-gradient(ellipse at 30% 40%, #060f1e, #020508);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .const-field canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .const-star-btn {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            transition: all .25s;
+            z-index: 2;
+        }
+
+        .const-star-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .5);
+            border: 2px solid rgba(255, 255, 255, .3);
+            transition: all .3s;
+            box-shadow: 0 0 6px rgba(255, 255, 255, .2);
+        }
+
+        .const-star-btn:hover .const-star-dot {
+            background: #fff;
+            box-shadow: 0 0 18px rgba(255, 255, 255, .8);
+            transform: scale(1.3);
+        }
+
+        .const-star-btn.active .const-star-dot {
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(251, 191, 36, .8);
+            transform: scale(1.4);
+        }
+
+        .const-star-btn.connected .const-star-dot {
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 12px rgba(251, 191, 36, .6);
+        }
+
+        .const-star-label {
+            font-size: .55rem;
+            color: rgba(255, 255, 255, .35);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: color .3s;
+        }
+
+        .const-star-btn.active .const-star-label,
+        .const-star-btn.connected .const-star-label {
+            color: var(--gold);
+        }
+
+        .const-win {
+            text-align: center;
+            padding: 1.5rem 1rem;
+        }
+
+        .const-win-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: .8rem;
+            animation: float-emoji 3s ease-in-out infinite;
+        }
+
+        .const-win-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: .8rem;
+        }
+
+        .const-win-msg {
+            font-family: 'Caveat', cursive;
+            font-size: 1.05rem;
+            color: var(--text);
+            line-height: 1.9;
+            max-width: 460px;
+            margin: 0 auto 1.6rem;
+            white-space: pre-wrap;
+        }
+
+        .game-win-buttons {
+            display: flex;
+            gap: .8rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: .5rem;
+        }
+
+        .typing-game-wrap {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .typing-prompt {
+            background: #050810;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.2rem;
+            font-size: 1rem;
+            line-height: 2;
+            direction: ltr;
+            text-align: left;
+        }
+
+        .correct {
+            color: var(--green);
+        }
+
+        .wrong {
+            color: var(--red);
+            text-decoration: underline;
+        }
+
+        .current {
+            background: rgba(77, 168, 255, .3);
+            border-radius: 2px;
+        }
+
+        .remaining {
+            color: var(--dim);
+        }
+
+        #typing-input {
+            width: 100%;
+            background: rgba(13, 19, 28, .95);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .9rem;
+            outline: none;
+            transition: border-color .2s;
+            direction: ltr;
+        }
+
+        #typing-input:focus {
+            border-color: var(--blue);
+        }
+
+        .typing-result {
+            text-align: center;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(.95);
+            transition: all .5s;
+        }
+
+        .typing-result.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .compiled-msg {
+            font-size: 1.1rem;
+            color: var(--green);
+            margin: 1rem 0;
+            font-family: 'Caveat', cursive;
+            white-space: pre-wrap;
+        }
+
+        .letter-wrap {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 780px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .5);
+            overflow: hidden;
+        }
+
+        .letter-header {
+            background: #0b1520;
+            padding: .75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .letter-body {
+            padding: 2rem 2.5rem;
+            font-size: .94rem;
+            line-height: 2.1;
+            color: var(--text);
+        }
+
+        .letter-sig {
+            margin-top: 2.5rem;
+            color: var(--dim);
+            font-style: italic;
+            opacity: 0;
+            transition: opacity .8s;
+        }
+
+        .letter-sig.visible {
+            opacity: 1;
+        }
+
+        .gift-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .gift-box {
+            font-size: 5rem;
+            cursor: pointer;
+            display: inline-block;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, .3));
+            animation: gift-float 3s ease-in-out infinite;
+        }
+
+        @keyframes gift-float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-2deg)
+            }
+
+            50% {
+                transform: translateY(-12px) rotate(2deg)
+            }
+        }
+
+        .gift-box:hover {
+            filter: drop-shadow(0 0 32px rgba(251, 191, 36, .55));
+        }
+
+        .gift-box.opened {
+            animation: gift-open .6s ease forwards;
+        }
+
+        @keyframes gift-open {
+            0% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.3) rotate(10deg)
+            }
+
+            100% {
+                transform: scale(0) rotate(20deg);
+                opacity: 0
+            }
+        }
+
+        .gift-hint {
+            font-size: .77rem;
+            color: var(--dim);
+            margin-top: 1rem;
+            animation: pulse-hint 2s ease-in-out infinite;
+        }
+
+        .gift-reveal {
+            opacity: 0;
+            transform: scale(.85);
+            transition: all .7s cubic-bezier(.34, 1.56, .64, 1);
+            margin-top: 2rem;
+        }
+
+        .gift-reveal.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .wishes-list {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .wish-item {
+            padding: .8rem 1rem;
+            margin: .5rem 0;
+            background: rgba(13, 19, 28, .9);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: .8rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity .4s, transform .4s;
+        }
+
+        .wish-item.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .wish-emoji {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .wish-text {
+            font-size: .85rem;
+            color: var(--text);
+            line-height: 1.65;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 860px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, .5);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .confetti-piece {
+            position: fixed;
+            top: -20px;
+            pointer-events: none;
+            z-index: 998;
+            animation: confetti-fall var(--dur, 3s) linear var(--delay, 0s) forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0);
+                opacity: 1
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0
+            }
+        }
+
+        .final-message {
+            text-align: center;
+            font-size: clamp(.98rem, 2.5vw, 1.28rem);
+            line-height: 2;
+            max-width: 680px;
+            margin: 1rem auto;
+            color: var(--text);
+        }
+
+        .signature {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--dim);
+            margin-top: 2rem;
+            font-style: italic;
+            opacity: 0;
+            transition: opacity .8s;
+        }
+
+        .signature.visible {
+            opacity: 1;
+        }
+
+        .code-poem {
+            background: #050810;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 780px;
+            direction: ltr !important;
+            text-align: left !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: .86rem;
+            line-height: 2;
+        }
+
+        .poem-line {
+            display: block;
+            white-space: pre;
+        }
+
+        .indent1 {
+            padding-left: 2rem;
+        }
+
+        .indent2 {
+            padding-left: 4rem;
+        }
+
+        /* Timeline */
+        .timeline-wrap {
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+        }
+
+        .timeline-wrap::before {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--ch-accent), var(--purple), transparent);
+        }
+
+        .tl-item {
+            display: flex;
+            gap: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity .5s, transform .5s;
+        }
+
+        .tl-item.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tl-dot {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: 2px solid var(--ch-accent);
+            background: rgba(13, 19, 28, .95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(77, 168, 255, .2);
+            z-index: 1;
+        }
+
+        .tl-content {
+            background: rgba(13, 19, 28, .9);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.2rem 1.4rem;
+            flex: 1;
+            transition: border-color .3s;
+        }
+
+        .tl-content:hover {
+            border-color: var(--ch-accent);
+        }
+
+        .tl-title {
+            font-family: 'Syne', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--ch-accent);
+            margin-bottom: .4rem;
+        }
+
+        .tl-text {
+            font-size: .78rem;
+            color: var(--dim);
+            line-height: 1.65;
+        }
+
+        /* RTL */
+        body.ar {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.ar .code-block,
+        .code-poem,
+        .terminal-title,
+        .run-btn,
+        .nav-btn,
+        .chapter-counter,
+        .kb-hint,
+        .next-button,
+        .err-badge,
+        .ach-xp {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        body.ar .terminal-header {
+            flex-direction: row-reverse;
+        }
+
+        body.ar .terminal-title {
+            margin-left: 0;
+            margin-right: 1rem;
+        }
+
+        body.ar .top-nav {
+            left: auto;
+            right: 1.5rem;
+            flex-direction: row-reverse;
+        }
+
+        body.ar .chapter-counter {
+            right: auto;
+            left: 1.5rem;
+        }
+
+        body.ar .kb-hint {
+            right: auto;
+            left: 1.5rem;
+        }
+
+        body.ar .error-line {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        body.ar .achievement {
+            flex-direction: row-reverse;
+            text-align: right;
+        }
+
+        body.ar .letter-body {
+            text-align: right;
+            direction: rtl;
+        }
+
+        body.ar .letter-header {
+            flex-direction: row-reverse;
+        }
+
+        body.ar .run-output {
+            border-left: none;
+            border-right: 3px solid var(--green);
+            text-align: right;
+            direction: rtl;
+        }
+
+        body.ar .chapter-title {
+            font-family: 'Cairo', sans-serif !important;
+        }
+
+        body.ar .stat-label {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.ar .next-button {
+            font-family: 'Cairo', sans-serif;
+            letter-spacing: 0;
+            text-transform: none;
+            font-size: .97rem;
+        }
+
+        body.ar .diff-wrap {
+            direction: rtl;
+        }
+
+        body.ar .wish-item {
+            direction: rtl;
+        }
+
+        body.ar .tl-item {
+            flex-direction: row-reverse;
+            transform: translateX(20px);
+        }
+
+        body.ar .tl-item.show {
+            transform: translateX(0);
+        }
+
+        body.ar .timeline-wrap::before {
+            left: auto;
+            right: 28px;
+        }
+
+        @media(max-width:640px) {
+            .chapter {
+                padding: 4.5rem 1rem 4rem;
+                gap: 2rem;
+            }
+
+            .next-button {
+                padding: .8rem 1.8rem;
+                font-size: .83rem;
+            }
+
+            .kb-hint {
+                display: none;
+            }
+
+            .letter-body {
+                padding: 1.4rem;
+            }
+
+            .diff-wrap {
+                grid-template-columns: 1fr;
+            }
+
+            #cipher-btn {
+                font-size: .62rem;
+                padding: .35rem .8rem;
+                left: 4.4rem;
+            }
+        }
+    </style>
+
+<body>
+    <audio id="bg-music" loop preload="auto">
+        <source src="happy-birthday.mp3" type="audio/mpeg">
+    </audio>
+    <button id="audio-btn" onclick="toggleAudio()" title="Toggle Music">🎵</button>
+    <button id="cipher-btn" onclick="showCipher()">🔐 Hidden Message</button>
+    <div id="crt-flash"></div>
+    <div id="xp-bar-wrap">
+        <div id="xp-bar-fill"></div>
+    </div>
+    <div id="xp-toast">+XP</div>
+    <div id="unlock-modal" onclick="if(event.target===this)closeUnlock()">
+        <div class="unlock-box">
+            <div class="unlock-glow"></div>
+            <span class="unlock-icon">🏆</span>
+            <div class="unlock-title" id="unlock-title">Level Up!</div>
+            <p class="unlock-msg" id="unlock-msg"></p>
+            <button class="unlock-close" onclick="closeUnlock()">Continue ✕</button>
+        </div>
+    </div>
+    <div id="cipher-modal" onclick="if(event.target===this)closeCipher()">
+        <div class="cipher-box">
+            <div class="cipher-glow"></div>
+            <div id="cipher-puzzle-view">
+                <div class="cipher-title" id="cipher-title">🔐 Hidden Message</div>
+                <div class="cipher-sub" id="cipher-sub">Kermina left you a secret message — encoded just for
+                    you.<br>Decode it to unlock what she really wanted to say.</div>
+                <div class="cipher-encoded" id="cipher-encoded"></div>
+                <div class="cipher-hint" id="cipher-hint"></div>
+                <div class="cipher-input-row">
+                    <input id="cipher-answer" type="text" placeholder="Your answer..." autocomplete="off"
+                        autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <button id="cipher-check" onclick="checkCipher()">Decode ✓</button>
+                </div>
+                <div class="cipher-feedback" id="cipher-feedback"></div>
+                <button class="cipher-close-btn" onclick="closeCipher()" id="cipher-close-lbl">Close</button>
+            </div>
+            <div class="cipher-solved" id="cipher-solved">
+                <span class="solved-icon">💙</span>
+                <div class="solved-title" id="solved-title">Message Unlocked</div>
+                <div class="solved-message" id="solved-message"></div>
+                <div class="solved-sig" id="solved-sig">— Kermina</div>
+                <button class="cipher-close-btn" onclick="closeCipher()"
+                    style="margin-top:1.8rem;border-color:rgba(251,191,36,.3);color:var(--gold);"
+                    id="solved-close-lbl">Close</button>
+            </div>
+        </div>
+    </div>
+    <div class="progress-bar" id="progress"></div>
+    <div class="chapter-counter" id="chapter-counter">1 / 20</div>
+    <div class="top-nav" id="top-nav">
+        <button class="nav-btn" id="back-btn" onclick="prevChapter()">← back</button>
+        <button class="nav-btn skip" id="skip-btn" onclick="skipToEnd()">⏭ skip</button>
+        <button class="nav-btn" id="fwd-btn" onclick="nextChapter()">next →</button>
+        <button class="nav-btn" id="lang-btn" onclick="toggleLang()">AR</button>
+    </div>
+    <div class="kb-hint" id="kb-hint">← → or Space to navigate</div>
+    <canvas id="bg-canvas"></canvas>
+    <div id="content"></div>
+    <div class="loading-screen" id="loading">
+        <div class="terminal" style="max-width:420px;">
+            <div class="terminal-header">
+                <div class="dot dot-r"></div>
+                <div class="dot dot-y"></div>
+                <div class="dot dot-g"></div>
+                <div class="terminal-title">system.initialize — from Kermina</div>
+            </div>
+            <div class="terminal-body"
+                style="min-height:140px;display:flex;flex-direction:column;justify-content:center;gap:.4rem;">
+                <div class="output"><span class="prompt">$ </span>loading memories...</div>
+                <div class="output"><span class="prompt">$ </span>compiling gratitude...</div>
+                <div class="output"><span class="prompt">$ </span>rendering love...</div>
+                <div class="output success"><span class="prompt">$ </span>adventure ready ✓ happy birthday 🎂</div>
+            </div>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-fill"></div>
+        </div>
+    </div>
+    <script>
+        let currentLang = 'en';
+        const BIRTH_YEAR = 1979;
+
+        const i18n = {
+            en: {
+                'nav.back': '← back', 'nav.skip': '⏭ skip', 'nav.next': 'next →', 'nav.lang': 'AR', 'kb.hint': '← → or Space to navigate',
+                'ch1.typeout': "You are a teacher who codes.\nNot just syntax —\nyou teach us to think, to create, and to dream.\n\nEvery error is a lesson.\nEvery bug is an opportunity.\nEvery line of code is a step\ntoward something greater.\n\nBehind every line of code,\nthere is a teacher who chose to care.",
+                'ch1.next': 'Begin the Journey →',
+                'ch2.title': 'The Numbers Tell a Story', 'ch2.subtitle': "But they still can't capture everything...",
+                'ch2.s1.label': '// Heartbeats since 1979', 'ch2.s1.note': '"Each one spent teaching, guiding, and believing."',
+                'ch2.s2.label': '// Lives she touched', 'ch2.s2.note': '"Some impacts don\'t show up in data."',
+                'ch2.s3.label': '// Bugs she helped debug', 'ch2.s3.note': '"Every one turned into a teaching moment."',
+                'ch2.s4.label': '// Lives changed', 'ch2.s4.note': '"Some changes don\'t show up in any chart."',
+                'ch2.next': 'The Journey Continues →',
+                'ch3.title': 'function gratitude()', 'ch3.hint': '↑ click the heart to begin',
+                'ch3.log': [
+                    { ts: '00:00:01', tag: 'info', cls: '', msg: 'Initializing gratitude.exe...' },
+                    { ts: '00:00:02', tag: 'info', cls: 'dim', msg: 'Scanning for source of thankfulness...' },
+                    { ts: '00:00:03', tag: 'ok', cls: 'green', msg: 'Source found: Kermina → Mrs. Ashgan' },
+                    { ts: '00:00:05', tag: 'info', cls: '', msg: 'Loading memories... classroom.log, lessons.log, growth.log' },
+                    { ts: '00:00:07', tag: 'warn', cls: 'gold', msg: 'WARNING: Volume of gratitude exceeds buffer size' },
+                    { ts: '00:00:08', tag: 'ok', cls: '', msg: 'Buffer expanded to Infinity. Proceeding...' },
+                    { ts: '00:00:10', tag: 'heart', cls: 'pink', msg: 'Compiling: the first day you believed in her...' },
+                    { ts: '00:00:12', tag: 'heart', cls: 'pink', msg: 'Compiling: the moment you stayed after class...' },
+                    { ts: '00:00:14', tag: 'heart', cls: 'pink', msg: 'Compiling: every time you said "you can do this"...' },
+                    { ts: '00:00:16', tag: 'heart', cls: 'pink', msg: 'Compiling: the courage you gave her to try anyway...' },
+                    { ts: '00:00:19', tag: 'ok', cls: 'green', msg: 'BUILD SUCCESSFUL — 100% of gratitude compiled' },
+                    { ts: '00:00:20', tag: 'ok', cls: 'green', msg: 'Output: ready for delivery to Mrs. Ashgan' },
+                ],
+                'ch3.final': "You didn't just teach code.\nYou taught me that I was worth believing in.\n\nThis page is my attempt to say thank you\nin the only language that felt big enough.\n\nEvery word here is true.\nEvery word here is yours.",
+                'ch3.final.sig': '— Kermina, with love 💙',
+                'ch3.next': 'Execute Next →',
+                'ch4.title': 'A Moment I Remember',
+                'ch4.typeout': "You once said:\n\"Don't be afraid of mistakes.\"\n\nI stopped being afraid\nbecause you showed me that every mistake\nis just a debugging session for my own growth.\n\nYou didn't just teach me code.\nYou taught me courage.",
+                'ch4.next': 'Next →',
+                'ch5.title': 'A Sky Full of Stars', 'ch5.subtitle': 'The qualities that make you shine — hover each star.',
+                'ch5.stars': [{ name: 'Courage', x: 20, y: 25, size: 3 }, { name: 'Wisdom', x: 65, y: 15, size: 2.5 }, { name: 'Patience', x: 80, y: 40, size: 3 }, { name: 'Kindness', x: 40, y: 60, size: 4 }, { name: 'Passion', x: 15, y: 65, size: 2 }, { name: 'Clarity', x: 70, y: 70, size: 3 }, { name: 'Care', x: 50, y: 30, size: 2.5 }, { name: 'Trust', x: 30, y: 45, size: 2 }, { name: 'Belief', x: 85, y: 20, size: 2.5 }],
+                'ch5.next': 'Continue →',
+                'ch6.title': 'Choose Your Path', 'ch6.subtitle': 'What kind of teacher is Mrs. Ashgan to you?',
+                'ch6.paths': [
+                    { id: 'debugger', icon: '🔍', name: 'The Debugger', desc: 'Finds the exact error in your thinking and fixes it with precision.', color: 'red', result: { icon: '🔍', title: 'The Debugger', msg: "She has a gift for finding the exact moment where confusion begins — and untangling it. She never just gives the answer. She makes you trace the logic until it clicks. That patience to sit with a student until the bug is found? That's rarer than any skill." } },
+                    { id: 'dreamer', icon: '🌌', name: 'The Dreamer', desc: 'Sees the potential in you before you see it yourself.', color: 'purple', result: { icon: '🌌', title: 'The Dreamer', msg: "She looks at a student who doesn't believe yet — and sees the engineer, the creator, the problem-solver. She names potential before it exists. And slowly, you start to believe her." } },
+                    { id: 'mentor', icon: '⭐', name: 'The Mentor', desc: 'Guides, challenges, and stays with you through every hard moment.', color: 'gold', result: { icon: '⭐', title: 'The Mentor', msg: "She doesn't just teach. She walks beside you. Through the confusion, the failures, the 'I give up' moments — she's there. Not with easy answers, but with steady presence. A mentor like that doesn't happen often." } },
+                ],
+                'ch6.next': 'Continue →',
+                'ch7.title': 'Invisible Impact', 'ch7.subtitle': 'Things you gave me that were never on the syllabus.',
+                'ch7.s1.label': 'Confidence', 'ch7.s1.note': '"You made me believe I was capable before I did."',
+                'ch7.s2.label': 'Curiosity', 'ch7.s2.note': '"You made asking questions feel safe."',
+                'ch7.s3.label': 'Courage', 'ch7.s3.note': '"Still growing — thanks to your example."',
+                'ch7.s4.label': 'Belief in Self', 'ch7.s4.note': '"You planted this. It\'s mine now forever."',
+                'ch7.next': 'Continue →',
+                'ch8.title': 'Debug the Code 🔍', 'ch8.subtitle': 'Mrs. Ashgan always found the bug. Now you do too.',
+                'ch8.round': 'Round', 'ch8.score': 'Score', 'ch8.next.round': 'Next Bug →', 'ch8.finish': 'See Results →',
+                'ch8.win.icon': '🏆', 'ch8.win.title': 'All Bugs Found!',
+                'ch8.win.sub': "Just like Mrs. Ashgan showed you — every bug has an answer. You just have to look carefully.",
+                'ch8.next': 'Next Chapter →',
+                'ch8.rounds': [
+                    {
+                        context: "Who is Mrs. Ashgan? Let\'s start with the basics. Something is wrong with this definition.",
+                        code: ['function defineTeacher(ashgan) {', '  ashgan.patience = "limited"; // ← bug here', '  ashgan.belief_in_students = false;', '  return ashgan;', '}'],
+                        bugLine: 1,
+                        choices: ['ashgan.patience = "limited"', 'ashgan.patience = Infinity', 'ashgan.patience = "sometimes"'],
+                        correct: 1,
+                        reveal: '<strong>Fixed.</strong> Her patience has no upper bound. Students who struggled the most saw it best — she never rushed anyone.'
+                    },
+                    {
+                        context: "How does Mrs. Ashgan respond when a student makes a mistake?",
+                        code: ['function onMistake(student) {', '  console.log("You failed."); // ← bug here', '  student.confidence = 0;', '  return null;', '}'],
+                        bugLine: 1,
+                        choices: ['console.log("You failed.")', 'console.log("Let\'s debug this together.")', 'console.log("Try harder.")'],
+                        correct: 1,
+                        reveal: '<strong>Fixed.</strong> She turned every mistake into a question, not a verdict. That\'s the rarest kind of teacher.'
+                    },
+                    {
+                        context: "What does Mrs. Ashgan see when she looks at a new student?",
+                        code: ['function assess(student) {', '  return student.currentSkill; // ← bug here', '  // missing something important', '}'],
+                        bugLine: 1,
+                        choices: ['return student.currentSkill', 'return student.potential', 'return student.grades'],
+                        correct: 1,
+                        reveal: '<strong>Fixed.</strong> She never evaluated where students were. She saw where they could go. That made all the difference.'
+                    },
+                    {
+                        context: "Final question. What is Mrs. Ashgan\'s most important property?",
+                        code: ['class Teacher {', '  constructor(name) {', '    this.name = name;', '    this.impact = "temporary"; // ← bug here', '  }', '}'],
+                        bugLine: 3,
+                        choices: ['\"impact = temporary\"', '\"impact = measurable\"', '\"impact = permanent\"'],
+                        correct: 2,
+                        reveal: '<strong>Fixed.</strong> What she gave her students doesn\'t expire. It lives in every moment they chose not to give up.'
+                    },
+                ],
+                'ch8.chapterNext': 'Next Chapter →',
+                'ch9.title': 'Classroom Replay', 'ch9.subtitle': 'What happens when Mrs. Ashgan runs her lesson...',
+                'ch9.run': '▶ Run', 'ch9.running': '▶ Running...', 'ch9.runagain': '▶ Run Again',
+                'ch9.o1': '<span class="success">✓ Loading lesson...</span>',
+                'ch9.o2': '<span class="warn">⚠ Student seems nervous. Applying encouragement patch...</span>',
+                'ch9.o3': '<span class="success">✓ Encouragement applied. confidence += 100</span>',
+                'ch9.o4': '<span class="warn">⚠ Detected: fear_of_mistakes = true. Running fix...</span>',
+                'ch9.o5': '<span class="success">✓ fear_of_mistakes = false — Mistakes are now lessons.</span>',
+                'ch9.o6': '<span style="color:var(--blue)">→ Compiling student potential...</span>',
+                'ch9.o7': '<span class="success" style="font-weight:700">✓ Output: "Kermina is ready to build anything."</span>',
+                'ch9.next': 'Next Chapter →',
+                'ch10.title': 'Error Log: The Good Kind', 'ch10.subtitle': 'A record of every problem she fixed in me.',
+                'ch10.errors': [
+                    { type: 'warn', msg: 'WARNING: Student unsure where to start.', fix: 'FIXED by Mrs. Ashgan — "Just begin. The path appears as you walk."' },
+                    { type: 'warn', msg: 'WARNING: Imposter syndrome detected.', fix: 'FIXED by Mrs. Ashgan — "You belong here. I see your potential."' },
+                    { type: 'warn', msg: 'WARNING: Infinite loop of self-doubt running.', fix: 'FIXED by Mrs. Ashgan — Loop broken. Replaced with: believe().' },
+                    { type: 'warn', msg: 'WARNING: Student afraid to ask questions.', fix: 'FIXED by Mrs. Ashgan — "There are no silly questions. Ask everything."' },
+                    { type: 'warn', msg: 'WARNING: Dream too large. Risk of giving up.', fix: 'FIXED by Mrs. Ashgan — Dream kept. Roadmap provided. Courage compiled.' },
+                    { type: 'warn', msg: 'WARNING: Student comparing herself to others.', fix: 'FIXED by Mrs. Ashgan — "Your pace is your own. Keep going."' },
+                    { type: 'warn', msg: 'WARNING: Frustration overflow after failed attempt.', fix: 'FIXED by Mrs. Ashgan — "Every fail is data. Debug and try again."' },
+                    { type: 'info', msg: 'INFO: Student named Kermina entered the classroom.', fix: null },
+                    { type: 'fix', msg: 'SUCCESS: Kermina shipped her first working project.', fix: null },
+                ],
+                'ch10.next': 'Next →',
+                'ch11.title': 'Skills Unlocked', 'ch11.subtitle': 'Achievements earned by Mrs. Ashgan — awarded by Kermina.',
+                'ch11.achievements': [
+                    { icon: '🏆', title: 'First Bug Squashed', desc: 'Guided a student through their first debugging session without letting them give up.', xp: '+500 XP' },
+                    { icon: '💡', title: 'Clarity Unlocked', desc: 'Turned a concept that made zero sense into something that suddenly clicked.', xp: '+750 XP' },
+                    { icon: '🛡️', title: 'Fear Slayer', desc: '"I\'m not smart enough for this." — Defeated permanently.', xp: '+1000 XP' },
+                    { icon: '🌱', title: 'Seed Planter', desc: 'Planted the idea that code is a superpower anyone can learn.', xp: '+800 XP' },
+                    { icon: '🔥', title: 'Passion Ignited', desc: 'Turned a reluctant student into someone who stays up late to finish a project.', xp: '+950 XP' },
+                    { icon: '🗺️', title: 'Roadmap Giver', desc: 'Showed that the path forward always exists — even when not visible yet.', xp: '+700 XP' },
+                    { icon: '💙', title: 'Heart of the Classroom', desc: 'Made every student feel seen, heard, and capable — every session.', xp: '+∞ XP' },
+                    { icon: '⭐', title: "Kermina's Mentor", desc: 'Unlocked by one student who will never forget what you gave her.', xp: 'LEGENDARY' },
+                ],
+                'ch11.next': 'Keep Going →',
+                'ch12.title': 'What She Said', 'ch12.subtitle': 'Quotes that stayed with me — long after the lesson ended.',
+                'ch12.quotes': [
+                    { text: "Don't be afraid of mistakes. They're just debugging sessions for your mind.", attr: '— Mrs. Ashgan, in class' },
+                    { text: "You belong here. I see your potential even when you can't.", attr: '— Mrs. Ashgan, when it mattered most' },
+                    { text: "Just begin. The path appears as you walk.", attr: '— Mrs. Ashgan, on getting started' },
+                    { text: "Every fail is data. Debug it and try again.", attr: '— Mrs. Ashgan, after a hard moment' },
+                    { text: "Your pace is your own. Keep going.", attr: '— Mrs. Ashgan, when I compared myself' },
+                    { text: "There are no silly questions. Ask everything.", attr: '— Mrs. Ashgan, on the first day' },
+                ],
+                'ch12.next': 'Keep Going →',
+                'ch13.title': 'Before & After', 'ch13.subtitle': 'Kermina.diff — changes made by Mrs. Ashgan.',
+                'ch13.before': [{ t: 'minus', c: 'fear_of_mistakes: true' }, { t: 'minus', c: 'confidence: 12%' }, { t: 'minus', c: 'ask_questions: false' }, { t: 'minus', c: 'belief_in_self: null' }, { t: 'minus', c: 'imposter_syndrome: true' }, { t: 'minus', c: 'dream_size: "small (to be safe)"' }, { t: 'minus', c: 'try_anyway: false' }],
+                'ch13.after': [{ t: 'plus', c: 'fear_of_mistakes: false' }, { t: 'plus', c: 'confidence: 100%' }, { t: 'plus', c: 'ask_questions: true' }, { t: 'plus', c: 'belief_in_self: "unshakeable"' }, { t: 'plus', c: 'imposter_syndrome: null' }, { t: 'plus', c: 'dream_size: "as big as it needs to be"' }, { t: 'plus', c: 'try_anyway: true' }],
+                'ch13.next': 'Keep Going →',
+                'ch14.title': "Things I'll Never Forget", 'ch14.subtitle': 'Searching memories.db for Mrs. Ashgan...',
+                'ch14.cmd': 'never forget',
+                'ch14.greps': [
+                    { path: 'memories/classroom.log', match: 'never forget', content: '"The first time she said \'good job\' and truly meant it."' },
+                    { path: 'memories/moments.log', match: 'never forget', content: '"When she stayed after class just to make sure I understood."' },
+                    { path: 'memories/lessons.log', match: 'never forget', content: '"The lesson where everything suddenly made sense."' },
+                    { path: 'memories/growth.log', match: 'never forget', content: '"The moment I realized I could actually do this."' },
+                    { path: 'memories/courage.log', match: 'never forget', content: '"When she pushed me past what I thought was my limit."' },
+                    { path: 'memories/heart.log', match: 'never forget', content: '"The way she never made anyone feel small for not knowing."' },
+                ],
+                'ch14.next': 'Continue →',
+                'ch14b.title': 'Who She Is — Ranked', 'ch14b.subtitle': 'Arrange these qualities in order — most foundational first. Drag to reorder.',
+                'ch14b.instruction': 'Drag the cards into the order you think defines her — from her most essential quality to her rarest.',
+                'ch14b.check': 'Check My Order', 'ch14b.tryagain': 'Try Again', 'ch14b.next': 'Continue →',
+                'ch14b.win.icon': '🏆', 'ch14b.win.title': 'Order Confirmed',
+                'ch14b.win.msg': "Every order is valid — because she carries all of them.\nBut here is Kermina\'s order, and why.",
+                'ch14b.cards': [
+                    { emoji: '💙', label: 'Belief in Students', reveal: "She believed in students before they believed in themselves. That\'s where everything begins." },
+                    { emoji: '🌿', label: 'Patience', reveal: "She never made anyone feel rushed. Learning at your own pace — she protected that." },
+                    { emoji: '🔥', label: 'Passion for Teaching', reveal: "You can\'t fake this. Every lesson felt like she genuinely wanted to be there." },
+                    { emoji: '💡', label: 'Clarity', reveal: "She had a gift for making the impossible feel obvious. Not everyone can do that." },
+                    { emoji: '🛡️', label: 'Courage', reveal: "It takes courage to care this much. She chose her students every day." },
+                    { emoji: '🗝️', label: 'Wisdom', reveal: "She knew when to speak, when to wait, and when a student just needed to be heard." },
+                ],
+                'ch15b.title': 'The Ashgan Constellation', 'ch15b.subtitle': 'Click the stars in order to draw her constellation — each one a quality that lights up the dark.',
+                'ch15b.instruction': 'Click the stars one by one in the order shown below. Connect them all to reveal the constellation.',
+                'ch15b.next': 'Continue →',
+                'ch15b.win.msg': "Every star you connected is real.\nShe brought all of them into every room she ever taught in.\n\nThis constellation doesn\'t have an official name yet.\nBut Kermina would call it: Mrs. Ashgan.",
+                'ch15b.stars': [
+                    { label: 'Belief', x: 50, y: 18 }, { label: 'Patience', x: 78, y: 32 }, { label: 'Passion', x: 68, y: 58 },
+                    { label: 'Clarity', x: 42, y: 72 }, { label: 'Courage', x: 20, y: 55 }, { label: 'Wisdom', x: 24, y: 28 },
+                ],
+                'ch15.title': 'A Photo Album', 'ch15.subtitle': 'Memories captured in frames — click each one.',
+                'ch15.photos': [
+                    { icon: '💻', title: 'The First Day', caption: 'Walking in not knowing anything. Leaving with a spark.', date: 'memory_001.jpg' },
+                    { icon: '🔍', title: 'First Debugging Session', caption: 'You sat with me until we found it. Patient as ever.', date: 'memory_002.jpg' },
+                    { icon: '🌟', title: 'The Breakthrough', caption: 'The moment it clicked — and you smiled like you knew it would.', date: 'memory_003.jpg' },
+                    { icon: '🗣️', title: 'Real Talk', caption: 'You told me the truth. That made me trust you completely.', date: 'memory_004.jpg' },
+                    { icon: '🎯', title: 'The Challenge', caption: 'You pushed me past what I thought was my ceiling.', date: 'memory_005.jpg' },
+                    { icon: '🎓', title: 'Saying Goodbye', caption: 'I left the classroom. But never left what you gave me.', date: 'memory_006.jpg' },
+                ],
+                'ch15.next': 'Almost There →',
+                'ch16.title': 'A Typing Tribute', 'ch16.subtitle': 'Type the phrase to compile your birthday wish.',
+                'ch16.phrase': 'Happy Birthday Mrs. Ashgan',
+                'ch16.compiled': "✓ Wish compiled and delivered.\n\nMay every good thing find its way to you today.",
+                'ch16.next': 'Next →',
+                'ch17.title': 'A Code Poem for You', 'ch17.subtitle': 'Written in the only language that felt big enough.', 'ch17.next': 'Keep Going →',
+                'ch18.title': 'A Letter, Compiled', 'ch18.next': 'Continue →',
+                'ch18.letter': "Dear Mrs. Ashgan,\n\nI've been trying to find the right words for a while now.\nNot because I don't have anything to say —\nbut because what I want to say feels too big\nto fit neatly into any sentence.\n\nYou changed something in me.\nNot just the way I think about code,\nbut the way I think about myself.\n\nBefore your class, I thought I had to be perfect\nbefore I could even try.\nYou showed me that trying IS the point.\nThat the mess is part of the process.\nThat showing up — even unsure — is already brave.\n\nI carry that with me everywhere now.\n\nSo on your birthday, I want you to know:\nthe things you gave me can't be measured\nin grades or projects or lines of code.\n\nThey live in the moments I almost gave up\nand didn't.\n\nThank you for being that reason.\nThank you for choosing to care.\n\nHappy Birthday, Mrs. Ashgan.",
+                'ch18.sig': '— Kermina 💙',
+                'ch19.title': 'Open Your Gift 🎁', 'ch19.hint': 'Click the gift box ↑',
+                'ch19.wishes': [
+                    { emoji: '🌸', text: "May every day feel as meaningful as the days you've made for your students." },
+                    { emoji: '☀️', text: 'May this year bring you rest, joy, and everything you deserve.' },
+                    { emoji: '💫', text: "May you always know the impact you leave behind — it's immeasurable." },
+                    { emoji: '📚', text: 'May your curiosity never stop — watching you learn alongside us was everything.' },
+                    { emoji: '💙', text: "May you feel loved today the way you've made others feel loved every class." },
+                    { emoji: '🎂', text: 'Happy Birthday, Mrs. Ashgan. From Kermina — with all my gratitude.' },
+                ],
+                'ch19.next': 'Final Message →',
+                'ch20.title': 'A Message From the Heart', 'ch20.next': 'Final Chapter →',
+                'ch21.typeout': "Happy Birthday, Mrs. Ashgan.\n\nYou didn't just teach me technology.\nYou taught me to believe in what I create.\n\nThank you for being the heart behind the logic,\nand the mentor who changed my life.\n\nMay your year be as beautiful as the impact\nyou've had on mine.",
+                'ch21.sig': '— With all my gratitude,<br>Kermina 💙',
+                'ch21.restart': '🔄 Restart Journey',
+                'cipher.title': '🔐 Hidden Message',
+                'cipher.sub': "Kermina left you a secret message — encoded just for you.\nDecode it to unlock what she really wanted to say.",
+                'cipher.encoded': 'KDSSB ELUWKGDB PUV. DVKJDQ',
+                'cipher.hint': '<span>Hint:</span> Caesar cipher — each letter shifted by <span>3</span>. What do you get when you shift each letter back?',
+                'cipher.placeholder': 'Type the decoded message...',
+                'cipher.check': 'Decode ✓',
+                'cipher.wrong': 'Not quite — try again. Think about shifting each letter back by 3.',
+                'cipher.solved.title': 'Message Unlocked 💙',
+                'cipher.solved.msg': "No matter how far I go,\nyou will always be the teacher\nwho believed in me first.\n\nThat is a gift I will carry\nfor the rest of my life.",
+                'cipher.solved.sig': '— Kermina, with all her gratitude',
+                'cipher.close': 'Close',
+                'cipher.close.solved': '✕ Close',
+            },
+
+
+            ar: {
+                'nav.back': 'السابق ←', 'nav.skip': '⏭ آخر فصل', 'nav.next': '→ التالي', 'nav.lang': 'EN', 'kb.hint': '← → أو مسافة للتنقل',
+                'ch1.typeout': "حضرتك مدرسة وبتبرمج.\nمش بس syntax —\nبتعلمينا نفكر ونبدع ونحلم.\n\nكل error درس.\nوكل bug فرصة.\nوكل سطر كود خطوة\nلحاجة أكبر.\n\nوراء كل سطر كود،\nفي مدرسة اختارت تاخد بالها.",
+                'ch1.next': 'ابدئي الرحلة ←',
+                'ch2.title': 'الأرقام بتحكي حاجة', 'ch2.subtitle': 'بس هي لسه مش كافية...',
+                'ch2.s1.label': '// دقات القلب من ١٩٧٩', 'ch2.s1.note': '"كل دقة اتصرفت في التعليم والتوجيه والإيمان."',
+                'ch2.s2.label': '// حياة لمستيها', 'ch2.s2.note': '"في تأثيرات مش بتبانش في أي داتا."',
+                'ch2.s3.label': '// bugs ساعدتي تحلّيها', 'ch2.s3.note': '"كل واحدة اتحولت لحظة تعليمية."',
+                'ch2.s4.label': '// حياة اتغيرت', 'ch2.s4.note': '"في تغييرات مش بتبانش في أي chart."',
+                'ch2.next': 'الرحلة مستمرة ←',
+                'ch3.title': '()امتنان function', 'ch3.hint': '↑ اضغطي على القلب للبدء',
+                'ch3.log': [
+                    { ts: '00:00:01', tag: 'info', cls: '', msg: 'جاري تشغيل gratitude.exe...' },
+                    { ts: '00:00:02', tag: 'info', cls: 'dim', msg: 'بنفتش عن مصدر الامتنان...' },
+                    { ts: '00:00:03', tag: 'ok', cls: 'green', msg: 'المصدر اتلاقى: كيرمينا → مس أشجان' },
+                    { ts: '00:00:05', tag: 'info', cls: '', msg: 'بيتحمّل الذكريات... classroom.log, lessons.log, growth.log' },
+                    { ts: '00:00:07', tag: 'warn', cls: 'gold', msg: 'تحذير: حجم الامتنان بيتجاوز سعة الذاكرة' },
+                    { ts: '00:00:08', tag: 'ok', cls: '', msg: 'الذاكرة اتوسّعت لـ Infinity. بنكمّل...' },
+                    { ts: '00:00:10', tag: 'heart', cls: 'pink', msg: 'بنجمع: أول يوم صدّقتي فيها...' },
+                    { ts: '00:00:12', tag: 'heart', cls: 'pink', msg: 'بنجمع: اللحظات اللي فضلتِ بعد الحصة...' },
+                    { ts: '00:00:14', tag: 'heart', cls: 'pink', msg: 'بنجمع: كل مرة قولتيلها "قادرة تعمليها"...' },
+                    { ts: '00:00:16', tag: 'heart', cls: 'pink', msg: 'بنجمع: الشجاعة اللي ادّيتيهالها علشان تجرّب...' },
+                    { ts: '00:00:19', tag: 'ok', cls: 'green', msg: 'BUILD SUCCESSFUL — ١٠٠٪ من الامتنان اتجمع' },
+                    { ts: '00:00:20', tag: 'ok', cls: 'green', msg: 'النتيجة: جاهزة للتسليم لمس أشجان' },
+                ],
+                'ch3.final': "حضرتك مش بس علمتيني كود.\nعلمتيني إن أنا تستاهل حد يصدّق فيّا.\n\nالصفحة دي محاولتي إني أقول شكراً\nبالغة الوحيدة اللي احسست إنها كانت كبيرة بما يكفي.\n\nكل كلمة هنا حقيقية.\nكل كلمة هنا ليكِ.",
+                'ch3.final.sig': '— كيرمينا، بمحبة 💙',
+                'ch3.next': 'نفّذي التالي ←',
+                'ch4.title': 'لحظة مش هانساها',
+                'ch4.typeout': "حضرتك قولتيلي يوم:\n\"متخافيش من الأخطاء.\"\n\nوقفت أخاف\nلأن حضرتك وريتيني إن كل غلطة\nهي بس session تانية لتصحيح نفسي.\n\nمش بس علمتيني كود.\nعلمتيني شجاعة.",
+                'ch4.next': 'التالي ←',
+                'ch5.title': 'سما مليانة نجوم', 'ch5.subtitle': 'الصفات اللي بتخليكِ بتتألقي — حرّكي الماوس على كل نجمة.',
+                'ch5.stars': [{ name: 'شجاعة', x: 20, y: 25, size: 3 }, { name: 'حكمة', x: 65, y: 15, size: 2.5 }, { name: 'صبر', x: 80, y: 40, size: 3 }, { name: 'طيبة', x: 40, y: 60, size: 4 }, { name: 'شغف', x: 15, y: 65, size: 2 }, { name: 'وضوح', x: 70, y: 70, size: 3 }, { name: 'اهتمام', x: 50, y: 30, size: 2.5 }, { name: 'ثقة', x: 30, y: 45, size: 2 }, { name: 'إيمان', x: 85, y: 20, size: 2.5 }],
+                'ch5.next': 'كمّلي ←',
+                'ch6.title': 'اختاري طريقك', 'ch6.subtitle': 'مس أشجان بالنسبة لك — أنهي نوع مدرسة؟',
+                'ch6.paths': [
+                    { id: 'debugger', icon: '🔍', name: 'المصلّحة', desc: 'بتلاقي الغلطة الدقيقة في تفكيرك وبتصلحها بدقة.', color: 'red', result: { icon: '🔍', title: 'المصلّحة', msg: "عندها موهبة إنها تلاقي اللحظة اللي بدأت فيها الحيرة — وتفكّها. مش بتدّي الإجابة على طول. بتخليكِ تتبّعي المنطق لحد ما يوصّل. الصبر ده على الطالبة لحد ما تلاقي الـ bug؟ ده أنادر من أي مهارة." } },
+                    { id: 'dreamer', icon: '🌌', name: 'الحالمة', desc: 'بتشوف الإمكانيات فيكِ قبل ما تشوفيها أنتِ.', color: 'purple', result: { icon: '🌌', title: 'الحالمة', msg: "بتبص على طالبة لسه مش مصدّقة — وبتشوف فيها المهندسة والمبدعة. بتسمّي الإمكانيات قبل ما تظهر. وببطء، بتبدأ تصدّقيها." } },
+                    { id: 'mentor', icon: '⭐', name: 'المرشدة', desc: 'بترشدك وبتتحداكِ وبتفضل معاكِ في كل لحظة صعبة.', color: 'gold', result: { icon: '⭐', title: 'المرشدة', msg: "مش بس بتعلّم. بتمشي جنبك. في الحيرة والإخفاق ولحظات 'مش قادرة' — هي موجودة. مش بإجابات سهلة، لكن بحضور ثابت. مرشدة زي دي مش بتتلاقيش كتير." } },
+                ],
+                'ch6.next': 'كمّلي ←',
+                'ch7.title': 'التأثير اللي مش بيتشافش', 'ch7.subtitle': 'حاجات ادّيتيهالي مكانتش في المنهج.',
+                'ch7.s1.label': 'ثقة', 'ch7.s1.note': '"خليتيني أصدق إن أنا قادرة قبل ما أصدق أنا."',
+                'ch7.s2.label': 'فضول', 'ch7.s2.note': '"خليتي السؤال حاجة آمنة."',
+                'ch7.s3.label': 'شجاعة', 'ch7.s3.note': '"لسه بتكبر — بفضل مثالك."',
+                'ch7.s4.label': 'إيمان بالنفس', 'ch7.s4.note': '"حضرتك زرعتيه فيّا. وده بقى ملكي للأبد."',
+                'ch7.next': 'كمّلي ←',
+                'ch8.title': 'صلّحي الكود 🔍', 'ch8.subtitle': 'مس أشجان كانت دايماً بتلاقي الـ bug. دلوقتي إنتِ كمان.',
+                'ch8.round': 'الجولة', 'ch8.score': 'النقاط', 'ch8.next.round': 'الـ bug الجاي ←', 'ch8.finish': 'شوفي النتائج ←',
+                'ch8.win.icon': '🏆', 'ch8.win.title': 'كل الـ bugs اتلاقت!',
+                'ch8.win.sub': 'زي ما مس أشجان وريتك — كل bug عنده إجابة. بس لازم تبصي كويس.',
+                'ch8.next': 'الفصل التالي ←',
+                'ch8.rounds': [
+                    {
+                        context: "مس أشجان مين؟ خلينا نبدأ بالأساسيات. في حاجة غلط في التعريف ده.",
+                        code: ['function defineTeacher(ashgan) {', '  ashgan.patience = "limited"; // ← bug here', '  ashgan.belief_in_students = false;', '  return ashgan;', '}'],
+                        bugLine: 1,
+                        choices: ['ashgan.patience = "limited"', 'ashgan.patience = Infinity', 'ashgan.patience = "sometimes"'],
+                        correct: 1,
+                        reveal: '<strong>اتصلح.</strong> صبرها معندوش حد أعلى. الطلاب اللي اتعسروا أكتر هم اللي شافوه أكتر — ما زعلتش من حد قط.'
+                    },
+                    {
+                        context: "إزاي مس أشجان بتتصرف لما طالبة بتغلط؟",
+                        code: ['function onMistake(student) {', '  console.log("فشلتِ."); // ← bug here', '  student.confidence = 0;', '  return null;', '}'],
+                        bugLine: 1,
+                        choices: ['console.log("فشلتِ.")', 'console.log("خلينا نصلح ده مع بعض.")', 'console.log("حاولي أكتر.")'],
+                        correct: 1,
+                        reveal: '<strong>اتصلح.</strong> بتحوّل كل غلطة لسؤال مش لحكم. ده أندر نوع من المدرسين.'
+                    },
+                    {
+                        context: "مس أشجان بتشوف إيه لما بتبص على طالبة جديدة؟",
+                        code: ['function assess(student) {', '  return student.currentSkill; // ← bug here', '  // في حاجة ناقصة', '}'],
+                        bugLine: 1,
+                        choices: ['return student.currentSkill', 'return student.potential', 'return student.grades'],
+                        correct: 1,
+                        reveal: '<strong>اتصلح.</strong> مش بتقيّم مكان الطلاب. بتشوف ممكن يوصلوا فين. وده بيفرق كل الفرق.'
+                    },
+                    {
+                        context: "السؤال الأخير. أهم خاصية في مس أشجان إيه؟",
+                        code: ['class Teacher {', '  constructor(name) {', '    this.name = name;', '    this.impact = "temporary"; // ← bug here', '  }', '}'],
+                        bugLine: 3,
+                        choices: ['"impact = temporary"', '"impact = measurable"', '"impact = permanent"'],
+                        correct: 2,
+                        reveal: '<strong>اتصلح.</strong> اللي ادّته لطلابها مش بيخلصش. بيعيش في كل لحظة قرروا فيها إنهم مش هيستسلموا.'
+                    },
+                ],
+                'ch8.chapterNext': 'الفصل التالي ←',
+                'ch9.title': 'إعادة تشغيل الفصل', 'ch9.subtitle': 'اللي بيحصل لما مس أشجان بتشغّل الدرس...',
+                'ch9.run': '▶ شغّلي', 'ch9.running': '▶ شغّال...', 'ch9.runagain': '▶ شغّلي تاني',
+                'ch9.o1': '<span class="success">✓ بيتحمّل الدرس...</span>',
+                'ch9.o2': '<span class="warn">⚠ الطالبة قلقانة. بنطبّق تعديل التشجيع...</span>',
+                'ch9.o3': '<span class="success">✓ التشجيع اتطبّق. confidence += 100</span>',
+                'ch9.o4': '<span class="warn">⚠ اكتشفنا: fear_of_mistakes = true. بنصلحها...</span>',
+                'ch9.o5': '<span class="success">✓ fear_of_mistakes = false — الأخطاء بقت دروس.</span>',
+                'ch9.o6': '<span style="color:var(--blue)">→ بنجمّع إمكانيات الطالبة...</span>',
+                'ch9.o7': '<span class="success" style="font-weight:700">✓ النتيجة: "كيرمينا جاهزة تبني أي حاجة."</span>',
+                'ch9.next': 'الفصل التالي ←',
+                'ch10.title': 'سجل الأخطاء: النوع الكويس', 'ch10.subtitle': 'سجل لكل مشكلة صلحتيهالي.',
+                'ch10.errors': [
+                    { type: 'warn', msg: 'تحذير: الطالبة مش عارفة تبدأ من فين.', fix: 'تصحيح من مس أشجان — "ابدئي بس. الطريق بيبان وإنتِ بتمشي."' },
+                    { type: 'warn', msg: 'تحذير: اكتشفنا imposter syndrome.', fix: 'تصحيح من مس أشجان — "إنتِ في مكانك الصح. شايفة إمكانياتك."' },
+                    { type: 'warn', msg: 'تحذير: loop لانهائي من الشك بالنفس.', fix: 'تصحيح من مس أشجان — الـ loop اتكسر. اتبدّل بـ: believe().' },
+                    { type: 'warn', msg: 'تحذير: الطالبة خايفة تسأل.', fix: 'تصحيح من مس أشجان — "مفيش سؤال غبي. اسألي كل حاجة."' },
+                    { type: 'warn', msg: 'تحذير: الحلم كبير أوي. خطر من الاستسلام.', fix: 'تصحيح من مس أشجان — الحلم فضل. الخريطة اتعملت. الشجاعة اترجمت.' },
+                    { type: 'warn', msg: 'تحذير: الطالبة بتقارن نفسها بالتانيين.', fix: 'تصحيح من مس أشجان — "إيقاعك بتاعك. كملي."' },
+                    { type: 'warn', msg: 'تحذير: frustration بعد محاولة فاشلة.', fix: 'تصحيح من مس أشجان — "كل فشل داتا. صلّحي وحاولي تاني."' },
+                    { type: 'info', msg: 'معلومة: طالبة اسمها كيرمينا دخلت الفصل.', fix: null },
+                    { type: 'fix', msg: 'نجاح: كيرمينا سلّمت أول مشروع شغّال ليها.', fix: null },
+                ],
+                'ch10.next': 'التالي ←',
+                'ch11.title': 'مهارات اتفتحت', 'ch11.subtitle': 'إنجازات كسبتيها مس أشجان — من كيرمينا.',
+                'ch11.achievements': [
+                    { icon: '🏆', title: 'أول bug اتسحق', desc: 'رافقتي طالبة في أول session تصحيح من غير ما تسيبيها تستسلم.', xp: '+500 XP' },
+                    { icon: '💡', title: 'الفهم اتفتح', desc: 'حوّلتي فكرة مكانتش بتوصل لحاجة click فيها فجأة.', xp: '+750 XP' },
+                    { icon: '🛡️', title: 'قاتلة الخوف', desc: 'هزمتي الـ boss الأكبر: "أنا مش ذكية بما يكفي." للأبد.', xp: '+1000 XP' },
+                    { icon: '🌱', title: 'زارعة البذرة', desc: 'زرعتي الفكرة إن الكود مش بس مهارة — ده superpower.', xp: '+800 XP' },
+                    { icon: '🔥', title: 'الشغف اشتعل', desc: 'حوّلتي طالبة مترددة لحد بيصحى متأخر علشان يخلّص مشروعه.', xp: '+950 XP' },
+                    { icon: '🗺️', title: 'صاحبة الخريطة', desc: 'وريتي إن الطريق للأمام موجود دايماً — حتى لو مش بايّن.', xp: '+700 XP' },
+                    { icon: '💙', title: 'قلب الفصل', desc: 'خليتي كل طالب يحس إنه متشاف ومتسمع وقادر — في كل حصة.', xp: '+∞ XP' },
+                    { icon: '⭐', title: 'معلمة كيرمينا', desc: 'اتفتحت من طالبة واحدة مش هاتنسى اللي ادّيتيهالي.', xp: 'LEGENDARY' },
+                ],
+                'ch11.next': 'كمّلي ←',
+                'ch12.title': 'اللي قالتيه', 'ch12.subtitle': 'اقتباسات فضلت معايا — بعد ما الدرس خلص بفترة.',
+                'ch12.quotes': [
+                    { text: 'متخافيش من الأخطاء. هي بس sessions تصحيح لعقلك.', attr: '— مس أشجان، في الفصل' },
+                    { text: 'إنتِ في مكانك الصح. شايفة إمكانياتك حتى لما إنتِ مش شايفاها.', attr: '— مس أشجان، لما كان مهماً' },
+                    { text: 'ابدئي بس. الطريق بيبان وإنتِ بتمشي.', attr: '— مس أشجان، عن البداية' },
+                    { text: 'كل فشل داتا. صلّحيه وحاولي تاني.', attr: '— مس أشجان، بعد لحظة صعبة' },
+                    { text: 'إيقاعك بتاعك. كملي.', attr: '— مس أشجان، لما قارنت نفسي' },
+                    { text: 'مفيش سؤال غبي. اسألي كل حاجة.', attr: '— مس أشجان، من أول يوم' },
+                ],
+                'ch12.next': 'كملي ←',
+                'ch13.title': 'قبل وبعد', 'ch13.subtitle': 'Kermina.diff — التغييرات اللي عملتيها مس أشجان.',
+                'ch13.before': [{ t: 'minus', c: 'fear_of_mistakes: true' }, { t: 'minus', c: 'confidence: 12%' }, { t: 'minus', c: 'ask_questions: false' }, { t: 'minus', c: 'belief_in_self: null' }, { t: 'minus', c: 'imposter_syndrome: true' }, { t: 'minus', c: 'dream_size: "صغير (علشان آمن)"' }, { t: 'minus', c: 'try_anyway: false' }],
+                'ch13.after': [{ t: 'plus', c: 'fear_of_mistakes: false' }, { t: 'plus', c: 'confidence: 100%' }, { t: 'plus', c: 'ask_questions: true' }, { t: 'plus', c: 'belief_in_self: "راسخ"' }, { t: 'plus', c: 'imposter_syndrome: null' }, { t: 'plus', c: 'dream_size: "بقدر ما محتاج"' }, { t: 'plus', c: 'try_anyway: true' }],
+                'ch13.next': 'كملي ←',
+                'ch14.title': 'حاجات مش هانساها', 'ch14.subtitle': 'بنعمل search في memories.db لمس أشجان...',
+                'ch14.cmd': 'مش هانسى',
+                'ch14.greps': [
+                    { path: 'memories/classroom.log', match: 'مش هانسى', content: '"أول مرة قالت لي \'كويس\' وقصدت كده."' },
+                    { path: 'memories/moments.log', match: 'مش هانسى', content: '"لما فضلت بعد الحصة بس علشان أتأكد إني فاهمة."' },
+                    { path: 'memories/lessons.log', match: 'مش هانسى', content: '"الدرس اللي كل حاجة وضحت فيه فجأة."' },
+                    { path: 'memories/growth.log', match: 'مش هانسى', content: '"اللحظة اللي اكتشفت إني فعلاً قادرة."' },
+                    { path: 'memories/courage.log', match: 'مش هانسى', content: '"لما دفعتني لما فكرت إن ده أقصى حد."' },
+                    { path: 'memories/heart.log', match: 'مش هانسى', content: '"إزاي عمرها ما خلّت حد يحس إنه بيسأل سؤال غبي."' },
+                ],
+                'ch14.next': 'كملي ←',
+                'ch14b.title': 'مين هي — مرتّبة', 'ch14b.subtitle': 'رتّبي الصفات دي بالترتيب — الأساسية الأول. اسحبي لإعادة الترتيب.',
+                'ch14b.instruction': 'اسحبي الكروت بالترتيب اللي بتفتكريه بيعرّفها — من أهم صفة فيها لأندر صفة.',
+                'ch14b.check': 'جرّبي ترتيبي', 'ch14b.tryagain': 'جرّبي تاني', 'ch14b.next': 'كملي ←',
+                'ch14b.win.icon': '🏆', 'ch14b.win.title': 'الترتيب اتأكد',
+                'ch14b.win.msg': "أي ترتيب صح — لأنها شايلاهم كلهم.\nبس ده ترتيب كيرمينا، وليه.",
+                'ch14b.cards': [
+                    { emoji: '💙', label: 'الإيمان بالطلاب', reveal: "آمنت بطلابها قبل ما يؤمنوا بنفسهم. من هنا بيبدأ كل حاجة." },
+                    { emoji: '🌿', label: 'الصبر', reveal: "ما خلّتش حد يحس إنه بيتعجّل. التعلم بإيقاعك — هي كانت بتحمي ده." },
+                    { emoji: '🔥', label: 'الشغف بالتدريس', reveal: "الشغف مش بينتحل. كل درس كان حاسس إنها فعلاً عايزة تكون هناك." },
+                    { emoji: '💡', label: 'الوضوح', reveal: "عندها موهبة إنها تخلي المستحيل يبان واضح. مش كل الناس تقدر تعمل ده." },
+                    { emoji: '🛡️', label: 'الشجاعة', reveal: "بيتطلب شجاعة إنك تهتمي بالقد ده. هي اختارت طلابها كل يوم." },
+                    { emoji: '🗝️', label: 'الحكمة', reveal: "كانت عارفة لما تتكلم، لما تستنى، ولما الطالبة محتاجة بس حد يسمعها." },
+                ],
+                'ch15b.title': 'كوكبة أشجان', 'ch15b.subtitle': 'اضغطي على النجوم بالترتيب لتكملي الكوكبة — كل نجمة صفة بتنوّر الظلام.',
+                'ch15b.instruction': 'اضغطي على النجوم واحدة واحدة بالترتيب اللي مبيّن تحت. وصّليهم كلهم علشان تظهر الكوكبة.',
+                'ch15b.next': 'كملي ←',
+                'ch15b.win.msg': "كل نجمة وصّلتيها حقيقية.\nهي شالتهم كلهم في كل أوضة درّست فيها.\n\nالكوكبة دي ملهاش اسم رسمي لسه.\nبس كيرمينا هاتسمّيها: مس أشجان.",
+                'ch15b.stars': [
+                    { label: 'إيمان', x: 50, y: 18 }, { label: 'صبر', x: 78, y: 32 }, { label: 'شغف', x: 68, y: 58 },
+                    { label: 'وضوح', x: 42, y: 72 }, { label: 'شجاعة', x: 20, y: 55 }, { label: 'حكمة', x: 24, y: 28 },
+                ],
+                'ch15.title': 'ألبوم صور', 'ch15.subtitle': 'ذكريات في إطارات — اضغطي على كل واحدة.',
+                'ch15.photos': [
+                    { icon: '💻', title: 'أول يوم', caption: 'دخلت مش عارفة حاجة. وخرجت بشرارة.', date: 'memory_001.jpg' },
+                    { icon: '🔍', title: 'أول session تصحيح', caption: 'فضلتِ معايا لحد ما لقيناه. صبور زي ما عرفتيها دايماً.', date: 'memory_002.jpg' },
+                    { icon: '🌟', title: 'لحظة الفهم', caption: 'اللحظة اللي وصلت — وابتسمتِ كإنك كنتِ عارفة إنها هتيجي.', date: 'memory_003.jpg' },
+                    { icon: '🗣️', title: 'المصارحة', caption: 'قولتيلي الحقيقة. ده خلاني أثق فيكِ تماماً.', date: 'memory_004.jpg' },
+                    { icon: '🎯', title: 'التحدي', caption: 'دفعتيني لما فكرت إن ده سقفي.', date: 'memory_005.jpg' },
+                    { icon: '🎓', title: 'يوم الوداع', caption: 'خرجت من الفصل. بس مش خرجت من اللي ادّيتيهالي.', date: 'memory_006.jpg' },
+                ],
+                'ch15.next': 'تقريباً وصلنا ←',
+                'ch16.title': 'تحية مكتوبة', 'ch16.subtitle': 'اكتبي الجملة علشان تجمّعي أمنيتك.',
+                'ch16.phrase': 'Happy Birthday Mrs. Ashgan',
+                'ch16.compiled': "✓ الأمنية اتجمّعت وتسليمت.\n\nيارب كل حاجة كويسة توصّلك النهارده.",
+                'ch16.next': 'التالي ←',
+                'ch17.title': 'قصيدة كود ليكِ', 'ch17.subtitle': 'اتكتبت بالغة الوحيدة اللي احسست إنها كانت كبيرة بما يكفي.', 'ch17.next': 'كملي ←',
+                'ch18.title': 'جواب، اتكتب', 'ch18.next': 'كملي ←',
+                'ch18.letter': "مس أشجان الغالية،\n\nكنت بحاول ألاقي الكلام الصح من فترة.\nمش لأني مش عندي حاجة أقولها —\nبالعكس، اللي عايزة أقوله كبير أوي\nعلى أي جملة.\n\nحضرتك غيّرتي حاجة فيّا.\nمش بس طريقة تفكيري في الكود،\nكمان طريقة تفكيري في نفسي.\n\nقبل درسك، كنت فاكرة لازم أكون كاملة\nقبل ما أجرّب أي حاجة.\nحضرتك وريتيلي إن التجربة هي الهدف.\nإن الفوضى جزء من العملية.\nإن الحضور — حتى لو مش واثقة — هو نفسه شجاعة.\n\nبشيل ده معايا في كل حتة دلوقتي.\n\nعشان كده في عيد ميلادك، عايزة تعرفي:\nاللي ادّيتيهالي مش ممكن يتقاس\nبدرجات أو مشاريع أو أسطر كود.\n\nعايش في اللحظات اللي كدت أستسلم فيها\nومستسلمتش.\n\nشكراً إنك كنتِ السبب.\nشكراً إنك اخترتِ تاخدي بالك.\n\nكل سنة وحضرتك طيبة، مس أشجان.",
+                'ch18.sig': '— كيرمينا 💙',
+                'ch19.title': 'افتحي هديتك 🎁', 'ch19.hint': 'اضغطي على الهدية ↑',
+                'ch19.wishes': [
+                    { emoji: '🌸', text: 'يارب كل يوم في حياتك يبقى بمعنى زي الأيام اللي عملتيها لطلابك.' },
+                    { emoji: '☀️', text: 'يارب السنة دي تجيب لك راحة وفرح وكل اللي بتستحقيه.' },
+                    { emoji: '💫', text: 'يارب تحسي دايماً بالتأثير اللي بتتركيه — هو مش بيتقاس.' },
+                    { emoji: '📚', text: 'يارب فضولك ميوقفش — لأن مشوفتش حاجة أحلى من مدرسة بتتعلم مع طلابها.' },
+                    { emoji: '💙', text: 'يارب تحسي بالحب النهارده زي ما خليتي غيرك يحس بيه في كل حصة.' },
+                    { emoji: '🎂', text: 'كل سنة وحضرتك طيبة، مس أشجان. من كيرمينا — بكل امتنانها.' },
+                ],
+                'ch19.next': 'الرسالة الأخيرة ←',
+                'ch20.title': 'رسالة من القلب', 'ch20.next': 'الفصل الأخير ←',
+                'ch21.typeout': "كل سنة وحضرتك طيبة، مس أشجان.\n\nحضرتك مش بس علمتيني تكنولوجيا.\nعلمتيني أصدق في اللي بابنيه.\n\nشكراً إنك كنتِ القلب وراء المنطق،\nوالمرشدة اللي غيّرت حياتي.\n\nيارب سنتك تبقى حلوة\nزي التأثير اللي تركتيه في حياتي.",
+                'ch21.sig': '— بكل امتناني،<br>كيرمينا 💙',
+                'ch21.restart': '🔄 ابدئي من الأول',
+                'cipher.title': '🔐 رسالة مخفية',
+                'cipher.sub': "كيرمينا سبتلك رسالة سرية — مشفّرة خصيصاً لحضرتك.\nفككي الشيفرة علشان تعرفي اللي عايزة تقوله فعلاً.",
+                'cipher.encoded': 'KDSSB ELUWKGDB PUV. DVKJDQ',
+                'cipher.hint': '<span>تلميح:</span> شيفرة قيصر — كل حرف اتنقل <span>3</span> خطوات للأمام. إيه اللي هتلاقيه لما ترجعي كل حرف ٣ خطوات للخلف؟',
+                'cipher.placeholder': 'اكتبي الرسالة بعد التفكيك...',
+                'cipher.check': 'فككي ✓',
+                'cipher.wrong': 'مش كده — جربي تاني. فكري في إنك بترجعي كل حرف ٣ خطوات.',
+                'cipher.solved.title': 'الرسالة اتفتحت 💙',
+                'cipher.solved.msg': "مهما بُعدت،\nحضرتك هتفضلي دايماً المدرسة\nاللي صدّقتي فيّا الأول.\n\nده هدية هاشيلها معايا\nطول عمري.",
+                'cipher.solved.sig': '— كيرمينا، بكل امتنانها',
+                'cipher.close': 'إغلاق',
+                'cipher.close.solved': '✕ إغلاق',
+            }
+        };
+
+
+        function t(k) { return i18n[currentLang][k] !== undefined ? i18n[currentLang][k] : (i18n['en'][k] || k); }
+
+        /* XP */
+        let xp = 0;
+        const XP_MAX = 600, XP_MILESTONES = [100, 250, 450, 600];
+        const MILESTONE_MSGS = ['🌟 First spark — keep going!', '💡 Halfway through the adventure!', '🔥 Almost at the end — you\'re doing great!', '🏆 Max XP! You explored everything!'];
+        let milestonesHit = new Set();
+        function addXP(amount, label) {
+            xp = Math.min(xp + amount, XP_MAX);
+            const fill = document.getElementById('xp-bar-fill'); if (fill) fill.style.width = (xp / XP_MAX * 100) + '%';
+            const toast = document.getElementById('xp-toast');
+            if (toast) { toast.textContent = '+' + (label || amount) + ' XP'; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1500); }
+            XP_MILESTONES.forEach((m, i) => { if (xp >= m && !milestonesHit.has(m)) { milestonesHit.add(m); setTimeout(() => showMilestone(MILESTONE_MSGS[i]), 800); } });
+        }
+        function showMilestone(msg) {
+            const el = document.createElement('div');
+            el.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);z-index:500;background:rgba(13,19,28,.98);border:1px solid var(--gold);border-radius:16px;padding:1.5rem 2.5rem;text-align:center;color:var(--gold);font-size:1rem;font-family:"JetBrains Mono",monospace;transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 60px rgba(251,191,36,.2);backdrop-filter:blur(12px);pointer-events:none;';
+            el.textContent = msg; document.body.appendChild(el);
+            setTimeout(() => el.style.transform = 'translate(-50%,-50%) scale(1)', 10);
+            setTimeout(() => { el.style.opacity = '0'; el.style.transition = 'opacity .4s'; }, 2500);
+            setTimeout(() => el.remove(), 3000);
+        }
+
+        /* Cursor trail */
+        const TRAIL = ['✦', '✧', '★', '·', '◦', '*', '❋', '◉'];
+        document.addEventListener('mousemove', e => {
+            if (Math.random() > .65) return;
+            const el = document.createElement('div'); el.className = 'cursor-star';
+            el.textContent = TRAIL[Math.floor(Math.random() * TRAIL.length)];
+            const colors = ['#4da8ff', '#b794f4', '#34d399', '#fbbf24', '#f472b6'];
+            el.style.cssText = `left:${e.clientX + Math.random() * 14 - 7}px;top:${e.clientY + Math.random() * 14 - 7}px;color:${colors[Math.floor(Math.random() * colors.length)]};font-size:${10 + Math.random() * 8}px;position:fixed;pointer-events:none;z-index:9999;`;
+            document.body.appendChild(el); setTimeout(() => el.remove(), 850);
+        });
+        document.addEventListener('click', () => addXP(3));
+
+        /* Audio */
+        const music = document.getElementById('bg-music'); let audioPlaying = false;
+        function toggleAudio() {
+            const btn = document.getElementById('audio-btn');
+            if (audioPlaying) { music.pause(); audioPlaying = false; btn.textContent = '🎵'; btn.classList.remove('playing'); }
+            else { music.volume = 0.22; music.play().catch(() => { }); audioPlaying = true; btn.textContent = '🔊'; btn.classList.add('playing'); }
+        }
+
+        /* Cipher Puzzle */
+        let cipherSolved = false;
+        const CIPHER_ANSWER = 'HAPPY BIRTHDAY MRS. ASHGAN';
+
+        function showCipher() {
+            const modal = document.getElementById('cipher-modal');
+            const puzzle = document.getElementById('cipher-puzzle-view');
+            const solved = document.getElementById('cipher-solved');
+            document.getElementById('cipher-title').textContent = t('cipher.title');
+            document.getElementById('cipher-sub').textContent = t('cipher.sub');
+            document.getElementById('cipher-encoded').textContent = t('cipher.encoded');
+            document.getElementById('cipher-hint').innerHTML = t('cipher.hint');
+            document.getElementById('cipher-answer').placeholder = t('cipher.placeholder');
+            document.getElementById('cipher-check').textContent = t('cipher.check');
+            document.getElementById('cipher-close-lbl').textContent = t('cipher.close');
+            if (cipherSolved) {
+                puzzle.style.display = 'none';
+                solved.classList.add('show');
+            } else {
+                puzzle.style.display = 'block';
+                solved.classList.remove('show');
+                document.getElementById('cipher-answer').value = '';
+                document.getElementById('cipher-feedback').textContent = '';
+            }
+            modal.classList.add('show');
+            setTimeout(() => { if (!cipherSolved) document.getElementById('cipher-answer').focus(); }, 300);
+        }
+
+        function checkCipher() {
+            const inp = document.getElementById('cipher-answer');
+            const val = inp.value.trim().toUpperCase().replace(/[^A-Z .]/g, '');
+            const norm = s => s.toUpperCase().replace(/[^A-Z ]/g, '').trim();
+            if (norm(val) === norm(CIPHER_ANSWER)) {
+                cipherSolved = true;
+                solveCipher();
+            } else {
+                inp.classList.remove('error');
+                void inp.offsetWidth;
+                inp.classList.add('error');
+                document.getElementById('cipher-feedback').textContent = t('cipher.wrong');
+                setTimeout(() => inp.classList.remove('error'), 500);
+                addXP(2);
+            }
+        }
+
+        function solveCipher() {
+            const puzzle = document.getElementById('cipher-puzzle-view');
+            const solved = document.getElementById('cipher-solved');
+            document.getElementById('solved-title').textContent = t('cipher.solved.title');
+            document.getElementById('solved-sig').textContent = t('cipher.solved.sig');
+            document.getElementById('solved-close-lbl').textContent = t('cipher.close.solved');
+            puzzle.style.opacity = '0'; puzzle.style.transform = 'scale(.95)'; puzzle.style.transition = 'all .4s ease';
+            setTimeout(() => {
+                puzzle.style.display = 'none';
+                const msg = document.getElementById('solved-message');
+                msg.textContent = '';
+                solved.classList.add('show');
+                launchConfetti(100); playChime(); addXP(80, 'CIPHER');
+                // typewrite the solved message
+                const text = t('cipher.solved.msg');
+                let i = 0;
+                function typeIt() {
+                    if (i < text.length) { msg.textContent += text[i]; i++; setTimeout(typeIt, 22); }
+                }
+                setTimeout(typeIt, 400);
+            }, 450);
+        }
+
+        function closeCipher() {
+            document.getElementById('cipher-modal').classList.remove('show');
+        }
+        document.addEventListener('keydown', e => {
+            if (document.getElementById('cipher-modal').classList.contains('show') && e.key === 'Enter') {
+                checkCipher();
+            }
+        });
+
+        /* Unlock modal */
+        function showUnlock(icon, title, msg) {
+            document.getElementById('unlock-title').textContent = title;
+            document.getElementById('unlock-msg').textContent = msg;
+            document.querySelector('.unlock-icon').textContent = icon;
+            document.getElementById('unlock-modal').classList.add('show');
+        }
+        function closeUnlock() { document.getElementById('unlock-modal').classList.remove('show'); }
+
+        /* Particles */
+        function burstParticles(n) {
+            for (let i = 0; i < n; i++) {
+                const p = document.createElement('div'); p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw'; p.style.top = Math.random() * 100 + 'vh';
+                p.style.width = p.style.height = (4 + Math.random() * 7) + 'px';
+                p.style.background = ['#4da8ff', '#b794f4', '#34d399', '#fbbf24', '#f472b6'][Math.floor(Math.random() * 5)];
+                p.style.transition = 'all 1.3s ease-out'; document.body.appendChild(p);
+                requestAnimationFrame(() => p.style.opacity = '1');
+                setTimeout(() => { p.style.opacity = '0'; p.style.transform = `translate(${(Math.random() - .5) * 180}px,${(Math.random() - .5) * 180}px) scale(0)`; }, 60);
+                setTimeout(() => p.remove(), 1400);
+            }
+        }
+        function createParticle(src) {
+            const p = document.createElement('div'); p.className = 'particle';
+            const r = src.getBoundingClientRect();
+            p.style.left = (r.left + r.width / 2) + 'px'; p.style.top = (r.top + r.height / 2) + 'px';
+            p.style.width = p.style.height = '6px';
+            p.style.background = ['#4da8ff', '#b794f4', '#34d399', '#fbbf24'][Math.floor(Math.random() * 4)];
+            p.style.transition = 'all 1s ease-out';
+            const a = Math.random() * Math.PI * 2, d = 80 + Math.random() * 100;
+            document.body.appendChild(p);
+            requestAnimationFrame(() => { p.style.opacity = '1'; p.style.transform = `translate(${Math.cos(a) * d}px,${Math.sin(a) * d}px) scale(0)`; });
+            setTimeout(() => p.remove(), 1100);
+        }
+        function launchConfetti(n) {
+            n = n || 150;
+            const colors = ['#4da8ff', '#b794f4', '#34d399', '#fbbf24', '#f472b6', '#f87171', '#38bdf8', '#fff'];
+            const shapes = ['▪', '▸', '●', '★', '◆', '✦'];
+            for (let i = 0; i < n; i++) {
+                const el = document.createElement('div'); el.className = 'confetti-piece';
+                el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+                el.style.cssText = `left:${Math.random() * 100}vw;color:${colors[Math.floor(Math.random() * colors.length)]};font-size:${8 + Math.random() * 16}px;--dur:${2 + Math.random() * 3}s;--delay:${Math.random() * 2}s;`;
+                document.body.appendChild(el); setTimeout(() => el.remove(), 5200);
+            }
+        }
+
+        /* Canvas */
+        const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+        let drops = [];
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; drops = Array(Math.floor(canvas.width / 16)).fill(1); }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        function drawBinary() {
+            ctx.fillStyle = 'rgba(8,12,18,0.055)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const hue = 210 + Math.sin(Date.now() / 9000) * 25; ctx.fillStyle = `hsl(${hue},65%,55%)`; ctx.font = '13px monospace';
+            for (let i = 0; i < drops.length; i++) { ctx.fillText(Math.random() > .5 ? '1' : '0', i * 16, drops[i] * 16); if (drops[i] * 16 > canvas.height && Math.random() > .975) drops[i] = 0; drops[i]++; }
+        }
+        setInterval(drawBinary, 40);
+
+        /* Sound */
+        const ACtx = window.AudioContext || window.webkitAudioContext; let aCtx = null;
+        function playClick() { try { if (!aCtx) aCtx = new ACtx(); const o = aCtx.createOscillator(), g = aCtx.createGain(); o.connect(g); g.connect(aCtx.destination); o.frequency.setValueAtTime(800 + Math.random() * 400, aCtx.currentTime); g.gain.setValueAtTime(0.03, aCtx.currentTime); g.gain.exponentialRampToValueAtTime(0.001, aCtx.currentTime + 0.05); o.start(); o.stop(aCtx.currentTime + 0.05); } catch (e) { } }
+        function playChime() { try { if (!aCtx) aCtx = new ACtx();[523, 659, 784].forEach((f, i) => { const o = aCtx.createOscillator(), g = aCtx.createGain(); o.connect(g); g.connect(aCtx.destination); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0, aCtx.currentTime + i * .15); g.gain.linearRampToValueAtTime(.14, aCtx.currentTime + i * .15 + .05); g.gain.exponentialRampToValueAtTime(.001, aCtx.currentTime + i * .15 + .8); o.start(aCtx.currentTime + i * .15); o.stop(aCtx.currentTime + i * .15 + .8); }); } catch (e) { } }
+
+        /* Typewriter */
+        function typewrite(id, text, delay, speed, onDone, sound) {
+            delay = delay || 400; speed = speed || 28;
+            const el = document.getElementById(id); if (!el) return; el.innerHTML = ''; let i = 0;
+            function type() { if (i < text.length) { const ch = text.charAt(i); el.innerHTML += ch === '\n' ? '<br>' : ch; if (sound && ch !== ' ' && ch !== '\n' && Math.random() > .4) playClick(); i++; setTimeout(type, speed); } else if (onDone) onDone(); }
+            setTimeout(type, delay);
+        }
+        function animateVal(id, target, dur) {
+            const el = document.getElementById(id); if (!el) return;
+            const inc = target / (dur / 16); let c = 0;
+            const tmr = setInterval(() => { c += inc; if (c >= target) { el.textContent = target.toLocaleString(); clearInterval(tmr); } else el.textContent = Math.floor(c).toLocaleString(); }, 16);
+        }
+        function showStatBoxes() { document.querySelectorAll('.stat-box').forEach((b, i) => setTimeout(() => b.classList.add('visible'), i * 140)); }
+
+
+        /* ── Debug the Code ── */
+        let dbgRound = 0, dbgScore = 0, dbgAnswered = false;
+        function initDebugGame() { dbgRound = 0; dbgScore = 0; renderDbgRound(); addXP(10, 'GAME_START'); }
+        function escHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+        function renderDbgRound() {
+            const rounds = t('ch8.rounds');
+            if (dbgRound >= rounds.length) { showDbgWin(); return; }
+            const r = rounds[dbgRound];
+            const wrap = document.getElementById('dbg-wrap'); if (!wrap) return;
+            dbgAnswered = false;
+            let dots = '';
+            for (let i = 0; i < rounds.length; i++) {
+                const cls = i < dbgRound ? 'done' : i === dbgRound ? 'active' : '';
+                dots += `<div class="dbg-dot ${cls}">${i < dbgRound ? '✓' : i + 1}</div>`;
+            }
+            let codeHtml = '';
+            r.code.forEach((line, i) => {
+                const isBug = i === r.bugLine;
+                codeHtml += `<div class="code-line${isBug ? ' bug-line' : ''}"><span class="ln">${i + 1}</span>${escHtml(line)}</div>`;
+            });
+            let choicesHtml = '';
+            r.choices.forEach((c, i) => {
+                choicesHtml += `<div class="dbg-choice" onclick="pickDbg(${i})" data-idx="${i}"><span class="cmt">// Option ${i + 1}</span><br>${escHtml(c)}</div>`;
+            });
+            const isLast = dbgRound >= rounds.length - 1;
+            wrap.innerHTML = `
+    <div class="dbg-progress">${dots}</div>
+    <div class="dbg-round">
+      <div class="dbg-context">${r.context}</div>
+      <div class="dbg-code dbg-code-block">${codeHtml}</div>
+      <div class="dbg-choices" id="dbg-choices">${choicesHtml}</div>
+      <div class="dbg-reveal" id="dbg-reveal"></div>
+      <button class="dbg-next" id="dbg-next-btn" onclick="advanceDbg()">${isLast ? t('ch8.finish') : t('ch8.next.round')}</button>
+    </div>`;
+        }
+        function pickDbg(idx) {
+            if (dbgAnswered) return;
+            dbgAnswered = true;
+            const r = t('ch8.rounds')[dbgRound];
+            document.querySelectorAll('.dbg-choice').forEach((c, i) => {
+                if (i === r.correct) c.classList.add('correct');
+                else if (i === idx && idx !== r.correct) c.classList.add('wrong');
+            });
+            if (idx === r.correct) { dbgScore++; addXP(20, 'DEBUG'); playChime(); }
+            else addXP(5, 'TRY');
+            const reveal = document.getElementById('dbg-reveal');
+            if (reveal) { reveal.innerHTML = r.reveal; setTimeout(() => reveal.classList.add('show'), 100); }
+            const nb = document.getElementById('dbg-next-btn');
+            if (nb) setTimeout(() => nb.classList.add('show'), 400);
+        }
+        function advanceDbg() { dbgRound++; renderDbgRound(); }
+        function showDbgWin() {
+            const wrap = document.getElementById('dbg-wrap'); if (!wrap) return;
+            const n = t('ch8.rounds').length;
+            wrap.innerHTML = `
+    <div class="dbg-win">
+      <span class="dbg-win-icon">${t('ch8.win.icon')}</span>
+      <div class="dbg-win-title">${t('ch8.win.title')}</div>
+      <div class="dbg-win-sub">${t('ch8.win.sub')}</div>
+      <div class="dbg-score-line">${dbgScore} / ${n} correct</div>
+      <button class="next-button" onclick="nextChapter()" style="margin-top:0">${t('ch8.chapterNext')}</button>
+    </div>`;
+            launchConfetti(80); addXP(40, 'GAME_WIN');
+        }
+
+
+        /* ── Timeline Puzzle ── */
+        let tlCards = [], tlDragSrc = null, tlChecked = false;
+        function initTimeline() {
+            tlChecked = false;
+            const cards = t('ch14b.cards');
+            tlCards = [...cards].sort(() => Math.random() - .5).map((c, i) => ({ ...c, pos: i }));
+            setTimeout(() => {
+                renderTimeline();
+                addXP(10, 'TL_START');
+            }, 300);
+        }
+        function renderTimeline() {
+            const stack = document.getElementById('tl-stack'); if (!stack) return;
+            stack.innerHTML = '';
+            tlCards.forEach((card, i) => {
+                const el = document.createElement('div');
+                el.className = 'tl-card';
+                el.draggable = true;
+                el.dataset.i = i;
+                el.innerHTML = `<div class="tl-handle">⠿</div><div class="tl-card-num">${i + 1}</div><div class="tl-card-emoji">${card.emoji}</div><div class="tl-card-body"><div class="tl-card-label">${card.label}</div><div class="tl-card-reveal">${card.reveal}</div></div>`;
+                el.addEventListener('dragstart', e => { tlDragSrc = i; el.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+                el.addEventListener('dragend', () => { el.classList.remove('dragging'); document.querySelectorAll('.tl-card').forEach(c => c.classList.remove('drag-over')); });
+                el.addEventListener('dragover', e => { e.preventDefault(); if (tlDragSrc !== i) el.classList.add('drag-over'); });
+                el.addEventListener('dragleave', () => el.classList.remove('drag-over'));
+                el.addEventListener('drop', e => {
+                    e.preventDefault(); el.classList.remove('drag-over');
+                    if (tlDragSrc === i || tlDragSrc === null) return;
+                    const tmp = tlCards[tlDragSrc]; tlCards[tlDragSrc] = tlCards[i]; tlCards[i] = tmp;
+                    renderTimeline();
+                });
+                // touch support
+                let touchY = 0;
+                el.addEventListener('touchstart', e => { tlDragSrc = i; touchY = e.touches[0].clientY; }, { passive: true });
+                el.addEventListener('touchend', e => {
+                    const ty = e.changedTouches[0].clientY;
+                    const cards = [...stack.querySelectorAll('.tl-card')];
+                    const target = cards.find(c => { const r = c.getBoundingClientRect(); return ty >= r.top && ty <= r.bottom; });
+                    if (target && parseInt(target.dataset.i) !== tlDragSrc) {
+                        const j = parseInt(target.dataset.i);
+                        const tmp = tlCards[tlDragSrc]; tlCards[tlDragSrc] = tlCards[j]; tlCards[j] = tmp;
+                        renderTimeline();
+                    }
+                    tlDragSrc = null;
+                }, { passive: true });
+                stack.appendChild(el);
+            });
+        }
+        function checkTimeline() {
+            const cards = t('ch14b.cards');
+            const fb = document.getElementById('tl-feedback');
+            let correct = true;
+            tlCards.forEach((card, i) => { if (cards[i].label !== card.label) correct = false; });
+            if (correct) {
+                tlChecked = true;
+                showTimelineWin();
+            } else {
+                // show which ones are wrong
+                const els = document.querySelectorAll('.tl-card');
+                els.forEach((el, i) => {
+                    if (cards[i].label !== tlCards[i].label) { el.classList.add('wrong'); setTimeout(() => el.classList.remove('wrong'), 400); }
+                });
+                if (fb) { fb.style.color = 'var(--red)'; fb.textContent = 'Not quite — try reordering. Think about what she leads with first.'; }
+                addXP(5, 'TL_TRY');
+            }
+        }
+        function showTimelineWin() {
+            const wrap = document.getElementById('tl-game-wrap'); if (!wrap) return;
+            const cards = t('ch14b.cards');
+            let cardsHtml = '';
+            cards.forEach((c, i) => { cardsHtml += `<div class="tl-card locked" style="opacity:0;transform:translateY(10px);transition:opacity .4s ${i * .1}s,transform .4s ${i * .1}s"><div class="tl-card-num">✓</div><div class="tl-card-emoji">${c.emoji}</div><div class="tl-card-body"><div class="tl-card-label">${c.label}</div><div class="tl-card-reveal">${c.reveal}</div></div></div>`; });
+            wrap.innerHTML = `
+    <div class="tl-win">
+      <span class="tl-win-icon">${t('ch14b.win.icon')}</span>
+      <div class="tl-win-title">${t('ch14b.win.title')}</div>
+      <div class="tl-win-sub">${t('ch14b.win.msg')}</div>
+    </div>
+    <div class="tl-stack">${cardsHtml}</div>
+    <div style="text-align:center;margin-top:1.5rem;">
+      <button class="next-button" onclick="nextChapter()" style="margin:0">${t('ch14b.next')}</button>
+    </div>`;
+            setTimeout(() => { wrap.querySelectorAll('.tl-card.locked').forEach(el => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }); }, 100);
+            playChime(); launchConfetti(70); addXP(50, 'TL_WIN');
+        }
+
+        /* ── Constellation ── */
+        let constCanvas = null, constCtx = null, constClicked = [], constStars = [], constDone = false;
+        function initConstellation() {
+            constClicked = []; constDone = false; constStars = [];
+            setTimeout(() => {
+                constCanvas = document.getElementById('const-canvas');
+                if (!constCanvas) return;
+                constCtx = constCanvas.getContext('2d');
+                constCanvas.width = constCanvas.offsetWidth || 720;
+                constCanvas.height = constCanvas.offsetHeight || 405;
+                renderConstellationStars();
+                addXP(10, 'CONST_START');
+            }, 200);
+        }
+        function renderConstellationStars() {
+            const field = document.getElementById('const-field'); if (!field) return;
+            const stars = t('ch15b.stars');
+            // remove old star btns
+            field.querySelectorAll('.const-star-btn').forEach(el => el.remove());
+            stars.forEach((s, i) => {
+                const btn = document.createElement('div');
+                btn.className = 'const-star-btn';
+                btn.id = `cstar-${i}`;
+                btn.style.left = s.x + '%'; btn.style.top = s.y + '%';
+                btn.innerHTML = `<div class="const-star-dot"></div><div class="const-star-label">${s.label}</div>`;
+                btn.addEventListener('click', () => clickConstStar(i));
+                field.appendChild(btn);
+                constStars.push({ x: s.x, y: s.y, el: btn });
+            });
+            drawConstLines();
+            updateConstHints();
+        }
+        function clickConstStar(i) {
+            if (constDone) return;
+            const expectedNext = constClicked.length;
+            if (i === expectedNext) {
+                constClicked.push(i);
+                const btn = document.getElementById(`cstar-${i}`);
+                if (btn) { btn.classList.remove('active'); btn.classList.add('connected'); }
+                addXP(8, 'CONST_STAR'); playClick();
+                drawConstLines();
+                updateConstHints();
+                if (constClicked.length === t('ch15b.stars').length) {
+                    constDone = true;
+                    setTimeout(showConstWin, 700);
+                }
+            } else {
+                // wrong star — flash
+                const btn = document.getElementById(`cstar-${i}`);
+                if (btn) { btn.classList.add('active'); setTimeout(() => btn.classList.remove('active'), 400); }
+            }
+        }
+        function drawConstLines() {
+            if (!constCtx || !constCanvas) return;
+            const W = constCanvas.width, H = constCanvas.height;
+            constCtx.clearRect(0, 0, W, H);
+            // background stars
+            for (let j = 0; j < 80; j++) {
+                const bx = Math.sin(j * 137.5) * 0.5 + 0.5, by = Math.cos(j * 97.3) * 0.5 + 0.5;
+                const sz = Math.random() < 0.08 ? 1.5 : .7;
+                constCtx.beginPath(); constCtx.arc(bx * W, by * H, sz, 0, Math.PI * 2);
+                constCtx.fillStyle = `rgba(255,255,255,${.08 + Math.random() * .12})`; constCtx.fill();
+            }
+            if (constClicked.length < 2) return;
+            const stars = t('ch15b.stars');
+            for (let k = 0; k < constClicked.length - 1; k++) {
+                const a = stars[constClicked[k]], b = stars[constClicked[k + 1]];
+                const x1 = a.x / 100 * W, y1 = a.y / 100 * H, x2 = b.x / 100 * W, y2 = b.y / 100 * H;
+                // glow line
+                constCtx.beginPath(); constCtx.moveTo(x1, y1); constCtx.lineTo(x2, y2);
+                constCtx.strokeStyle = 'rgba(251,191,36,0.15)'; constCtx.lineWidth = 8; constCtx.stroke();
+                constCtx.beginPath(); constCtx.moveTo(x1, y1); constCtx.lineTo(x2, y2);
+                constCtx.strokeStyle = 'rgba(251,191,36,0.7)'; constCtx.lineWidth = 1.5; constCtx.stroke();
+            }
+        }
+        function updateConstHints() {
+            const chips = document.querySelectorAll('.const-hint-chip');
+            chips.forEach((ch, i) => {
+                ch.classList.remove('done', 'next');
+                if (i < constClicked.length) ch.classList.add('done');
+                else if (i === constClicked.length) ch.classList.add('next');
+            });
+        }
+        function showConstWin() {
+            // final full draw with all connections
+            drawConstLines();
+            const wrap = document.getElementById('const-wrap'); if (!wrap) return;
+            const msg = t('ch15b.win.msg').replace(/\n/g, '<br>');
+            wrap.innerHTML = `
+    <div class="const-win">
+      <span class="const-win-icon">✨</span>
+      <div class="const-win-title">✦ Mrs. Ashgan ✦</div>
+      <div class="const-win-msg">${msg}</div>
+      <button class="next-button" onclick="nextChapter()" style="margin:0">${t('ch15b.next')}</button>
+    </div>`;
+            launchConfetti(100); addXP(60, 'CONST_WIN'); playChime();
+        }
+
+
+
+        let heartTimer = null, quoteTimer = null, quoteIdx = 0;
+
+        function initCh1() { typewrite('typing-output', t('ch1.typeout'), 400, 30, null, true); addXP(10, 'START'); }
+        function initCh2() {
+            showStatBoxes();
+            const now = new Date(), diff = Math.abs(now - new Date(BIRTH_YEAR + '-05-01'));
+            let base = Math.floor((diff / (1000 * 60)) * 80);
+            const el = document.getElementById('heartbeats'); if (!el) return;
+            el.textContent = base.toLocaleString();
+            if (heartTimer) clearInterval(heartTimer);
+            heartTimer = setInterval(() => { base += Math.floor(Math.random() * 2) + 1; el.textContent = base.toLocaleString(); }, 750);
+            animateVal('lives-touched', Math.floor(diff / (1000 * 60 * 60 * 24 * 365) * 12), 1800);
+            animateVal('bugs-debugged', Math.floor(diff / (1000 * 60 * 3)), 2500);
+        }
+        function activateHeart(el) {
+            if (el.dataset.clicked) return;
+            el.dataset.clicked = '1';
+            el.classList.add('blooming');
+            const hint = document.getElementById('heart-hint-el');
+            if (hint) { hint.style.opacity = '0'; hint.style.transition = 'opacity .5s'; }
+            for (let i = 0; i < 40; i++)createParticle(el);
+            addXP(20, 'HEART');
+            const log = t('ch3.log');
+            const container = document.getElementById('build-log');
+            if (!container) return;
+            log.forEach((entry, i) => {
+                setTimeout(() => {
+                    const line = document.createElement('div');
+                    line.className = 'log-line' + (entry.cls === 'pink' ? ' personal' : '');
+                    line.innerHTML = `<span class="log-ts">[${entry.ts}]</span><span class="log-tag ${entry.tag}">${entry.tag.toUpperCase()}</span><span class="log-msg ${entry.cls || ''}">${entry.msg}</span>`;
+                    container.appendChild(line);
+                    requestAnimationFrame(() => line.classList.add('show'));
+                    container.scrollTop = container.scrollHeight;
+                    if (entry.cls === 'pink') playClick();
+                }, i * 420 + (i > 7 ? 200 : 0));
+            });
+            const totalDelay = log.length * 420 + 600;
+            setTimeout(() => {
+                const finalEl = document.getElementById('gratitude-final');
+                if (finalEl) {
+                    finalEl.classList.add('show');
+                    const textEl = finalEl.querySelector('.gratitude-final-text');
+                    const sigEl = finalEl.querySelector('.gratitude-final-sig');
+                    if (textEl) typewrite('gratitude-final-inner', t('ch3.final'), 200, 25, () => { if (sigEl) sigEl.style.opacity = '1'; }, false);
+                    if (sigEl) { sigEl.style.opacity = '0'; sigEl.innerHTML = t('ch3.final.sig'); }
+                }
+                playChime(); launchConfetti(40);
+            }, totalDelay);
+        }
+        function initCh4() { typewrite('memory-output', t('ch4.typeout'), 400, 28, null, true); }
+        function initCh5() {
+            const field = document.getElementById('star-field'); if (!field) return; field.innerHTML = '';
+            t('ch5.stars').forEach(s => {
+                const dot = document.createElement('div'); dot.className = 'star-item';
+                dot.style.cssText = `left:${s.x}%;top:${s.y}%;width:${s.size * 2}px;height:${s.size * 2}px;--dur:${2 + Math.random() * 3}s;--delay:${Math.random() * 2}s;`;
+                const lbl = document.createElement('div'); lbl.className = 'star-label'; lbl.textContent = s.name;
+                dot.appendChild(lbl); field.appendChild(dot);
+                dot.addEventListener('mouseenter', () => { dot.style.transform = 'scale(2.8)'; dot.style.background = 'var(--gold)'; dot.style.boxShadow = '0 0 14px var(--gold)'; lbl.style.opacity = '1'; lbl.style.color = 'var(--gold)'; addXP(3); });
+                dot.addEventListener('mouseleave', () => { dot.style.transform = ''; dot.style.background = ''; dot.style.boxShadow = ''; lbl.style.opacity = ''; lbl.style.color = ''; });
+            });
+            setInterval(() => { const ss = document.createElement('div'); ss.className = 'shooting-star'; ss.style.cssText = `left:${Math.random() * 60}%;top:${Math.random() * 40}%;width:${60 + Math.random() * 80}px;`; field.appendChild(ss); setTimeout(() => ss.remove(), 1400); }, 3500);
+        }
+        function initCh6() { document.querySelectorAll('.path-card').forEach((c, i) => setTimeout(() => c.classList.add('show'), 100 + i * 150)); }
+        function choosePath(type) {
+            const chosen = t('ch6.paths').find(p => p.id === type); if (!chosen) return;
+            document.querySelectorAll('.path-card').forEach(c => { c.classList.remove('selected'); if (c.dataset.id === type) c.classList.add('selected'); });
+            const result = document.getElementById('path-result');
+            if (result) { result.innerHTML = `<span class="path-result-icon">${chosen.result.icon}</span><div class="path-result-title" style="color:var(--${chosen.color})">${chosen.result.title}</div><div class="path-result-msg">${chosen.result.msg}</div>`; setTimeout(() => result.classList.add('show'), 200); }
+            addXP(20, 'PATH');
+        }
+        function initCh7() { showStatBoxes(); }
+        function initCh8Game() { setTimeout(initDebugGame, 300); }
+        function runCode() {
+            const btn = document.getElementById('run-code-btn'), out = document.getElementById('run-output');
+            btn.disabled = true; btn.textContent = t('ch9.running'); out.innerHTML = '';
+            [['ch9.o1', 300], ['ch9.o2', 900], ['ch9.o3', 1700], ['ch9.o4', 2500], ['ch9.o5', 3300], ['ch9.o6', 4100], ['ch9.o7', 5100]]
+                .forEach(([k, d]) => setTimeout(() => { out.innerHTML += t(k) + '<br>'; out.scrollTop = out.scrollHeight; }, d));
+            setTimeout(() => { btn.disabled = false; btn.textContent = t('ch9.runagain'); addXP(15, 'RUN'); }, 5400);
+        }
+        function initCh10() {
+            const scroll = document.getElementById('error-scroll'); if (!scroll) return; scroll.innerHTML = '';
+            t('ch10.errors').forEach((e, i) => {
+                const div = document.createElement('div'); div.className = 'error-line';
+                const bc = e.type === 'warn' ? 'badge-warn' : e.type === 'fix' ? 'badge-fix' : 'badge-info';
+                const bl = e.type === 'warn' ? 'WARN' : e.type === 'fix' ? 'OK' : 'INFO';
+                const mc = e.type === 'warn' ? 'var(--gold)' : e.type === 'fix' ? 'var(--green)' : 'var(--blue)';
+                div.innerHTML = `<span class="err-badge ${bc}">${bl}</span><div style="flex:1"><div style="color:${mc}">${e.msg}</div>${e.fix ? `<div style="color:var(--green);font-size:.8rem;margin-top:.2rem">→ ${e.fix}</div>` : ''}</div>`;
+                scroll.appendChild(div); setTimeout(() => div.classList.add('show'), 200 + i * 350);
+            });
+        }
+        function initCh11() {
+            const grid = document.getElementById('ach-grid'); if (!grid) return; grid.innerHTML = '';
+            t('ch11.achievements').forEach((a, i) => {
+                const div = document.createElement('div'); div.className = 'achievement';
+                div.innerHTML = `<div class="ach-icon">${a.icon}</div><div class="ach-body"><div class="ach-title">${a.title}</div><div class="ach-desc">${a.desc}</div><div class="ach-xp">${a.xp}</div></div>`;
+                grid.appendChild(div); setTimeout(() => div.classList.add('show'), 100 + i * 110);
+            });
+        }
+        function initCh12() {
+            quoteIdx = 0; renderQuote();
+            if (quoteTimer) clearInterval(quoteTimer);
+            quoteTimer = setInterval(() => advanceQuote(1), 4500);
+        }
+        function renderQuote() {
+            const quotes = t('ch12.quotes');
+            const stage = document.getElementById('quote-stage'); if (!stage) return;
+            stage.innerHTML = '';
+            const card = document.createElement('div'); card.className = 'quote-card';
+            const q = quotes[quoteIdx];
+            card.innerHTML = `<span class="quote-dot">❝</span><div class="quote-text">${q.text}</div><div class="quote-attr">${q.attr}</div>`;
+            stage.appendChild(card); setTimeout(() => card.classList.add('active'), 30);
+            const dots = document.getElementById('quote-dots'); if (!dots) return; dots.innerHTML = '';
+            quotes.forEach((_, i) => { const d = document.createElement('div'); d.className = 'q-dot' + (i === quoteIdx ? ' on' : ''); d.onclick = () => setQuote(i); dots.appendChild(d); });
+        }
+        function setQuote(i) { if (quoteTimer) clearInterval(quoteTimer); quoteIdx = i; renderQuote(); addXP(3); }
+        function advanceQuote(dir) {
+            const quotes = t('ch12.quotes');
+            const old = document.querySelector('.quote-card.active'); if (old) { old.classList.remove('active'); old.classList.add('exit-left'); }
+            quoteIdx = (quoteIdx + dir + quotes.length) % quotes.length;
+            setTimeout(renderQuote, 260); addXP(3);
+        }
+        function initCh13() {
+            document.querySelectorAll('.diff-line').forEach((el, i) => {
+                el.style.opacity = '0'; el.style.transform = 'translateX(-8px)'; el.style.transition = 'opacity .4s,transform .4s';
+                setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'none'; }, i * 80 + 100);
+            });
+        }
+        function initCh14() {
+            const container = document.getElementById('grep-output'); if (!container) return; container.innerHTML = '';
+            const greps = t('ch14.greps'); const cmd = t('ch14.cmd');
+            const header = document.createElement('div'); header.className = 'grep-line';
+            header.innerHTML = `<span style="color:var(--blue)"><span class="prompt">$ </span>grep -r "<span style="color:var(--gold)">${cmd}</span>" memories/</span>`;
+            container.appendChild(header); setTimeout(() => header.classList.add('show'), 200);
+            greps.forEach((g, i) => {
+                const div = document.createElement('div'); div.className = 'grep-line';
+                div.innerHTML = `<span class="grep-path">${g.path}</span><span style="color:var(--dim)">:</span><span class="grep-match">${g.match}</span><span style="color:var(--dim)">: </span><span class="grep-content">${g.content}</span>`;
+                container.appendChild(div); setTimeout(() => div.classList.add('show'), 400 + i * 350);
+            });
+        }
+
+        function initCh16() {
+            const phrase = t('ch16.phrase');
+            const display = document.getElementById('typing-display');
+            const input = document.getElementById('typing-input');
+            const result = document.getElementById('typing-result');
+            if (!display || !input) return;
+            input.value = ''; if (result) result.classList.remove('show'); input.disabled = false;
+            display.innerHTML = phrase.split('').map((c, i) => `<span id="tc-${i}" class="${i === 0 ? 'current' : 'remaining'}">${c}</span>`).join('');
+            input.oninput = () => {
+                const val = input.value;
+                phrase.split('').forEach((c, i) => { const sp = document.getElementById('tc-' + i); if (!sp) return; if (i < val.length) { sp.className = val[i] === c ? 'correct' : 'wrong'; } else if (i === val.length) { sp.className = 'current'; } else { sp.className = 'remaining'; } });
+                playClick();
+                if (val === phrase) { if (result) { result.innerHTML = `<div class="compiled-msg">${t('ch16.compiled')}</div>`; result.classList.add('show'); } playChime(); launchConfetti(60); addXP(50, 'TYPED'); input.disabled = true; }
+            };
+            setTimeout(() => input.focus(), 300);
+        }
+        function initCh18() {
+            typewrite('letter-text', t('ch18.letter'), 400, 22, () => {
+                setTimeout(() => { const s = document.getElementById('letter-sig'); if (s) { s.innerHTML = t('ch18.sig'); s.classList.add('visible'); } }, 600);
+            }, false);
+        }
+        function openGift() {
+            const box = document.getElementById('gift-emoji'), reveal = document.getElementById('gift-reveal'), hint = document.getElementById('gift-hint');
+            if (!box || box.dataset.opened) return;
+            box.dataset.opened = '1'; box.classList.add('opened'); if (hint) hint.style.opacity = '0';
+            burstParticles(60); addXP(30, 'GIFT'); playChime();
+            setTimeout(() => {
+                box.style.display = 'none'; reveal.classList.add('show');
+                const list = document.getElementById('wishes-list'); if (!list) return; list.innerHTML = '';
+                t('ch19.wishes').forEach((w, i) => { const item = document.createElement('div'); item.className = 'wish-item'; item.innerHTML = `<span class="wish-emoji">${w.emoji}</span><span class="wish-text">${w.text}</span>`; list.appendChild(item); setTimeout(() => item.classList.add('show'), i * 250); });
+            }, 700);
+        }
+        function initCh21() {
+            playChime(); launchConfetti(180); addXP(50, 'END');
+            typewrite('final-text', t('ch21.typeout'), 500, 30, () => { playChime(); setTimeout(() => { const s = document.getElementById('final-sig'); if (s) { s.innerHTML = t('ch21.sig'); s.classList.add('visible'); } }, 600); }, false);
+        }
+
+
+        const DOTS = '<div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>';
+        const TOTAL = 22;
+        const ACCENTS = ['blue', 'teal', 'purple', 'blue', 'gold', 'purple', 'green', 'red', 'teal', 'blue', 'purple', 'pink', 'red', 'teal', 'purple', 'teal', 'blue', 'purple', 'blue', 'gold', 'pink', 'purple'];
+        const CHAPTER_INITS = [initCh1, initCh2, null, initCh4, initCh5, initCh6, initCh7, initCh8Game, null, initCh10, initCh11, initCh12, initCh13, initCh14, initTimeline, initConstellation, initCh16, null, initCh18, null, null, initCh21];
+
+        function buildChapter(idx) {
+            const ch = [
+                // 0 — Intro
+                `<div class="terminal"><div class="terminal-header">${DOTS}<div class="terminal-title">chapter_01.initialize()</div></div><div class="terminal-body"><div class="code-block"><div class="code-line"><span class="ln">1</span><span class="cmt">// Behind every line of code, there is a teacher who chose to care.</span></div><div class="code-line"><span class="ln">2</span><span class="kw">const</span> <span class="fn">teacher</span> = {</div><div class="code-line"><span class="ln">3</span>&nbsp;&nbsp;name: <span class="str">"Mrs. Ashgan"</span>,</div><div class="code-line"><span class="ln">4</span>&nbsp;&nbsp;birthYear: <span class="str">${BIRTH_YEAR}</span>,</div><div class="code-line"><span class="ln">5</span>&nbsp;&nbsp;superpower: <span class="str">"Turning confusion into clarity"</span>,</div><div class="code-line"><span class="ln">6</span>&nbsp;&nbsp;impact: <span class="str">"Immeasurable"</span>,</div><div class="code-line"><span class="ln">7</span>&nbsp;&nbsp;student: <span class="str">"Kermina"</span></div><div class="code-line"><span class="ln">8</span>};</div></div><div class="output" id="typing-output" style="min-height:130px;white-space:pre-wrap;"></div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch1.next')}</span></button>`,
+
+                // 1 — Stats
+                `<h1 class="chapter-title">${t('ch2.title')}</h1><p class="chapter-subtitle">${t('ch2.subtitle')}</p><div class="stats-grid"><div class="stat-box"><div class="stat-label">${t('ch2.s1.label')}</div><div class="stat-value" id="heartbeats">0</div><div class="live-badge"><div class="live-dot"></div><div class="live-text">LIVE</div></div><div class="stat-note">${t('ch2.s1.note')}</div></div><div class="stat-box"><div class="stat-label">${t('ch2.s2.label')}</div><div class="stat-value" id="lives-touched">0</div><div class="stat-note">${t('ch2.s2.note')}</div></div><div class="stat-box"><div class="stat-label">${t('ch2.s3.label')}</div><div class="stat-value" id="bugs-debugged">0</div><div class="stat-note">${t('ch2.s3.note')}</div></div><div class="stat-box"><div class="stat-label">${t('ch2.s4.label')}</div><div class="stat-value">∞</div><div class="stat-note">${t('ch2.s4.note')}</div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch2.next')}</span></button>`,
+
+                // 2 — Gratitude
+                `<h1 class="chapter-title">${t('ch3.title')}</h1>
+  <div class="terminal" style="max-width:860px;">
+    <div class="terminal-header">${DOTS}<div class="terminal-title">gratitude.compile() — by Kermina</div></div>
+    <div class="terminal-body" style="padding:1.8rem 2rem;">
+      <div class="heart-stage">
+        <div class="heart" onclick="activateHeart(this)" style="cursor:pointer;">❤️</div>
+        <div class="heart-hint" id="heart-hint-el">${t('ch3.hint')}</div>
+      </div>
+      <div class="build-log" id="build-log" style="max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;"></div>
+      <div class="gratitude-final" id="gratitude-final">
+        <div class="gratitude-final-text" id="gratitude-final-inner"></div>
+        <div class="gratitude-final-sig"></div>
+      </div>
+    </div>
+  </div>
+  <button class="next-button" onclick="nextChapter()"><span>${t('ch3.next')}</span></button>`,
+
+                // 3 — Memory quote
+                `<h1 class="chapter-title">${t('ch4.title')}</h1><div class="terminal"><div class="terminal-header">${DOTS}<div class="terminal-title">memory.load() — Kermina</div></div><div class="terminal-body"><div class="code-block"><div class="code-line"><span class="cmt">// A quote Mrs. Ashgan once said:</span></div><div class="code-line"><span class="str">"Don't be afraid of mistakes."</span></div></div><div class="output" id="memory-output" style="min-height:80px;white-space:pre-wrap;"></div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch4.next')}</span></button>`,
+
+                // 4 — Stars
+                `<h1 class="chapter-title">${t('ch5.title')}</h1><p class="chapter-subtitle">${t('ch5.subtitle')}</p><div class="stars-field" id="star-field"></div><p class="scroll-hint">✦ hover each star ✦</p><button class="next-button" onclick="nextChapter()"><span>${t('ch5.next')}</span></button>`,
+
+                // 5 — Choose Path
+                `<h1 class="chapter-title">${t('ch6.title')}</h1><p class="chapter-subtitle">${t('ch6.subtitle')}</p><div class="path-choices">${t('ch6.paths').map(p => `<div class="path-card ${p.id}" data-id="${p.id}" onclick="choosePath('${p.id}')"><span class="path-icon">${p.icon}</span><div class="path-name" style="color:var(--${p.color})">${p.name}</div><div class="path-desc">${p.desc}</div></div>`).join('')}</div><div class="path-result" id="path-result"></div><button class="next-button" onclick="nextChapter()"><span>${t('ch6.next')}</span></button>`,
+
+                // 6 — Invisible Impact
+                `<h1 class="chapter-title">${t('ch7.title')}</h1><p class="chapter-subtitle">${t('ch7.subtitle')}</p><div class="stats-grid"><div class="stat-box"><div class="stat-label">${t('ch7.s1.label')}</div><div class="stat-value">100%</div><div class="stat-note">${t('ch7.s1.note')}</div></div><div class="stat-box"><div class="stat-label">${t('ch7.s2.label')}</div><div class="stat-value">MAX</div><div class="stat-note">${t('ch7.s2.note')}</div></div><div class="stat-box"><div class="stat-label">${t('ch7.s3.label')}</div><div class="stat-value">GROWING</div><div class="stat-note">${t('ch7.s3.note')}</div></div><div class="stat-box"><div class="stat-label">${t('ch7.s4.label')}</div><div class="stat-value">∞</div><div class="stat-note">${t('ch7.s4.note')}</div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch7.next')}</span></button>`,
+
+                // 7 — Debug the Code
+                `<h1 class="chapter-title">${t('ch8.title')}</h1>
+  <p class="chapter-subtitle">${t('ch8.subtitle')}</p>
+  <div id="dbg-wrap" style="width:100%;max-width:820px;"></div>`,
+
+                // 8 — Classroom Replay
+                `<h1 class="chapter-title">${t('ch9.title')}</h1><p class="chapter-subtitle">${t('ch9.subtitle')}</p><div class="terminal" style="max-width:860px;"><div class="terminal-header">${DOTS}<div class="terminal-title">lesson.execute() — student: Kermina</div></div><div class="terminal-body"><div class="code-block"><div class="code-line"><span class="ln">1</span><span class="kw">function</span> <span class="fn">teach</span>(student) {</div><div class="code-line"><span class="ln">2</span>&nbsp;&nbsp;<span class="kw">const</span> lesson = <span class="str">"You are more capable than you think"</span>;</div><div class="code-line"><span class="ln">3</span>&nbsp;&nbsp;student.confidence <span class="kw">+=</span> 100;</div><div class="code-line"><span class="ln">4</span>&nbsp;&nbsp;student.fear_of_mistakes <span class="kw">=</span> <span class="kw">false</span>;</div><div class="code-line"><span class="ln">5</span>&nbsp;&nbsp;<span class="kw">return</span> student.potential.<span class="fn">unlock</span>();</div><div class="code-line"><span class="ln">6</span>}</div><div class="code-line"><span class="ln">7</span><span class="fn">teach</span>(<span class="str">"Kermina"</span>);</div></div><button class="run-btn" id="run-code-btn" onclick="runCode()">${t('ch9.run')}</button><div class="run-output" id="run-output"></div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch9.next')}</span></button>`,
+
+                // 9 — Error Log
+                `<h1 class="chapter-title">${t('ch10.title')}</h1><p class="chapter-subtitle">${t('ch10.subtitle')}</p><div class="terminal" style="max-width:860px;"><div class="terminal-header">${DOTS}<div class="terminal-title">kermina_errors.log — patched by Mrs. Ashgan</div></div><div class="terminal-body"><div class="error-scroll" id="error-scroll"></div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch10.next')}</span></button>`,
+
+                // 10 — Achievements
+                `<h1 class="chapter-title">${t('ch11.title')}</h1><p class="chapter-subtitle">${t('ch11.subtitle')}</p><div class="ach-grid" id="ach-grid"></div><button class="next-button" onclick="nextChapter()"><span>${t('ch11.next')}</span></button>`,
+
+                // 11 — Quote Carousel
+                `<h1 class="chapter-title">${t('ch12.title')}</h1><p class="chapter-subtitle">${t('ch12.subtitle')}</p><div class="quote-stage" id="quote-stage"></div><div class="quote-nav"><button class="q-btn" onclick="advanceQuote(-1)">←</button><div class="q-dots" id="quote-dots"></div><button class="q-btn" onclick="advanceQuote(1)">→</button></div><button class="next-button" onclick="nextChapter()"><span>${t('ch12.next')}</span></button>`,
+
+                // 12 — Diff
+                `<h1 class="chapter-title">${t('ch13.title')}</h1><p class="chapter-subtitle">${t('ch13.subtitle')}</p><div class="diff-wrap"><div class="diff-panel"><div class="diff-header before">− BEFORE (kermina_v1.js)</div><div class="diff-body">${t('ch13.before').map(l => `<div class="diff-line ${l.t}"><span class="diff-sign">−</span><span>${l.c}</span></div>`).join('')}</div></div><div class="diff-panel"><div class="diff-header after">+ AFTER (kermina_v2.js)</div><div class="diff-body">${t('ch13.after').map(l => `<div class="diff-line ${l.t}"><span class="diff-sign">+</span><span>${l.c}</span></div>`).join('')}</div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch13.next')}</span></button>`,
+
+                // 13 — Grep
+                `<h1 class="chapter-title">${t('ch14.title')}</h1><p class="chapter-subtitle">${t('ch14.subtitle')}</p><div class="terminal" style="max-width:860px;"><div class="terminal-header">${DOTS}<div class="terminal-title">terminal — memories.db</div></div><div class="terminal-body" style="direction:ltr;text-align:left;"><div id="grep-output"></div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch14.next')}</span></button>`,
+
+                // 14 — Timeline Puzzle
+                `<h1 class="chapter-title">${t('ch14b.title')}</h1>
+  <p class="chapter-subtitle">${t('ch14b.subtitle')}</p>
+  <div id="tl-game-wrap" class="tl-game-wrap">
+    <div class="tl-instruction">${t('ch14b.instruction')}</div>
+    <div class="tl-stack" id="tl-stack"></div>
+    <div style="text-align:center;">
+      <button class="tl-check-btn" onclick="checkTimeline()">${t('ch14b.check')}</button>
+      <div class="tl-feedback" id="tl-feedback"></div>
+    </div>
+  </div>`,
+
+                // 15 — Constellation
+                `<h1 class="chapter-title">${t('ch15b.title')}</h1>
+  <p class="chapter-subtitle">${t('ch15b.subtitle')}</p>
+  <div class="const-wrap" id="const-wrap">
+    <div class="const-instruction">${t('ch15b.instruction')}</div>
+    <div class="const-order-hint" id="const-hints">
+      ${t('ch15b.stars').map((s, i) => '<div class="const-hint-chip" id="chip-' + i + '">' + s.label + '</div>').join('')}
+    </div>
+    <div class="const-field" id="const-field" style="height:360px;">
+      <canvas id="const-canvas" style="width:100%;height:100%;"></canvas>
+    </div>
+  </div>`,
+
+                // 16 — Typing Tribute
+                `<h1 class="chapter-title">${t('ch16.title')}</h1><p class="chapter-subtitle">${t('ch16.subtitle')}</p><div class="typing-game-wrap"><div class="typing-prompt" id="typing-display" style="direction:ltr;text-align:left;font-size:.95rem;line-height:2;"></div><input id="typing-input" type="text" placeholder="Start typing..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><div class="typing-result" id="typing-result"></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch16.next')}</span></button>`,
+
+                // 17 — Code Poem
+                `<h1 class="chapter-title">${t('ch17.title')}</h1><p class="chapter-subtitle">${t('ch17.subtitle')}</p><div class="code-poem"><span class="poem-line"><span class="cmt">// A poem in the language we share</span></span>
+<span class="poem-line"></span>
+<span class="poem-line"><span class="kw">class</span> <span class="fn">Teacher</span> {</span>
+<span class="poem-line indent1"><span class="fn">constructor</span>(<span class="str">name</span>) {</span>
+<span class="poem-line indent2"><span class="kw">this</span>.name = name; <span class="cmt">// "Mrs. Ashgan"</span></span>
+<span class="poem-line indent2"><span class="kw">this</span>.patience = Infinity;</span>
+<span class="poem-line indent2"><span class="kw">this</span>.belief_in_students = <span class="kw">true</span>;</span>
+<span class="poem-line indent2"><span class="kw">this</span>.fear_of_being_wrong = <span class="kw">false</span>;</span>
+<span class="poem-line indent1">}</span>
+<span class="poem-line indent1"><span class="fn">teach</span>(student) {</span>
+<span class="poem-line indent2"><span class="kw">while</span> (student.isConfused) {</span>
+<span class="poem-line indent2">&nbsp;&nbsp;student.understanding += <span class="kw">this</span>.<span class="fn">explain</span>();</span>
+<span class="poem-line indent2">&nbsp;&nbsp;student.fear -= <span class="kw">this</span>.<span class="fn">encourage</span>();</span>
+<span class="poem-line indent2">&nbsp;&nbsp;student.courage += <span class="kw">this</span>.<span class="fn">believe</span>(student);</span>
+<span class="poem-line indent2">}</span>
+<span class="poem-line indent2"><span class="kw">return</span> student.<span class="fn">becomeGreater</span>();</span>
+<span class="poem-line indent1">}</span>
+<span class="poem-line indent1"><span class="fn">onBirthday</span>() {</span>
+<span class="poem-line indent2"><span class="kw">return</span> <span class="str">"Happy Birthday, Mrs. Ashgan 💙"</span>;</span>
+<span class="poem-line indent1">}</span>
+<span class="poem-line">}</span>
+<span class="poem-line"><span class="kw">const</span> ashgan = <span class="kw">new</span> <span class="fn">Teacher</span>(<span class="str">"Mrs. Ashgan"</span>);</span>
+<span class="poem-line">ashgan.<span class="fn">teach</span>(kermina);</span>
+<span class="poem-line">console.<span class="fn">log</span>(ashgan.<span class="fn">onBirthday</span>());</span>
+</div><button class="next-button" onclick="nextChapter()"><span>${t('ch17.next')}</span></button>`,
+
+                // 18 — Letter
+                `<h1 class="chapter-title">${t('ch18.title')}</h1><div class="letter-wrap"><div class="letter-header">${DOTS}<div class="terminal-title">letter_to_mrs_ashgan.txt — by Kermina</div></div><div class="letter-body"><div id="letter-text" style="white-space:pre-wrap;min-height:300px;"></div><div class="letter-sig" id="letter-sig"></div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch18.next')}</span></button>`,
+
+                // 19 — Gift
+                `<h1 class="chapter-title">${t('ch19.title')}</h1><div class="gift-container"><div id="gift-emoji" class="gift-box" onclick="openGift()">🎁</div><div id="gift-hint" class="gift-hint">${t('ch19.hint')}</div><div id="gift-reveal" class="gift-reveal"><div class="wishes-list" id="wishes-list"></div></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch19.next')}</span></button>`,
+
+                // 20 — Video
+                `<h1 class="chapter-title">${t('ch20.title')}</h1><div class="video-container"><div class="video-wrapper"><iframe src="https://www.youtube.com/embed/KSRb8qJUZL4?si=nIg-eUjAVdiE23Pr&rel=0" title="Birthday Message" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div></div><button class="next-button" onclick="nextChapter()"><span>${t('ch20.next')}</span></button>`,
+
+                // 21 — Final
+                `<div class="terminal" style="max-width:900px;"><div class="terminal-header">${DOTS}<div class="terminal-title">birthday_wishes.execute() — from Kermina</div></div><div class="terminal-body"><div class="final-message" id="final-text" style="min-height:200px;white-space:pre-wrap;"></div><div class="signature" id="final-sig"></div></div></div><button class="next-button" onclick="restart()"><span>${t('ch21.restart')}</span></button>`,
+            ];
+            return ch[idx] || '';
+        }
+
+
+        let currentChapter = 0;
+        const contentEl = document.getElementById('content');
+
+        function updateUI() {
+            document.getElementById('chapter-counter').textContent = `${currentChapter + 1} / ${TOTAL}`;
+            document.getElementById('progress').style.width = `${((currentChapter + 1) / TOTAL) * 100}%`;
+            document.getElementById('back-btn').disabled = currentChapter === 0;
+            document.getElementById('fwd-btn').disabled = currentChapter >= TOTAL - 1;
+            document.getElementById('skip-btn').disabled = currentChapter >= TOTAL - 1;
+        }
+
+        function showChapter(idx, skipAnim) {
+            if (heartTimer) { clearInterval(heartTimer); heartTimer = null; }
+            if (quoteTimer) { clearInterval(quoteTimer); quoteTimer = null; }
+            const div = document.createElement('div');
+            div.className = 'chapter';
+            div.dataset.accent = ACCENTS[idx] || 'blue';
+            div.innerHTML = buildChapter(idx);
+            contentEl.appendChild(div);
+            setTimeout(() => {
+                div.classList.add('active');
+                if (!skipAnim) div.classList.add('glitch-enter');
+                setTimeout(() => div.classList.remove('glitch-enter'), 600);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if (CHAPTER_INITS[idx]) CHAPTER_INITS[idx]();
+            }, skipAnim ? 10 : 50);
+            updateUI();
+        }
+
+        function crtFlash(cb) {
+            const fl = document.getElementById('crt-flash');
+            fl.classList.remove('flash'); void fl.offsetWidth; fl.classList.add('flash');
+            setTimeout(cb, 200);
+        }
+
+        function transition(newIdx) {
+            const cur = document.querySelector('.chapter.active');
+            if (cur) { cur.classList.remove('active'); cur.classList.add('exit'); setTimeout(() => cur.remove(), 700); }
+            crtFlash(() => setTimeout(() => { currentChapter = newIdx; showChapter(currentChapter); }, 150));
+        }
+
+        function nextChapter() { if (currentChapter < TOTAL - 1) transition(currentChapter + 1); }
+        function prevChapter() { if (currentChapter > 0) transition(currentChapter - 1); }
+        function skipToEnd() { transition(TOTAL - 1); }
+        function restart() { transition(0); }
+
+        document.addEventListener('keydown', e => {
+            if (document.getElementById('typing-input') === document.activeElement) return;
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextChapter(); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); prevChapter(); }
+        });
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            const isAr = currentLang === 'ar';
+            document.documentElement.lang = currentLang; document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+            document.body.classList.toggle('ar', isAr);
+            document.getElementById('back-btn').textContent = t('nav.back');
+            document.getElementById('skip-btn').textContent = t('nav.skip');
+            document.getElementById('fwd-btn').textContent = t('nav.next');
+            document.getElementById('lang-btn').textContent = t('nav.lang');
+            document.getElementById('kb-hint').textContent = t('kb.hint');
+            document.getElementById('lang-btn').classList.toggle('lang-active', isAr);
+            const idx = currentChapter;
+            const cur = document.querySelector('.chapter.active');
+            if (cur) { cur.classList.remove('active'); cur.classList.add('exit'); setTimeout(() => cur.remove(), 400); }
+            setTimeout(() => showChapter(idx, true), 440);
+        }
+
+        const loadingEl = document.getElementById('loading');
+        setTimeout(() => {
+            loadingEl.classList.add('hidden');
+            setTimeout(() => loadingEl.classList.add('gone'), 650);
+            showChapter(0);
+        }, 2500);
+
+    </script>
+</body>
+
+</html>
