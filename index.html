@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -128,6 +127,33 @@
             align-items: center;
             justify-content: center;
             backdrop-filter: blur(8px);
+        }
+
+        #hamburger-btn {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 200;
+            background: rgba(13, 19, 28, .92);
+            border: 1px solid var(--border);
+            color: var(--dim);
+            width: 44px;
+            height: 44px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all .3s;
+            display: none;
+            /* Mobile Only */
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        #hamburger-btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+            box-shadow: 0 0 20px rgba(77, 168, 255, .3);
         }
 
         #audio-btn:hover {
@@ -412,6 +438,115 @@
             border: 1px solid var(--border);
             letter-spacing: 1px;
             backdrop-filter: blur(6px);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chapter-counter:hover {
+            background: rgba(77, 168, 255, 0.15);
+            border-color: rgba(77, 168, 255, 0.4);
+            color: #fff;
+        }
+
+        #music-prompt-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(8, 12, 18, 0.95);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        #chapter-menu-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #chapter-menu-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .chapter-menu-box {
+            background: rgba(13, 19, 28, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+
+        #chapter-menu-modal.show .chapter-menu-box {
+            transform: scale(1);
+        }
+
+        .chapter-menu-header {
+            margin-bottom: 1rem;
+            font-family: 'Syne', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+        }
+
+        #chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            padding-right: 0.5rem;
+        }
+
+        .chapter-list-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 0.9rem;
+            text-align: left;
+            transition: all 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body.ar .chapter-list-item {
+            text-align: right;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .chapter-list-item:hover,
+        .chapter-list-item.active {
+            background: rgba(77, 168, 255, 0.15);
+            border-color: rgba(77, 168, 255, 0.5);
+            color: #fff;
         }
 
         .top-nav {
@@ -421,6 +556,12 @@
             display: flex;
             gap: .35rem;
             z-index: 150;
+        }
+
+        body.ar .top-nav {
+            left: auto;
+            right: 1.5rem;
+            flex-direction: row-reverse;
         }
 
         .nav-btn {
@@ -435,12 +576,12 @@
             transition: all .2s;
             letter-spacing: 1px;
             backdrop-filter: blur(6px);
-            line-height: 1.6;
         }
 
         .nav-btn:hover:not(:disabled) {
-            color: var(--blue);
             border-color: var(--blue);
+            color: #fff;
+            background: rgba(77, 168, 255, .15);
         }
 
         .nav-btn:disabled {
@@ -620,10 +761,36 @@
             box-shadow: 0 24px 80px rgba(0, 0, 0, .6);
             overflow: hidden;
             transition: border-color .3s;
+            position: relative;
         }
 
         .terminal:hover {
             border-color: var(--ch-accent);
+        }
+
+        .skip-type-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--dim);
+            font-size: 0.62rem;
+            padding: 3px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 100;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s;
+            display: none;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .skip-type-btn:hover {
+            background: rgba(77, 168, 255, 0.2);
+            border-color: rgba(77, 168, 255, 0.4);
+            color: #fff;
         }
 
         .terminal-header {
@@ -1696,18 +1863,26 @@
         /* ── NEW: Inside My Mind (Bubble Map) ── */
         .mind-wrap {
             width: 100%;
-            max-width: 820px;
+            max-width: 600px;
+            margin: 0 auto;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .mind-arena {
             position: relative;
             width: 100%;
-            padding-bottom: 65%;
-            background: radial-gradient(ellipse at 50% 50%, rgba(77, 168, 255, .04), transparent 70%);
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            aspect-ratio: 1 / 1;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(77, 168, 255, .08), transparent 60%),
+                repeating-linear-gradient(rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 20px),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
             overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(77, 168, 255, 0.1);
         }
 
         .mind-center {
@@ -1717,18 +1892,42 @@
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 2;
+            background: rgba(13, 19, 28, 0.85);
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(77, 168, 255, 0.4);
+            border: 2px solid rgba(77, 168, 255, 0.5);
+            animation: pulse-brain 3s infinite alternate;
         }
 
-        .mind-center-icon {
-            font-size: 2.2rem;
-            display: block;
+        @keyframes pulse-brain {
+            0% {
+                box-shadow: 0 0 15px rgba(77, 168, 255, 0.3);
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            100% {
+                box-shadow: 0 0 40px rgba(77, 168, 255, 0.6);
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        .mind-center-brain {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
         }
 
         .mind-center-label {
-            font-size: .65rem;
-            color: var(--dim);
+            font-size: .6rem;
+            color: var(--text);
             letter-spacing: 1.5px;
-            margin-top: .3rem;
+            margin-top: .2rem;
+            font-weight: 700;
         }
 
         .mind-bubble {
@@ -1737,121 +1936,140 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: .28rem;
-            width: 84px;
-            height: 84px;
+            gap: .2rem;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, .08);
+            border: 2px solid rgba(255, 255, 255, .15);
             cursor: pointer;
-            transition: all .45s cubic-bezier(.34, 1.56, .64, 1);
-            background: radial-gradient(ellipse at 35% 28%, rgba(255, 255, 255, .08) 0%, rgba(13, 19, 28, .94) 65%);
+            transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
+            background: rgba(13, 19, 28, .9);
             text-align: center;
-            animation: bubble-float var(--fdur, 4s) ease-in-out infinite var(--fdelay, 0s);
             z-index: 3;
-            box-shadow: 0 0 20px var(--bubble-glow, rgba(77, 168, 255, .2)), inset 0 1px 0 rgba(255, 255, 255, .1), 0 6px 20px rgba(0, 0, 0, .45);
-            backdrop-filter: blur(8px);
+            box-shadow: 0 0 20px var(--bubble-glow, rgba(77, 168, 255, .2)), inset 0 0 10px rgba(255, 255, 255, .05);
+            backdrop-filter: blur(4px);
+            transform: translate(-50%, -50%);
+            animation: node-pulse var(--fdur, 4s) ease-in-out infinite var(--fdelay, 0s);
         }
 
-        @keyframes bubble-float {
-
-            0%,
-            100% {
-                transform: translateY(0) scale(1);
+        @keyframes node-pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
             }
 
             50% {
-                transform: translateY(-12px) scale(1.05);
+                transform: translate(-50%, -50%) scale(1.08);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
             }
         }
 
         .mind-bubble:hover,
         .mind-bubble.active {
-            transform: scale(1.26) !important;
-            box-shadow: 0 0 55px var(--bubble-glow), 0 0 22px var(--bubble-glow), inset 0 1px 0 rgba(255, 255, 255, .2);
+            animation: none;
+            transform: translate(-50%, -50%) scale(1.25) !important;
+            box-shadow: 0 0 40px var(--bubble-glow), inset 0 0 15px var(--bubble-color);
             border-color: var(--bubble-color, #4da8ff) !important;
+            z-index: 4;
         }
 
         .mind-bubble-icon {
-            font-size: 1.5rem;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, .2));
+            font-size: 1.3rem;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, .3));
         }
 
         .mind-bubble-label {
-            font-size: .58rem;
+            font-size: .55rem;
             color: var(--text);
             letter-spacing: .5px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
-        .mind-connector {
-            position: absolute;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
-            height: 1px;
-            transform-origin: left center;
-            z-index: 1;
-            pointer-events: none;
-            opacity: .4;
+        .mind-line {
+            transition: stroke-opacity 0.4s, stroke-width 0.4s, filter 0.4s;
+        }
+
+        .mind-line.active {
+            stroke-opacity: 1 !important;
+            stroke-width: 3 !important;
+            filter: drop-shadow(0 0 8px currentColor);
         }
 
         .mind-card {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(160deg, rgba(13, 19, 28, .97), rgba(8, 12, 18, .97));
-            border-top: 1px solid var(--border);
-            border-radius: 0 0 20px 20px;
-            padding: 1.4rem 1.8rem;
-            transform: translateY(100%);
-            transition: transform .45s cubic-bezier(.34, 1.56, .64, 1);
-            z-index: 10;
+            width: 100%;
+            margin-top: 1.5rem;
+            background: rgba(13, 19, 28, .95);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 1.8rem;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(77, 168, 255, 0.05);
+            position: relative;
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.4s ease;
         }
 
         .mind-card.open {
+            opacity: 1;
             transform: translateY(0);
         }
 
         .mind-card-title {
             font-family: 'Syne', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 800;
-            margin-bottom: .6rem;
+            margin-bottom: .8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .mind-card-desc {
-            font-size: .84rem;
+            font-size: .9rem;
             color: var(--text);
-            line-height: 1.85;
-            margin-bottom: .8rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
         }
 
         .mind-card-memory {
-            font-size: .78rem;
+            font-size: .85rem;
             color: var(--purple);
             font-style: italic;
             line-height: 1.7;
-            border-left: 2px solid var(--purple);
-            padding-left: .8rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--purple);
         }
 
         .mind-close {
             position: absolute;
-            top: .6rem;
-            right: .8rem;
-            background: transparent;
+            top: 1rem;
+            right: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            color: var(--dim);
-            font-size: .78rem;
+            color: var(--text);
+            border-radius: 8px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            font-family: 'JetBrains Mono', monospace;
+            transition: background 0.3s;
+        }
+
+        .mind-close:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .mind-hint {
             text-align: center;
-            font-size: .72rem;
+            font-size: .75rem;
             color: var(--dim);
-            margin-top: .8rem;
-            opacity: .5;
+            margin-top: 1.2rem;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
         }
 
         /* ── NEW: Moments That Stayed (Timeline) ── */
@@ -2341,6 +2559,12 @@
             font-family: 'Cairo', sans-serif;
         }
 
+        .force-ar {
+            font-family: 'Cairo', sans-serif !important;
+            direction: rtl !important;
+            text-align: right !important;
+        }
+
         body.ar .code-block,
         .code-poem,
         .terminal-title,
@@ -2363,16 +2587,7 @@
             margin-right: 1rem;
         }
 
-        body.ar .top-nav {
-            left: auto;
-            right: 1.5rem;
-            flex-direction: row-reverse;
-        }
 
-        body.ar .chapter-counter {
-            right: auto;
-            left: 1.5rem;
-        }
 
         body.ar .kb-hint {
             right: auto;
@@ -2461,15 +2676,70 @@
             font-family: 'JetBrains Mono', monospace !important;
         }
 
-        @media(max-width:640px) {
+        @media(max-width:768px) {
+            #hamburger-btn {
+                display: flex;
+            }
+
+            .top-nav {
+                top: auto;
+                bottom: 5rem;
+                right: 1rem;
+                left: auto;
+                flex-direction: column-reverse;
+                background: rgba(13, 19, 28, 0.95);
+                padding: 1rem;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+                transform: translateY(10px);
+                opacity: 0;
+                transition: all 0.3s;
+                display: none;
+                /* Mobile Hiding */
+                z-index: 3000;
+            }
+
+            .top-nav.show {
+                display: flex;
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            body.ar .top-nav {
+                right: 1rem;
+                left: auto;
+                flex-direction: column-reverse;
+            }
+
+
             .chapter {
-                padding: 4.5rem 1rem 4rem;
-                gap: 2rem;
+                padding: 3.5rem 1rem 6rem;
+                gap: 1.5rem;
+            }
+
+            .chapter-title {
+                font-size: 1.6rem;
+            }
+
+            .chapter-subtitle {
+                font-size: 0.8rem;
+                padding: 0 0.5rem;
+            }
+
+
+
+            .nav-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+                background: rgba(255, 255, 255, 0.05);
             }
 
             .next-button {
-                padding: .8rem 1.8rem;
-                font-size: .83rem;
+                padding: 1rem 2rem;
+                font-size: 0.9rem;
+                width: 100%;
+                max-width: 300px;
             }
 
             .kb-hint {
@@ -2481,11 +2751,137 @@
             }
 
             .match-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.6rem;
             }
 
             .journey-line {
-                left: 29px;
+                left: 20px;
+            }
+
+            body.ar .journey-line {
+                left: auto;
+                right: 20px;
+            }
+
+            .journey-item {
+                gap: 1.5rem;
+            }
+
+            .journey-dot {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            /* Ch7: Inside My Mind */
+            .mind-wrap {
+                max-width: 100%;
+            }
+
+            .mind-bubble {
+                width: 55px;
+                height: 55px;
+                gap: 0.1rem;
+            }
+
+            .mind-bubble-icon {
+                font-size: 1.1rem;
+            }
+
+            .mind-bubble-label {
+                font-size: 0.45rem;
+            }
+
+            .mind-center {
+                width: 70px;
+                height: 70px;
+            }
+
+            .mind-center-brain {
+                font-size: 1.5rem;
+            }
+
+            .mind-center-label {
+                font-size: 0.5rem;
+            }
+
+            .mind-card {
+                padding: 1rem;
+            }
+
+            .mind-card-title {
+                font-size: 1rem;
+            }
+
+            .mind-card-desc {
+                font-size: 0.8rem;
+            }
+
+            .mind-card-memory {
+                font-size: 0.75rem;
+                padding: 0.8rem;
+            }
+
+            /* Stats */
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+
+            .stat-box {
+                padding: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            /* Terminals */
+            .terminal {
+                border-radius: 8px;
+            }
+
+            .terminal-body {
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+
+            /* Paths */
+            .path-choices {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .path-card {
+                padding: 1.2rem;
+            }
+
+            /* Chat */
+            .chat-wrap {
+                width: 100%;
+            }
+
+            .chat-window {
+                border-radius: 8px;
+            }
+
+            .chat-body {
+                padding: 1rem;
+            }
+
+            .chat-bubble {
+                font-size: 0.85rem;
+                padding: 0.8rem;
+            }
+
+            .stay-wrap {
+                padding-left: 1.5rem;
+            }
+
+            body.ar .stay-wrap {
+                padding-left: 0;
+                padding-right: 1.5rem;
             }
         }
     </style>
@@ -2495,6 +2891,22 @@
         <source src="happy-birthday.mp3" type="audio/mpeg">
     </audio>
     <button id="audio-btn" onclick="toggleAudio()" title="Toggle Music">🎵</button>
+    <button id="hamburger-btn" onclick="toggleNavMenu()" title="Menu">☰</button>
+
+    <div id="music-prompt-modal">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">🎧</div>
+        <h2 style="margin-bottom: 1rem; font-family: 'Syne', sans-serif;">Audio Experience</h2>
+        <p style="margin-bottom: 2rem; font-size: 0.9rem; color: var(--dim); max-width: 400px; line-height: 1.6;">For
+            the best experience, please enable background music. You can toggle it anytime using the music icon on the
+            top left.</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+            <button class="next-button" onclick="startExperience(true)" style="width: auto; padding: 0.8rem 2rem;">Play
+                Music</button>
+            <button class="next-button" onclick="startExperience(false)"
+                style="width: auto; padding: 0.8rem 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); box-shadow: none;">Stay
+                Muted</button>
+        </div>
+    </div>
     <div id="crt-flash"></div>
     <div id="xp-bar-wrap">
         <div id="xp-bar-fill"></div>
@@ -2510,7 +2922,16 @@
         </div>
     </div>
     <div class="progress-bar" id="progress"></div>
-    <div class="chapter-counter" id="chapter-counter">1 / 16</div>
+    <div class="chapter-counter" id="chapter-counter" onclick="openChapterMenu()" title="Select Chapter">1 / 16</div>
+
+    <div id="chapter-menu-modal" onclick="if(event.target===this)closeChapterMenu()">
+        <div class="chapter-menu-box">
+            <div class="chapter-menu-header" id="chapter-menu-title">Select Chapter</div>
+            <div id="chapter-list"></div>
+            <button class="unlock-close" onclick="closeChapterMenu()">Close ✕</button>
+        </div>
+    </div>
+
     <div class="top-nav" id="top-nav">
         <button class="nav-btn" id="back-btn" onclick="prevChapter()">← back</button>
         <button class="nav-btn skip" id="skip-btn" onclick="skipToEnd()">⏭ skip</button>
@@ -2574,8 +2995,8 @@
                     { ts: '00:00:19', tag: 'ok', cls: 'green', msg: 'BUILD SUCCESSFUL — 100% of gratitude compiled' },
                     { ts: '00:00:20', tag: 'ok', cls: 'green', msg: 'Output: ready for delivery to Mrs. Ashgan' },
                 ],
-                'ch3.final': "You didn't just teach code.\nYou taught me that I was worth believing in.\n\nThis page is my attempt to say thank you\nin the only language that felt big enough.\n\nEvery word here is true.\nEvery word here is yours.",
-                'ch3.final.sig': '— Kermina, with love 💙',
+                'ch3.final': "You didn't just teach code.\nYou taught me that I was worth believing in.\n\nThis page is my attempt to say thank you and happy birthday\nin the only language that felt big enough.\n\nEvery word here is true.\nEvery word here is yours.",
+                'ch3.final.sig': '— Kermina 💙',
                 'ch3.next': 'Execute Next →',
 
 
@@ -2622,14 +3043,14 @@
                 ],
                 'ch10.next': 'Next →',
 
-                'ch11.title': 'What She Said', 'ch11.subtitle': 'Quotes that stayed with me — long after the lesson ended.',
+                'ch11.title': 'What She Said',
+                'ch11.subtitle': 'Simple words that stayed with me long after the work was done.',
                 'ch11.quotes': [
-                    { text: "Don't be afraid of mistakes. They're just debugging sessions for your mind.", attr: '— Mrs. Ashgan, in class' },
-                    { text: "You belong here. I see your potential even when you can't.", attr: '— Mrs. Ashgan, when it mattered most' },
-                    { text: "Just begin. The path appears as you walk.", attr: '— Mrs. Ashgan, on getting started' },
-                    { text: "Every fail is data. Debug it and try again.", attr: '— Mrs. Ashgan, after a hard moment' },
-                    { text: "Your pace is your own. Keep going.", attr: '— Mrs. Ashgan, when I compared myself' },
-                    { text: "There are no silly questions. Ask everything.", attr: '— Mrs. Ashgan, on the first day' },
+                    { text: "The LORD is with you, you mighty man of valor...", attr: '— Mrs. Ashgan, a message on the last day of 9th-grade exams' },
+                    { text: "Let's think and search for the solution together.", attr: '— Mrs. Ashgan, during lab work' },
+                    { text: "Archangel Raphael.", attr: '— Mrs. Ashgan, when I help her' },
+                    { text: "You deserve this...", attr: '— Mrs. Ashgan, when I avoid being honored' },
+                    { text: "Everything is for the good...", attr: '— Mrs. Ashgan, always' },
                 ],
                 'ch11.next': 'Keep Going →',
 
@@ -2645,36 +3066,59 @@
                 'mem.title': 'Journey Through Memories', 'mem.subtitle': 'Press Start to walk through the moments that stayed.',
                 'mem.start': '▶ Start the Journey',
                 'mem.scenes': [
-                    { icon: '🚪', title: 'The First Day', subtitle: 'Stepping into the unknown.', text: 'She walked in not knowing a soul. The room was full of strangers. Then a teacher smiled — not a polite smile, but a real one. Like she already saw something worth believing in.', accent: 'blue' },
-                    { icon: '💡', title: 'The First Project', subtitle: 'When something clicked for real.', text: 'Hours of confusion. Then one line worked. Then another. Then — it ran. She stared at the screen. She had built something. It wasn\'t perfect. But it was hers. She ran to show Mrs. Ashgan first.', accent: 'teal' },
-                    { icon: '🖥️', title: 'In the Lab', subtitle: 'The quiet hum of keyboards.', text: 'The computer lab had a smell — cables and coffee and concentration. Every seat taken. Every student in their own world. But somehow, Mrs. Ashgan was present for all of them. She moved through the room like she had radar for who needed her.', accent: 'purple' },
-                    { icon: '⭐', title: 'Trusted to Help', subtitle: 'The moment everything changed.', text: 'One day, Mrs. Ashgan turned to her and said: "Can you help explain this to the class?" She froze. Then she breathed. Then she stood up. That single question planted something she\'s still growing into.', accent: 'gold' },
+                    {
+                        icon: '🚪',
+                        title: 'The First Welcome',
+                        subtitle: 'Between Origami and Code.',
+                        text: 'Remember the very first session of the course? The moment I walked into the lab and felt your warm welcome and that smile that reassured me... From that second, I fell in love with the lab, the place, and everything in it.',
+                        accent: 'blue'
+                    },
+                    {
+                        icon: '💡',
+                        title: 'The Smart Car',
+                        subtitle: 'A close call!',
+                        text: 'Remember the first time I tried to assemble the car? I almost set the whole thing on fire for you! I actually melted a wire... and to be honest, I\'m still burning things till this day.',
+                        accent: 'teal'
+                    },
+                    {
+                        icon: '🖥️',
+                        title: 'Lab Soul',
+                        subtitle: 'Memories in every corner.',
+                        text: 'The lab isn\'t just cables and screens to me; it\'s every corner filled with a memory. The hard work, the laughter, and your guidance made this one of the most beautiful places in my life because you are in it.',
+                        accent: 'purple'
+                    },
+                    {
+                        icon: '⭐',
+                        title: 'Breaking the Fear',
+                        subtitle: 'From backstage to the spotlight.',
+                        text: 'I used to beg not to speak, and I’d be shaking with nerves in front of guests or at the Technology Club... But you always insisted on making me present, encouraging me, and honoring my effort.',
+                        accent: 'gold'
+                    }
                 ],
                 'mem.next': 'Next Memory →',
                 'mem.finish': 'Continue the Journey →',
 
                 // NEW: Inside My Mind
-                'mind.title': 'Inside My Mind', 'mind.subtitle': 'Click a bubble to explore what lives here.',
+                'mind.title': 'Inside My Minds',
+                'mind.subtitle': 'Click a bubble to explore the moments that shaped us.',
                 'mind.bubbles': [
-                    { id: 'curiosity', label: 'Curiosity', icon: '🔍', color: 'teal', x: 18, y: 14, desc: 'Mrs. Ashgan made asking questions feel like an adventure, not a risk. She never made me feel stupid for not knowing. She made me feel brave for asking.', memory: '"What if we tried it a different way?" — that question changed how I think forever.' },
-                    { id: 'projects', label: 'Projects', icon: '🚀', color: 'blue', x: 63, y: 10, desc: 'Every project was a small world I got to build from nothing. The first one barely worked. The last one I was proud of. That gap — Mrs. Ashgan lived in that gap with me.', memory: 'The first time my code actually ran, I didn\'t celebrate. I just sat very still and felt something settle.' },
-                    { id: 'confidence', label: 'Confidence', icon: '✨', color: 'purple', x: 77, y: 50, desc: 'I didn\'t arrive with confidence. It was given to me, slowly, one moment at a time. "You can do this" — said enough times by the right person — becomes a voice inside your own head.', memory: 'The day I stopped waiting for permission to believe in myself was the day Mrs. Ashgan stopped needing to tell me I could.' },
-                    { id: 'helping', label: 'Helping Others', icon: '💙', color: 'pink', x: 14, y: 60, desc: 'She modeled it every single day. Helping wasn\'t something she did when she had time. It was how she showed up. I learned that from watching her, not from a lesson.', memory: 'She trusted me to help explain something to the class once. I think about that more than almost anything else.' },
-                    { id: 'gratitude', label: 'Gratitude', icon: '🙏', color: 'gold', x: 47, y: 73, desc: 'Gratitude isn\'t a feeling that fades — it compounds. Every time I use something she taught me, it grows. This whole page is gratitude made visible.', memory: 'There\'s no algorithm for what she gave me. But I keep trying to write one.' },
-                    { id: 'growth', label: 'Growth', icon: '🌱', color: 'green', x: 36, y: 38, desc: 'She taught me that growth isn\'t linear. It\'s messy, slow, and often invisible — until it suddenly isn\'t. She held space for all the stages I was still in.', memory: 'I became someone different in that classroom. Not all at once. But unmistakably.' },
-                    { id: 'creativity', label: 'Creativity', icon: '🎨', color: 'pink', x: 79, y: 74, desc: 'She gave me permission to make things badly until they got good. That single permission changed everything about how I approach creating.', memory: 'The first project that truly felt mine — I remember the exact moment I stopped copying and started creating.' },
+                    { id: 'curiosity', label: 'Courage', icon: '🔍', color: 'teal', x: 18, y: 14, desc: 'Mrs. Ashgan encouraged us to speak up and never fear making mistakes. She taught us that our voices matter and that every error is just a step toward learning.', memory: 'We will never forget how you stood by us, saying: "This is your effort, and you deserve it." You made us believe in ourselves.' },
+                    { id: 'projects', label: 'Mindset', icon: '🚀', color: 'blue', x: 63, y: 10, desc: 'Projects with you were about more than just code; they were about thinking. You taught us that errors are normal and guided us to find our own way to the solution.', memory: 'Whenever we were stuck, you showed us that real logic begins with a calm mind and another try.' },
+                    { id: 'confidence', label: 'Confidence', icon: '✨', color: 'purple', x: 77, y: 50, desc: 'Because of you, we realized our worth. We started to believe that we can actually build things and make a real difference.', memory: 'That confidence transformed us from students into creators who dream big.' },
+                    { id: 'helping', label: 'The Angel', icon: '💙', color: 'pink', x: 14, y: 60, desc: 'Being called your "Archangel Raphael" is an honor I carry with pride. You taught me that helping others gives meaning to everything I learn.', memory: 'I am always here to help achieve your dreams, just as you have always been my support.' },
+                    { id: 'gratitude', label: 'Memories', icon: '🙏', color: 'gold', x: 47, y: 73, desc: 'The time spent working with you in the lab isn\'t just time; it\'s a lifetime of beautiful memories I will cherish forever.', memory: 'My gratitude is endless, and this page is my small way of showing how much you mean to me.' },
+                    { id: 'growth', label: 'Lasting Impact', icon: '🌱', color: 'green', x: 36, y: 38, desc: 'You didn\'t just upgrade my coding skills; you upgraded my character. You gave me the passion to keep growing.', memory: 'I am a better version of myself today because of your presence in my life.' },
                 ],
-                'mind.close': '× close',
+                'mind.close': '× Close',
 
                 // NEW: Moments That Stayed  
-                'stay.title': 'Moments That Stayed', 'stay.subtitle': 'Not the big ones. The quiet ones that rewrote something.',
+                'stay.title': 'Moments That Stayed', 'stay.subtitle': 'Not big events, but the small, quiet moments that made a big impact. Click on each dot to discover.',
                 'stay.moments': [
-                    { dot: '🚪', year: 'Day 1', label: 'She smiled like she already knew.', detail: 'Before Kermina said a word, before she proved anything, Mrs. Ashgan looked at her and smiled like she saw someone worth knowing. That moment cost nothing. It changed everything.', color: 'blue' },
-                    { dot: '💬', year: 'Week 1', label: 'She made the wrong answer safe.', detail: 'A student answered wrong. The whole class waited. Mrs. Ashgan said: "That\'s interesting — tell me how you got there." The student explained. The class learned more from the wrong answer than the right one.', color: 'purple' },
-                    { dot: '💡', year: 'Month 1', label: 'She stayed after class.', detail: 'Not because she had to. Because Kermina had a question she was embarrassed to ask in front of everyone. Mrs. Ashgan stayed, listened, and then said: "That\'s actually a really good question." It was the first time Kermina believed her own instincts.', color: 'teal' },
-                    { dot: '🛡️', year: 'Month 2', label: '"You\'re not stuck. You\'re one question away."', detail: 'When Kermina was about to give up on a project, Mrs. Ashgan said exactly this. Not: "you\'ll figure it out." Not: "don\'t worry." Specific words. A specific belief. Kermina asked the question. The project shipped.', color: 'green' },
-                    { dot: '⭐', year: 'Month 3', label: 'She trusted her in front of everyone.', detail: 'She asked Kermina to explain something to the class. Not because Kermina was the best. Because Mrs. Ashgan believed she was ready before Kermina did. That public trust — in a room full of peers — is a gift that compounds.', color: 'gold' },
-                    { dot: '🎓', year: 'The Last Day', label: 'She said: "Now you know you can."', detail: 'Five words. After the last project shipped. After all of it. Mrs. Ashgan looked at Kermina and said five words. They didn\'t feel like the end of something. They felt like the beginning.', color: 'pink' },
+                    { dot: '🚪', year: '4 Years Ago', label: 'The First Lab Session.', detail: 'It started in the lab. Your welcome was simple, but it made me feel from the very first day that this was a safe and comfortable place for me to work and express myself.', color: 'blue' },
+                    { dot: '💡', year: 'Work Mode', label: 'Thinking Process.', detail: 'Whenever we got stuck on a problem, you wouldn\'t just give us the answer. You taught us to think, search, and try different approaches. This shaped my logical thinking and self-reliance.', color: 'purple' },
+                    { dot: '🛡️', year: 'Consistency', label: '"Everything is for the good."', detail: 'You always used this phrase whenever something didn\'t go as planned. It stuck with me, and now I find myself using it in my daily life too. It taught me to look for the lesson in every setback.', color: 'green' },
+                    { dot: '⭐', year: 'Recognition', label: 'You deserve the credit.', detail: 'Even when I was hesitant to present or be honored for my work, you insisted. You always emphasized that hard work deserves recognition, which helped me build confidence.', color: 'gold' },
+                    { dot: '🛠️', year: 'Responsibility', label: 'The Archangel.', detail: 'When you ask me to help with a project or when you talk with me, I feel a sense of responsibility to do it well. Being called your "Archangel Raphael" is a title I cherish.', color: 'pink' },
                 ],
                 'stay.tap': 'tap to open',
 
@@ -2694,9 +3138,9 @@
 
                 'ch16.title': 'A Message From the Heart', 'ch16.next': 'Final Chapter →',
 
-                'ch17.typeout': "Happy Birthday, Mrs. Ashgan.\n\nYou didn't just teach me technology.\nYou taught me to believe in what I create.\n\nThank you for being the heart behind the logic,\nand the mentor who changed my life.\n\nMay your year be as beautiful as the impact\nyou've had on mine.",
-                'ch17.sig': '— With all my gratitude,<br>Kermina 💙',
-                'ch17.restart': '🔄 Restart Journey',
+                'ch17.typeout': "كل سنة وحضرتك طيبة يا مس أشجان 💙🎂\n\nبصراحة أنا معرفش أبدأ منين…\nبس أول حاجة أحب أقولها لحضرتك: شكرًا 🤍\n\nشكرًا على كل حاجة عملتيها معايا ومعانا كلنا،\nوكل مرة استحملتيني فيها… 🙈\nشكرًا إن حضرتك كنتي السبب إني أدخل المجال ده وأحبه وأتعمق فيه كده… 💻✨\nوشكرًا إن حضرتك علمتيني مش بس تكنولوجي… لكن أكتر من كده بكتير 🤍\n\nحضرتك مكنتيش بس بتشرحي…\nحضرتك علمتيني إزاي أجرب، وأغلط، وأرجع أحاول تاني من غير ما أخاف…\nوعلمتيني إن أي مشكلة ممكن تتحل، بس نقعد نجرب مرة و اتنين ونغلط عادي مش مشكلة 💡\n\nشكرًا إن حضرتك وثقتي فيا في أوقات أنا مش بثق فيها في نفسي أصلاً…\nوشكرًا إن حضرتك فضلتي مصدقة إني أقدر أعمل حاجات أنا نفسي مكنتش أتخيل إني أقدر أعملها 🤍\n\nوشكرًا على كل مرة خليتيني أساعد حضرتك…\nسواء في الكورس، أو في الشغل، أو في أي حاجة…\nيعني الحاجات دي كانت بتفرق معايا جدًا، ويمكن أكتر ما حضرتك تتخيلي… كنت بتبسط بجد 😊\n\nيا مس أشجان…\nأنا جايز مش هعرف أقول الكلام ده على أرض الواقع كده فيس تو فيس…\nبس أنا فعلًا بحب حضرتك جدًا أكتر مما تتخيلي 💙\n\nوبحب جدًا القعدة مع حضرتك، والشغل مع حضرتك،\nوكل وقت بقضيه في المعمل…\nالمعمل ده بقى من الأماكن المفضلة ليا 🤍\nوبحب أجي وأقعد وأشتغل وأساعد حضرتك وكده 💻✨\n\nيمكن حضرتك متاخديش بالك…\nبس أنا فعلًا اتأثرت بحضرتك جدًا…\nحضرتك أثرتي فيا كتير (حاجة كويسة يعني 😄)\n\nيا مس أشجان حضرتك من أكتر الناس اللي بقتدي بيها في حياتي…\nحضرتك قدوة مهمة جدًا بالنسبالي،\nوأنا بفتخر جدًا إني اتعلمت من حضرتك وإنّي عرفت حضرتك 🤍\n\nحتى لو أنا كبرت أو مشيت أيا كان إمتى (مش أكيد السنة الجاية)…\nده مش معناه أبدًا إني هبعد أو أنسى حضرتك… بالعكس 💙\nحضرتك هتوحشيني جدًا…\nوهفضل مع حضرتك دايمًا مهما حصل\n\nطول ما حضرتك عايزاني أو محتاجة مني حاجة…\nهتلاقيني موجودة 🤍\n\nأنا بحب أساعد حضرتك…\nوبحب لما حضرتك تبعتيلي إنك محتاجة حاجة أساعد فيها…\nوبحب لما حضرتك تخليني أشتغل على مشروع…\nأو أي حاجة حضرتك محتاجاها مني\n\nحتى لو مش سهلة أو محتاجة مجهود وتجربة كتير…\nده مش بيضايقني خالص… بالعكس ✨\nأنا بحب ده بأمانة\n\nأنا بحب حضرتك…\nوبحب أساعد حضرتك…\nوبحب لما حضرتك بتكلميني أو تبعتيلي…\nأو لما بتاخدي رأيي في حاجة…\nأو لما بتحكيلي حاجة أو تسأليني…\n\nأنا بتبسط بده جدًا 🤍\n خصوصًا لما تحسسيني إني شخص ثقة يعني 💙\n(أنا مستمع جيد جدًا وصديق ممتاز على فكرة 😄✨) يعني لو احتاجتيني في اي حاجة ايا كانت هتلاقيني اعرف اعملها عادي انا اعرف اتصرف و اتشكل حسب اللي عايزاه مني يعني لا تقلقي\n\nففي حاجة مهمة جدًا عايزة حضرتك تعرفيها دايمًا…\n\nأي وقت تحتاجي فيه أي حاجة…\nفي الكورس، أو في مشروع، أو في المعمل، أو حتى فكرة…\nهتلاقيني موجودة دايمًا 🤍\n\nمهما احتاجتي… أيا كان شغل أو غير شغل…\nأنا بحب أحقق أحلامك عمومًا 😄✨\n\nيا مس أشجان…\nبجد أنا بشكر ربنا جدًا إني عرفت حضرتك…\nوإن كان عندي فرصة إني أتعامل مع حضرتك وأشتغل معاكي 💙\n\nأنا فعلًا بحب حضرتك جدًا بأمانة…\nوهحب أفضل الملاك رافائيل دايمًا بالنسبة لحضرتك لو تحبي ✨\n\nأحب حضرتك تعرفي إن حضرتك فعلًا من أفضل…\nويمكن أفضل الناس اللي عرفتهم في حياتي 🤍\nحضرتك حد مميز جدًا بالنسبالي\n\nشكرًا لكل حاجة حضرتك عملتيها معايا…\nوشكرًا إن حضرتك كنتي موجودة 💙\n\nشكرًا على كل مرة وقفتي جنبي لما خوفت أتكلم…\nوكل مرة شجعتيني أجرب وأحاول…\nوكل مرة حسستيني إني أقدر أعمل حاجة 🤍\n\nHappy Birthday يا مس أشجان 🎂💙\n\nويارب دايمًا أشوف حضرتك مبسوطة وناجحة ✨\nوربنا يملى حياتك بكل بركة ونعمة 🤍\n\nوعقبال مليون سنة مع بابا يسوع\nومع كل اللي بتحبيهم وبيحبوكي 💙\n\nوتبقى سنين جاية مليانة بكل حاجة حلوة\nوكل خير وفرح وسلام وبركة ونعمة ونجاح وراحة\nوكل اللي حضرتك بتتمنيه 🤍✨\n\nكل سنة وحضرتك طيبة 💙🎂",
+                'ch17.sig': '— بكل امتناني،<br>كيرمينا 💙',
+                'ch17.restart': '🔄 ابدئي من الأول',
 
             },
 
@@ -2728,7 +3172,7 @@
                     { ts: '00:00:19', tag: 'ok', cls: 'green', msg: 'BUILD SUCCESSFUL — ١٠٠٪ من الامتنان اتجمع' },
                     { ts: '00:00:20', tag: 'ok', cls: 'green', msg: 'النتيجة: جاهزة للتسليم لمس أشجان' },
                 ],
-                'ch3.final': "حضرتك مش بس علمتيني كود.\nعلمتيني إن أنا ممكن حد يصدّق فيّا.\n\nالسايت ده محاولتي إني أقول شكراً\nبالغة الوحيدة اللي احسست إنها كانت كبيرة بما يكفي.\n\nكل كلمة هنا حقيقية.\nكل كلمة هنا لحضرتكِ.",
+                'ch3.final': "حضرتك مش بس علمتيني كود.\nحضرتك علمتيني إن أنا ممكن حد يصدّق فيّا.\n\nالسايت ده محاولتي إني أقول شكراً و كل سنة و حضرتك طيبة\nبالغة الوحيدة اللي احسست إنها ممكن تعبر بما يكفي.\n\nكل كلمة هنا حقيقية.\nكل كلمة هنا لحضرتكِ.",
                 'ch3.final.sig': '— كيرمينا 💙',
                 'ch3.next': 'نفّذي التالي →',
 
@@ -2776,14 +3220,14 @@
                 ],
                 'ch10.next': 'التالي →',
 
-                'ch11.title': 'اللي قالتيه', 'ch11.subtitle': 'اقتباسات فضلت معايا — بعد ما الدرس خلص بفترة.',
+                'ch11.title': 'قالت لي إيه؟',
+                'ch11.subtitle': 'كلمات بسيطة، بس أثرها بيفضل موجود في الشغل والحياة.',
                 'ch11.quotes': [
-                    { text: 'متخافيش من الأخطاء. هي بس sessions تصحيح لعقلك.', attr: '— مس أشجان، في الفصل' },
-                    { text: 'إنتِ في مكانك الصح. شايفة إمكانياتك حتى لما إنتِ مش شايفاها.', attr: '— مس أشجان، لما كان مهماً' },
-                    { text: 'ابدئي بس. الطريق بيبان وإنتِ بتمشي.', attr: '— مس أشجان، عن البداية' },
-                    { text: 'كل فشل داتا. صلّحيه وحاولي تاني.', attr: '— مس أشجان، بعد لحظة صعبة' },
-                    { text: 'إيقاعك بتاعك. كملي.', attr: '— مس أشجان، لما قارنت نفسي' },
-                    { text: 'مفيش سؤال غبي. اسألي كل حاجة.', attr: '— مس أشجان، من أول يوم' },
+                    { text: "الرب معك يا جبار البأس..", attr: '— مس أشجان، رسالة آخر يوم أمتحانات تالتة إعدادي' },
+                    { text: "نقعد نفكر وندور ونحل المشكلة مع بعض.", attr: '— مس أشجان، وقت الشغل في المعمل' },
+                    { text: "يا ملاك رافائيل.", attr: '— مس أشجان، لما بساعدها' },
+                    { text: "إنتي تستحقي وده حقك..", attr: '— مس أشجان، لما ابقى مش عايزة أتكرم' },
+                    { text: "كله للخير..", attr: '— مس أشجان، في كل وقت' },
                 ],
                 'ch11.next': 'كملي →',
 
@@ -2799,36 +3243,59 @@
                 'mem.title': 'رحلة عبر الذكريات', 'mem.subtitle': 'اضغطي ابدأ وامشي في اللحظات اللي فضلت.',
                 'mem.start': '▶ ابدئي الرحلة',
                 'mem.scenes': [
-                    { icon: '🚪', title: 'أول يوم', subtitle: 'الخطوة في المجهول.', text: 'دخلت مش عارفة حد. الأوضة كانت ممتلية بغرباء. وبعدين مدرسة ابتسمت — مش ابتسامة مجاملة، ابتسامة حقيقية. زي إنها شافت حاجة تستاهل تصدّق فيها.', accent: 'blue' },
-                    { icon: '💡', title: 'أول مشروع', subtitle: 'لما حاجة وصلت فعلاً.', text: 'ساعات من الحيرة. وبعدين سطر اشتغل. وبعدين تاني. وبعدين — اتشغّل. بصّت في الشاشة. هي بنت حاجة. مش كانت كاملة. بس كانت بتاعتها. جرت توري مس أشجان الأول.', accent: 'teal' },
-                    { icon: '🖥️', title: 'في اللاب', subtitle: 'صوت لوحات المفاتيح الهادي.', text: 'اللاب كان ليه ريحة خاصة — كابلات وقهوة وتركيز. كل مقعد محجوز. كل طالب في عالمه. بس مس أشجان كانت حاضرة للكل. كانت بتتحرك في الأوضة كإنها عندها رادار لمين محتاجها.', accent: 'purple' },
-                    { icon: '⭐', title: 'ثقة قدام الكل', subtitle: 'اللحظة اللي غيّرت كل حاجة.', text: 'يوم واحد، مس أشجان بصّت ليها وقالت: "تقدري تشرحي ده للفصل؟" جمدت. وبعدين اتنفست. وبعدين وقفت. السؤال الواحد ده زرع فيها حاجة لسه شايلاها.', accent: 'gold' },
+                    {
+                        icon: '🚪',
+                        title: 'أول سلام',
+                        subtitle: 'بين الأوريجامي والكود.',
+                        text: 'فاكرة أول يوم في الكورس؟ أول ما دخلت المعمل ولقيت ترحيب حضرتك وابتسامتك اللي طمنتني.. من اللحظة دي و أنا حبيت المعمل و المكان و كله',
+                        accent: 'blue'
+                    },
+                    {
+                        icon: '💡',
+                        title: 'الـ Smart Car',
+                        subtitle: 'التجربة اللي كانت هتتحرق!',
+                        text: 'فاكرة أول مرة مسكت العربية اركبها كنت هولعلكوا فيها و سيحت سلك و لسة بحرق حاجات لحد دلوقتي بأمانة',
+                        accent: 'teal'
+                    },
+                    {
+                        icon: '🖥️',
+                        title: 'روح المعمل',
+                        subtitle: 'كل شبر فيه حكاية.',
+                        text: 'المعمل بالنسبة لي مش أجهزة وكابلات، ده ذكريات في كل ركن. القعدة، الشغل، وصوت حضرتك وإنتي بتشجعينا.. المعمل ده بقى من أجمل الأماكن في حياتي بسبب وجودك فيه.',
+                        accent: 'purple'
+                    },
+                    {
+                        icon: '⭐',
+                        title: 'كسر حاجز الخوف',
+                        subtitle: 'من ورا الكواليس للمنصة.',
+                        text: 'ياما زنيت إني مش عايزة أشرح، وياما كنت بتوتر وبترعش قدام الضيوف وفي الـ Technology Club.. بس حضرتك كنتِ دايماً بتصممي تطلعيني اشرح وتشجعيني وتكرميني.',
+                        accent: 'gold'
+                    },
                 ],
                 'mem.next': 'الذكرى التالية →',
                 'mem.finish': 'كمّلي الرحلة →',
 
                 // NEW: Inside My Mind
-                'mind.title': 'جوا دماغي', 'mind.subtitle': 'اضغطي على أي فقاعة علشان تستكشفي اللي فيها.',
+                'mind.title': 'جوا دماغي',
+                'mind.subtitle': 'دوسي على أي فقاعة عشان تشوفي المواقف اللي لسه محفورة جوانا.',
                 'mind.bubbles': [
-                    { id: 'curiosity', label: 'فضول', icon: '🔍', color: 'teal', x: 18, y: 14, desc: 'مس أشجان خلّت السؤال يحسّ إنه مغامرة مش خطر. ما خلّتنيش أحس إني غبية من إني مش عارفة. خلّتني أحس إني شجاعة من إني سألت.', memory: '"ايه لو جربنا طريقة تانية؟" — السؤال ده غيّر طريقة تفكيري للأبد.' },
-                    { id: 'projects', label: 'مشاريع', icon: '🚀', color: 'blue', x: 63, y: 10, desc: 'كل مشروع كان عالم صغير بنيته من مفيش. الأول بالكاد اشتغل. الأخير كنت فخورة بيه. الفرق ده — مس أشجان عاشت فيه معايا.', memory: 'أول مرة كودي اتشغّل، ما احتفلتش. بس قعدت ساكتة جداً وحسيت بحاجة بتستقر.' },
-                    { id: 'confidence', label: 'ثقة', icon: '✨', color: 'purple', x: 77, y: 50, desc: 'ما جيتيش بثقة. اتديتلي ببطء، لحظة بلحظة. "قادرة تعمليها" — لما بيتقالها كتير من الشخص الصح — بتبقى صوت جوا دماغك إنت.', memory: 'اليوم اللي وقفت استنّي إذن علشان أصدق في نفسي كان اليوم اللي مس أشجان مش محتاجة تقولهولي.' },
-                    { id: 'helping', label: 'مساعدة التانيين', icon: '💙', color: 'pink', x: 14, y: 60, desc: 'هي كانت بتعمله كل يوم. المساعدة مكانتش حاجة بتعملها لما عندها وقت. ده كان أسلوب حضورها. اتعلمت ده من إني شوفتها، مش من درس.', memory: 'وثقت فيّا إني أشرح حاجة للفصل مرة. بفكر في اللحظة دي أكتر من أي حاجة تقريباً.' },
-                    { id: 'gratitude', label: 'امتنان', icon: '🙏', color: 'gold', x: 47, y: 73, desc: 'الامتنان مش إحساس بيفضى — بيزيد. كل مرة بستخدم حاجة علّمتهالي، بيكبر. الصفحة دي كلها امتنان بيتحوّل لحاجة مرئية.', memory: 'مفيش خوارزمية لاللي ادّتهولي. بس بفضل أحاول أكتبها.' },
-                    { id: 'growth', label: 'نمو', icon: '🌱', color: 'green', x: 36, y: 38, desc: 'علّمتني إن النمو مش خط مستقيم. فوضوي وبطيء — لحد ما فجأة بيبان. هي عملت مكان لكل المراحل اللي كنت لسه فيها.', memory: 'بقيت حد مختلف في الفصل ده. مش دفعة واحدة. بس بشكل واضح.' },
-                    { id: 'creativity', label: 'إبداع', icon: '🎨', color: 'pink', x: 79, y: 74, desc: 'ادّتني إذن إني أعمل حاجات بشكل وحش لحد ما تتحسّن. الإذن ده غيّر كل حاجة في طريقة تعاملي مع الشغل الإبداعي.', memory: 'أول مشروع حسيت إنه بتاعي بجد — فاكر اللحظة الدقيقة اللي وقفت أكوبي وبدأت أبدع.' },
+                    { id: 'curiosity', label: 'الشجاعة', icon: '🔍', color: 'teal', x: 18, y: 14, desc: 'مس أشجان خلتنا نكسر حاجز الخوف ونشرح ونتكلم من غير ما نقلق من الغلط. هي اللي زرعت فينا إننا صوتنا مسموع وإن محاولتنا في الفهم هي أهم حاجة.', memory: 'عمرنا ما هننسى لما كنتِ بتصممي تطلعينا نشرح وتكرمينا وتقولي لنا: "ده مجهودكم وتستحقوه".. كلماتك دي هي اللي خلتنا نصدق في نفسنا.' },
+                    { id: 'projects', label: 'طريقة تفكير', icon: '🚀', color: 'blue', x: 63, y: 10, desc: 'المشاريع معاكي مكنتش مجرد كود، كانت تدريب على التفكير. حضرتك علمتينا إن لو حد غلط عادي، إحنا هنا عشان نتعلم ونفكر في طرق تانية نوصل بيها للحل.', memory: 'كل مرة كنا بنقف فيها قدام مشكلة، كنتِ بتعلمينا إن المنطق الصح بيبدأ لما بنفكر سوا بهدوء ونحاول تاني.' },
+                    { id: 'confidence', label: 'الثقة', icon: '✨', color: 'purple', x: 77, y: 50, desc: 'بسببك بدأنا نحس إن لينا لازمة، وإننا بنقدر نساعد ونفيد بجد. حضرتك بنيتي جوانا ثقة إن في حاجات كتير نقدر نعملها لو بس حاولنا.', memory: 'الثقة دي هي اللي حولتنا من مجرد طلاب، لناس عندها أحلام وقادرة تنفذها بجد.' },
+                    { id: 'helping', label: 'الملاك رافائيل', icon: '💙', color: 'pink', x: 14, y: 60, desc: 'لما حضرتك بتقولي لي إني "الملاك رافائيل"، ده وسام كبير بفتخر بيه. اتعلمت منك إن المساعدة دي هي اللي بتدي قيمة لكل اللي بتعلمه.', memory: 'أنا دايماً جنبك عشان أحقق لك أحلامك بقدر الإمكان، زي ما حضرتك كنتِ دايماً السند ليَّ.' },
+                    { id: 'gratitude', label: 'الذكريات', icon: '🙏', color: 'gold', x: 47, y: 73, desc: 'القعدة والشغل مع حضرتك في المعمل مش مجرد وقت بيعدي، دي ذكريات بتبنيها معايا وهتفضل محفورة في قلبي العمر كله.', memory: 'امتناني ليكي ملوش نهاية، وبنحاول بالويب سايت ده أرد ولو جزء صغير من حبي ليكي.' },
+                    { id: 'growth', label: 'أثر مبيتمحيش', icon: '🌱', color: 'green', x: 36, y: 38, desc: 'حضرتك مغيرتيش بس في مستواي في البرمجة، حضرتك غيرتي في شخصيتي. خليتي عندي شغف إني أكبر وأطور نفسي دايماً.', memory: 'أنا النهاردة نسخة أحسن من نفسي بفضل وجود حضرتك في حياتي.' },
                 ],
                 'mind.close': '× إغلاق',
 
                 // NEW: Moments That Stayed
-                'stay.title': 'لحظات فضلت', 'stay.subtitle': 'مش الكبيرة. الهادية اللي أعادت كتابة حاجة.',
+                'stay.title': 'لحظات فضلت', 'stay.subtitle': 'مش لازم تكون مواقف كبيرة، هي التفاصيل اللي غيرت طريقة تفكيري.. دوسي على كل واحدة.',
                 'stay.moments': [
-                    { dot: '🚪', year: 'اليوم ١', label: 'ابتسمت كإنها عارفة من البداية.', detail: 'قبل ما كيرمينا تتكلم، قبل ما تثبت أي حاجة، مس أشجان بصّت ليها وابتسمت كإنها شايفة حد يستاهل. اللحظة دي ما كلفتش حاجة. غيّرت كل حاجة.', color: 'blue' },
-                    { dot: '💬', year: 'الأسبوع ١', label: 'خلّت الإجابة الغلط تبقى آمنة.', detail: 'طالبة جاوبت غلط. الفصل كله استنّى. مس أشجان قالت: "ده مثير للاهتمام — قوليلي إزاي وصلتِ للده." الطالبة شرحت. الفصل اتعلم من الإجابة الغلط أكتر من الصح.', color: 'purple' },
-                    { dot: '💡', year: 'الشهر ١', label: 'فضلت بعد الحصة.', detail: 'مش لأنها لازم. لأن كيرمينا كان عندها سؤال خجلانة تسأله قدام الكل. مس أشجان فضلت وسمعت، وبعدين قالت: "ده فعلاً سؤال كويس." كانت أول مرة كيرمينا صدّقت في حدسها.', color: 'teal' },
-                    { dot: '🛡️', year: 'الشهر ٢', label: '"مش واقفة. على بُعد سؤال واحد."', detail: 'لما كيرمينا كانت قريبة تستسلم من مشروع، مس أشجان قالت بالظبط كده. مش "هتعديها". مش "متقلقيش". كلام محدد. إيمان محدد. كيرمينا سألت السؤال. المشروع اتسلّم.', color: 'green' },
-                    { dot: '⭐', year: 'الشهر ٣', label: 'وثقت فيها قدام الكل.', detail: 'طلبت من كيرمينا تشرح حاجة للفصل. مش لأنها الأحسن. لأن مس أشجان صدّقت إنها جاهزة قبل ما كيرمينا تصدّق في نفسها. الثقة العلنية دي — قدام زملاء — هدية بتزيد.', color: 'gold' },
-                    { dot: '🎓', year: 'آخر يوم', label: 'قالت: "دلوقتي عارفة إنك قادرة."', detail: 'خمس كلمات. بعد آخر مشروع. بعد كل حاجة. مس أشجان بصّت لكيرمينا وقالت خمس كلمات. ما حسّوش إنهم نهاية حاجة. حسّوا إنهم بداية.', color: 'pink' },
+                    { dot: '🚪', year: 'من 4 سنين', label: 'أول سيشن في الكورس.', detail: 'بداية التعامل كانت في المعمل في أول سيشن ليا في الكورس. الترحيب كان بسيط بس خلاني من أول يوم أحس إن المكان ده مناسب لي وأقدر أشتغل فيه براحتي.', color: 'blue' },
+                    { dot: '💡', year: 'وقت الشغل', label: 'التفكير في الحلول.', detail: 'لما بنقف في مشكلة، حضرتك دايماً بتوجهينا إننا ندور ونفكر بنفسنا لحد ما نوصل لحل. الطريقة دي خلتني أعتمد على نفسي في الـ Logic أكتر من الأول.', color: 'purple' },
+                    { dot: '🛡️', year: 'وقت الضغط', label: 'كله للخير.', detail: 'كلمة "كله للخير" حضرتك بتقوليها في مواقف كتير، ومع الوقت الجملة دي ثبتت عندي وبقيت أطبقها في حياتي وفي شغلي لما حاجة متعكس معايا.', color: 'green' },
+                    { dot: '⭐', year: 'التكريم والتشجيع', label: 'ده مجهودك وتستحقيه.', detail: 'حتى لما بكون مش عايزة أطلع أو أتكرم، حضرتك بتصممي وتقولي "ده مجهودك وحقك". حضرتك بتشوفي المجهود اللي بيتعمل وبتقدّريه بجد.', color: 'gold' },
+                    { dot: '🛠️', year: 'المساعدة والمسؤولية', label: 'الملاك رافائيل.', detail: 'لما حضرتك بتطلبي مني مساعدة في مشروع أو تحكي معايا، بحس بمسؤولية إني أنفذ المطلوب بأحسن شكل. إني أكون "الملاك رافائيل" اللي بيسند حضرتك دي حاجة بتبسطني فعلاً.', color: 'pink' },
                 ],
                 'stay.tap': 'اضغطي للفتح',
 
@@ -2848,8 +3315,7 @@
 
                 'ch16.title': 'رسالة مني لحضرتك', 'ch16.next': 'الفصل الأخير →',
 
-                'ch17.typeout': "كل سنة وحضرتك طيبة، مس أشجان.\n\nحضرتك مش بس علمتيني تكنولوجيا.\nعلمتيني أصدق في اللي بابنيه.\n\nشكراً إنك كنتِ القلب وراء المنطق،\nوالمرشدة اللي غيّرت حياتي.\n\nيارب سنتك تبقى حلوة\nزي التأثير اللي تركتيه في حياتي.",
-                'ch17.sig': '— بكل امتناني،<br>كيرمينا 💙',
+                'ch17.typeout': "كل سنة وحضرتك طيبة يا مس أشجان 💙🎂\n\nبصراحة أنا معرفش أبدأ منين…\nبس أول حاجة أحب أقولها لحضرتك: شكرًا 🤍\n\nشكرًا على كل حاجة عملتيها معايا ومعانا كلنا،\nوكل مرة استحملتيني فيها… 🙈\nشكرًا إن حضرتك كنتي السبب إني أدخل المجال ده وأحبه وأتعمق فيه كده… 💻✨\nوشكرًا إن حضرتك علمتيني مش بس تكنولوجي… لكن أكتر من كده بكتير 🤍\n\nحضرتك مكنتيش بس بتشرحي…\nحضرتك علمتيني إزاي أجرب، وأغلط، وأرجع أحاول تاني من غير ما أخاف…\nوعلمتيني إن أي مشكلة ممكن تتحل، بس نقعد نجرب مرة و اتنين ونغلط عادي مش مشكلة 💡\n\nشكرًا إن حضرتك وثقتي فيا في أوقات أنا مش بثق فيها في نفسي أصلاً…\nوشكرًا إن حضرتك فضلتي مصدقة إني أقدر أعمل حاجات أنا نفسي مكنتش أتخيل إني أقدر أعملها 🤍\n\nوشكرًا على كل مرة خليتيني أساعد حضرتك…\nسواء في الكورس، أو في الشغل، أو في أي حاجة…\nيعني الحاجات دي كانت بتفرق معايا جدًا، ويمكن أكتر ما حضرتك تتخيلي… كنت بتبسط بجد 😊\n\nيا مس أشجان…\nأنا جايز مش هعرف أقول الكلام ده على أرض الواقع كده فيس تو فيس…\nبس أنا فعلًا بحب حضرتك جدًا أكتر مما تتخيلي 💙\n\nوبحب جدًا القعدة مع حضرتك، والشغل مع حضرتك،\nوكل وقت بقضيه في المعمل…\nالمعمل ده بقى من الأماكن المفضلة ليا 🤍\nوبحب أجي وأقعد وأشتغل وأساعد حضرتك وكده 💻✨\n\nيمكن حضرتك متاخديش بالك…\nبس أنا فعلًا اتأثرت بحضرتك جدًا…\nحضرتك أثرتي فيا كتير (حاجة كويسة يعني 😄)\n\nيا مس أشجان حضرتك من أكتر الناس اللي بقتدي بيها في حياتي…\nحضرتك قدوة مهمة جدًا بالنسبالي،\nوأنا بفتخر جدًا إني اتعلمت من حضرتك وإنّي عرفت حضرتك 🤍\n\nحتى لو أنا كبرت أو مشيت أيا كان إمتى (مش أكيد السنة الجاية)…\nده مش معناه أبدًا إني هبعد أو أنسى حضرتك… بالعكس 💙\nحضرتك هتوحشيني جدًا…\nوهفضل مع حضرتك دايمًا مهما حصل\n\nطول ما حضرتك عايزاني أو محتاجة مني حاجة…\nهتلاقيني موجودة 🤍\n\nأنا بحب أساعد حضرتك…\nوبحب لما حضرتك تبعتيلي إنك محتاجة حاجة أساعد فيها…\nوبحب لما حضرتك تخليني أشتغل على مشروع…\nأو أي حاجة حضرتك محتاجاها مني\n\nحتى لو مش سهلة أو محتاجة مجهود وتجربة كتير…\nده مش بيضايقني خالص… بالعكس ✨\nأنا بحب ده بأمانة\n\nأنا بحب حضرتك…\nوبحب أساعد حضرتك…\nوبحب لما حضرتك بتكلميني أو تبعتيلي…\nأو لما بتاخدي رأيي في حاجة…\nأو لما بتحكيلي حاجة أو تسأليني…\n\nأنا بتبسط بده جدًا 🤍\n خصوصًا لما تحسسيني إني شخص ثقة يعني 💙\n(أنا مستمع جيد جدًا وصديق ممتاز على فكرة 😄✨) يعني لو احتاجتيني في اي حاجة ايا كانت هتلاقيني اعرف اعملها عادي انا اعرف اتصرف و اتشكل حسب اللي عايزاه مني يعني لا تقلقي\n\nففي حاجة مهمة جدًا عايزة حضرتك تعرفيها دايمًا…\n\nأي وقت تحتاجي فيه أي حاجة…\nفي الكورس، أو في مشروع، أو في المعمل، أو حتى فكرة…\nهتلاقيني موجودة دايمًا 🤍\n\nمهما احتاجتي… أيا كان شغل أو غير شغل…\nأنا بحب أحقق أحلامك عمومًا 😄✨\n\nيا مس أشجان…\nبجد أنا بشكر ربنا جدًا إني عرفت حضرتك…\nوإن كان عندي فرصة إني أتعامل مع حضرتك وأشتغل معاكي 💙\n\nأنا فعلًا بحب حضرتك جدًا بأمانة…\nوهحب أفضل الملاك رافائيل دايمًا بالنسبة لحضرتك لو تحبي ✨\n\nأحب حضرتك تعرفي إن حضرتك فعلًا من أفضل…\nويمكن أفضل الناس اللي عرفتهم في حياتي 🤍\nحضرتك حد مميز جدًا بالنسبالي\n\nشكرًا لكل حاجة حضرتك عملتيها معايا…\nوشكرًا إن حضرتك كنتي موجودة 💙\n\nشكرًا على كل مرة وقفتي جنبي لما خوفت أتكلم…\nوكل مرة شجعتيني أجرب وأحاول…\nوكل مرة حسستيني إني أقدر أعمل حاجة 🤍\n\nHappy Birthday يا مس أشجان 🎂💙\n\nويارب دايمًا أشوف حضرتك مبسوطة وناجحة ✨\nوربنا يملى حياتك بكل بركة ونعمة 🤍\n\nوعقبال مليون سنة مع بابا يسوع\nومع كل اللي بتحبيهم وبيحبوكي 💙\n\nوتبقى سنين جاية مليانة بكل حاجة حلوة\nوكل خير وفرح وسلام وبركة ونعمة ونجاح وراحة\nوكل اللي حضرتك بتتمنيه 🤍✨\n\nكل سنة وحضرتك طيبة 💙🎂",
                 'ch17.restart': '🔄 ابدئي من الأول',
 
             }
@@ -2961,11 +3427,47 @@
         function playChime() { try { if (!aCtx) aCtx = new ACtx();[523, 659, 784].forEach((f, i) => { const o = aCtx.createOscillator(), g = aCtx.createGain(); o.connect(g); g.connect(aCtx.destination); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0, aCtx.currentTime + i * .15); g.gain.linearRampToValueAtTime(.14, aCtx.currentTime + i * .15 + .05); g.gain.exponentialRampToValueAtTime(.001, aCtx.currentTime + i * .15 + .8); o.start(aCtx.currentTime + i * .15); o.stop(aCtx.currentTime + i * .15 + .8); }); } catch (e) { } }
 
         /* Typewriter */
+        let activeTypewriter = null;
         function typewrite(id, text, delay, speed, onDone, sound) {
             delay = delay || 400; speed = speed || 28;
-            const el = document.getElementById(id); if (!el) return; el.innerHTML = ''; let i = 0;
-            function type() { if (i < text.length) { const ch = text.charAt(i); el.innerHTML += ch === '\n' ? '<br>' : ch; if (sound && ch !== ' ' && ch !== '\n' && Math.random() > .4) playClick(); i++; setTimeout(type, speed); } else if (onDone) onDone(); }
-            setTimeout(type, delay);
+            const el = document.getElementById(id); if (!el) return;
+            el.innerHTML = ''; let i = 0;
+
+            // Handle skip button
+            const parent = el.closest('.terminal') || el.parentElement;
+            let skipBtn = parent.querySelector('.skip-type-btn');
+            if (!skipBtn && parent.classList.contains('terminal')) {
+                skipBtn = document.createElement('button');
+                skipBtn.className = 'skip-type-btn';
+                parent.appendChild(skipBtn);
+            }
+
+            if (skipBtn) {
+                skipBtn.textContent = currentLang === 'ar' ? '⏭ تخطي' : '⏭ Skip';
+                skipBtn.style.display = 'block';
+                skipBtn.onclick = () => {
+                    if (activeTypewriter) clearTimeout(activeTypewriter);
+                    activeTypewriter = null;
+                    el.innerHTML = text.replace(/\n/g, '<br>');
+                    skipBtn.style.display = 'none';
+                    if (onDone) onDone();
+                };
+            }
+
+            function type() {
+                if (i < text.length) {
+                    const ch = text.charAt(i);
+                    el.innerHTML += ch === '\n' ? '<br>' : ch;
+                    if (sound && ch !== ' ' && ch !== '\n' && Math.random() > .4) playClick();
+                    i++;
+                    activeTypewriter = setTimeout(type, speed);
+                } else {
+                    if (skipBtn) skipBtn.style.display = 'none';
+                    activeTypewriter = null;
+                    if (onDone) onDone();
+                }
+            }
+            activeTypewriter = setTimeout(type, delay);
         }
         function animateVal(id, target, dur) {
             const el = document.getElementById(id); if (!el) return;
@@ -3147,52 +3649,81 @@
             if (!wrap) return;
             const bubbles = t('mind.bubbles');
             const colorMap = { teal: '#38bdf8', blue: '#4da8ff', purple: '#b794f4', pink: '#f472b6', gold: '#fbbf24', green: '#34d399' };
-            let bubblesHtml = bubbles.map((b, i) => {
+
+            let linesHtml = '';
+            let bubblesHtml = '';
+
+            const radius = 38;
+            bubbles.forEach((b, i) => {
+                const angle = (i * (360 / bubbles.length) - 90) * (Math.PI / 180);
+                const x = 50 + radius * Math.cos(angle);
+                const y = 50 + radius * Math.sin(angle);
                 const c = colorMap[b.color] || '#4da8ff';
-                return `<div class="mind-bubble" id="mb-${b.id}" 
-                  style="left:${b.x}%;top:${b.y}%;border-color:${c};--bubble-color:${c};--bubble-glow:${c}55;--fdur:${3.2 + i * .55}s;--fdelay:${i * .32}s"
+
+                linesHtml += `<line x1="50%" y1="50%" x2="${x}%" y2="${y}%" stroke="${c}" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.3" id="line-${b.id}" class="mind-line" />`;
+
+                bubblesHtml += `<div class="mind-bubble" id="mb-${b.id}" 
+                  style="left:${x}%;top:${y}%;border-color:${c};--bubble-color:${c};--bubble-glow:${c}55;--fdur:${3.2 + i * .55}s;--fdelay:${i * .32}s"
                   onclick="openMindBubble('${b.id}')">
                   <span class="mind-bubble-icon">${b.icon}</span>
                   <span class="mind-bubble-label" style="color:${c}">${b.label}</span>
                 </div>`;
-            }).join('');
+            });
+
             wrap.innerHTML = `
               <div class="mind-arena">
+                <svg width="100%" height="100%" style="position:absolute;top:0;left:0;z-index:1;pointer-events:none;">
+                    ${linesHtml}
+                </svg>
                 <div class="mind-center">
-                  <span class="mind-center-icon">🧠</span>
-                  <div class="mind-center-label">KERMINA'S MIND</div>
+                  <span class="mind-center-brain">🧠</span>
+                  <div class="mind-center-label">MIND</div>
                 </div>
                 ${bubblesHtml}
-                <div class="mind-card" id="mind-card">
-                  <button class="mind-close" onclick="closeMindCard()">${t('mind.close')}</button>
-                  <div class="mind-card-title" id="mind-card-title"></div>
-                  <div class="mind-card-desc" id="mind-card-desc"></div>
-                  <div class="mind-card-memory" id="mind-card-memory"></div>
-                </div>
               </div>
-              <div class="mind-hint">✦ click any bubble to explore</div>`;
+              <div class="mind-hint">✦ click any node to explore</div>
+              <div class="mind-card" id="mind-card">
+                <button class="mind-close" onclick="closeMindCard()">${t('mind.close')}</button>
+                <div class="mind-card-title" id="mind-card-title"></div>
+                <div class="mind-card-desc" id="mind-card-desc"></div>
+                <div class="mind-card-memory" id="mind-card-memory"></div>
+              </div>`;
         }
         function openMindBubble(id) {
             const bubbles = t('mind.bubbles');
             const b = bubbles.find(x => x.id === id);
             if (!b) return;
             document.querySelectorAll('.mind-bubble').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.mind-line').forEach(el => el.classList.remove('active'));
             const el = document.getElementById('mb-' + id);
             if (el) el.classList.add('active');
+            const line = document.getElementById('line-' + id);
+            if (line) line.classList.add('active');
             const colorMap = { teal: '#38bdf8', blue: '#4da8ff', purple: '#b794f4', pink: '#f472b6', gold: '#fbbf24', green: '#34d399' };
             const c = colorMap[b.color] || '#4da8ff';
-            document.getElementById('mind-card-title').textContent = b.icon + ' ' + b.label;
-            document.getElementById('mind-card-title').style.color = c;
+            const titleEl = document.getElementById('mind-card-title');
+            titleEl.innerHTML = `<span style="font-size:1.5rem">${b.icon}</span> ${b.label}`;
+            titleEl.style.color = c;
             document.getElementById('mind-card-desc').textContent = b.desc;
-            document.getElementById('mind-card-memory').textContent = '✦ ' + b.memory;
-            document.getElementById('mind-card').classList.add('open');
+            const memEl = document.getElementById('mind-card-memory');
+            memEl.textContent = '✦ ' + b.memory;
+            memEl.style.borderColor = c;
+            memEl.style.color = c;
+            const card = document.getElementById('mind-card');
+            card.style.display = 'block';
+            card.style.borderColor = c;
+            setTimeout(() => card.classList.add('open'), 10);
             activeBubble = id;
             addXP(12, 'BUBBLE'); playClick();
         }
         function closeMindCard() {
-            document.getElementById('mind-card').classList.remove('open');
+            const card = document.getElementById('mind-card');
+            card.classList.remove('open');
+            setTimeout(() => { if (!card.classList.contains('open')) card.style.display = 'none'; }, 400);
             document.querySelectorAll('.mind-bubble').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.mind-line').forEach(el => el.classList.remove('active'));
             activeBubble = null;
+            playClick();
         }
 
         /* ── Moments That Stayed ── */
@@ -3388,7 +3919,7 @@
   <button class="next-button" onclick="nextChapter()">Final Message →</button>`,
 
                 // 15 — Final
-                `<div class="terminal" style="max-width:900px;"><div class="terminal-header">${DOTS}<div class="terminal-title">birthday_wishes.execute() — from Kermina</div></div><div class="terminal-body"><div class="final-message" id="final-text" style="min-height:200px;white-space:pre-wrap;"></div><div class="signature" id="final-sig"></div></div></div><button class="next-button" onclick="restart()"><span>${t('ch17.restart')}</span></button>`,
+                `<div class="terminal" style="max-width:900px;"><div class="terminal-header">${DOTS}<div class="terminal-title">birthday_wishes.execute() — from Kermina</div></div><div class="terminal-body force-ar"><div class="final-message" id="final-text" style="min-height:200px;white-space:pre-wrap;"></div><div class="signature" id="final-sig"></div></div></div><button class="next-button" onclick="restart()"><span>${t('ch17.restart')}</span></button>`,
             ];
             return ch[idx] || '';
         }
@@ -3427,6 +3958,7 @@
         function showChapter(idx, skipAnim) {
             if (heartTimer) { clearInterval(heartTimer); heartTimer = null; }
             if (quoteTimer) { clearInterval(quoteTimer); quoteTimer = null; }
+            if (activeTypewriter) { clearTimeout(activeTypewriter); activeTypewriter = null; }
             const div = document.createElement('div');
             div.className = 'chapter'; div.dataset.accent = ACCENTS[idx] || 'blue';
             div.innerHTML = buildChapter(idx);
@@ -3456,6 +3988,76 @@
         function skipToEnd() { transition(TOTAL - 1); }
         function restart() { transition(0); }
 
+        function openChapterMenu() {
+            const modal = document.getElementById('chapter-menu-modal');
+            const list = document.getElementById('chapter-list');
+            list.innerHTML = '';
+
+            const isAr = currentLang === 'ar';
+            document.getElementById('chapter-menu-title').textContent = isAr ? 'اختر الفصل' : 'Select Chapter';
+
+            const chapterNamesEn = [
+                '1. Initialization',
+                '2. The Numbers',
+                '3. Gratitude Compilation',
+                '4. Journey Through Memories',
+                '5. Choose Your Path',
+                '6. Invisible Impact',
+                '7. Inside My Mind',
+                '8. kermina_errors.log',
+                '9. Quotes That Stayed',
+                '10. Before & After',
+                '11. Moments That Stayed',
+                '12. Digital Conversations',
+                '13. Special Video',
+                '14. The Gift',
+                '15. Final Message'
+            ];
+
+            const chapterNamesAr = [
+                '1. البداية',
+                '2. الأرقام',
+                '3. رسالة شكر',
+                '4. رحلة عبر الذكريات',
+                '5. اختاري مسارك',
+                '6. الأثر الخفي',
+                '7. جوه عقلي',
+                '8. سجل أخطائي',
+                '9. اقتباسات علقت معايا',
+                '10. قبل وبعد',
+                '11. لحظات فضلت معايا',
+                '12. محادثات رقمية',
+                '13. فيديو مميز',
+                '14. الهدية',
+                '15. الرسالة الأخيرة'
+            ];
+
+            const names = isAr ? chapterNamesAr : chapterNamesEn;
+
+            names.forEach((name, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'chapter-list-item' + (currentChapter === idx ? ' active' : '');
+                btn.textContent = name;
+                btn.onclick = () => {
+                    closeChapterMenu();
+                    if (currentChapter !== idx) transition(idx);
+                };
+                list.appendChild(btn);
+            });
+
+            modal.style.display = 'flex';
+            void modal.offsetWidth;
+            modal.classList.add('show');
+            playClick();
+        }
+
+        function closeChapterMenu() {
+            const modal = document.getElementById('chapter-menu-modal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+            playClick();
+        }
+
         document.addEventListener('keydown', e => {
             if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
             if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextChapter(); }
@@ -3480,11 +4082,28 @@
         }
 
         const loadingEl = document.getElementById('loading');
-        setTimeout(() => {
-            loadingEl.classList.add('hidden');
-            setTimeout(() => loadingEl.classList.add('gone'), 650);
-            showChapter(0);
-        }, 2500);
+        function startExperience(playMusic) {
+            document.getElementById('music-prompt-modal').style.display = 'none';
+            if (playMusic) {
+                music.volume = 0.22;
+                music.play().catch(() => { });
+                audioPlaying = true;
+                const btn = document.getElementById('audio-btn');
+                btn.textContent = '🎵';
+                btn.classList.add('playing');
+            }
+            setTimeout(() => {
+                loadingEl.classList.add('hidden');
+                setTimeout(() => loadingEl.classList.add('gone'), 650);
+                showChapter(0);
+            }, 2500);
+        }
+
+        function toggleNavMenu() {
+            const nav = document.getElementById('top-nav');
+            nav.classList.toggle('show');
+            playClick();
+        }
     </script>
 </body>
 
