@@ -918,7 +918,7 @@
         }
 
         .chapter-title {
-            font-family: 'Syne', sans-serif;
+            font-family: "JetBrains Mono", monospace;
             font-size: clamp(1.8rem, 4vw, 3.2rem);
             text-align: center;
             margin-bottom: .5rem;
@@ -987,7 +987,7 @@
         .stat-label {
             color: var(--dim);
             font-size: .77rem;
-            font-family: 'Syne', sans-serif;
+            font-family: "JetBrains Mono", monospace;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
@@ -1367,7 +1367,7 @@
         }
 
         .ach-title {
-            font-family: 'Syne', sans-serif;
+            font-family: "JetBrains Mono", monospace;
             font-size: .88rem;
             font-weight: 700;
             color: var(--purple);
@@ -1802,7 +1802,7 @@
         }
 
         .mem-scene-title {
-            font-family: 'Syne', sans-serif;
+            font-family: "JetBrains Mono", monospace;
             font-size: clamp(1.4rem, 3.5vw, 2rem);
             font-weight: 800;
             color: var(--ch-accent);
@@ -1944,6 +1944,7 @@
             cursor: pointer;
             transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
             background: rgba(13, 19, 28, .9);
+            padding: 8px;
             text-align: center;
             z-index: 3;
             box-shadow: 0 0 20px var(--bubble-glow, rgba(77, 168, 255, .2)), inset 0 0 10px rgba(255, 255, 255, .05);
@@ -1985,6 +1986,8 @@
             color: var(--text);
             letter-spacing: .5px;
             font-weight: 700;
+            line-height: 1.1;
+            max-width: 95%;
         }
 
         .mind-line {
@@ -2018,7 +2021,7 @@
         }
 
         .mind-card-title {
-            font-family: 'Syne', sans-serif;
+            font-family: "JetBrains Mono", monospace;
             font-size: 1.2rem;
             font-weight: 800;
             margin-bottom: .8rem;
@@ -2496,7 +2499,7 @@
         }
 
         .path-name {
-            font-family: 'Syne', sans-serif;
+            font-family: "JetBrains Mono", monospace;
             font-size: 1.18rem;
             font-weight: 800;
             margin-bottom: 0.85rem;
@@ -2540,7 +2543,7 @@
         }
 
         .path-result-title {
-            font-family: 'Syne', sans-serif;
+            font-family: "JetBrains Mono", monospace;
             font-size: 1.4rem;
             font-weight: 800;
             margin-bottom: .8rem;
@@ -2676,6 +2679,20 @@
             font-family: 'JetBrains Mono', monospace !important;
         }
 
+        body.ar .mind-card-title {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.ar .mind-card-subtitle {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body.ar .mind-card-body {
+            font-family: 'Cairo', sans-serif;
+            text-align: right;
+            direction: rtl;
+        }
+
         @media(max-width:768px) {
             #hamburger-btn {
                 display: flex;
@@ -2780,9 +2797,10 @@
             }
 
             .mind-bubble {
-                width: 55px;
-                height: 55px;
+                width: 60px;
+                height: 60px;
                 gap: 0.1rem;
+                padding: 6px;
             }
 
             .mind-bubble-icon {
@@ -2790,7 +2808,8 @@
             }
 
             .mind-bubble-label {
-                font-size: 0.45rem;
+                font-size: 0.42rem;
+                line-height: 1.1;
             }
 
             .mind-center {
@@ -2883,6 +2902,15 @@
                 padding-left: 0;
                 padding-right: 1.5rem;
             }
+
+            .loading-screen {
+                padding: 0 15px;
+            }
+
+            .loading-bar {
+                width: 90%;
+                max-width: 300px;
+            }
         }
     </style>
 
@@ -2895,7 +2923,7 @@
 
     <div id="music-prompt-modal">
         <div style="font-size: 3rem; margin-bottom: 1rem;">🎧</div>
-        <h2 style="margin-bottom: 1rem; font-family: 'Syne', sans-serif;">Audio Experience</h2>
+        <h2 style="margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace;">Audio Experience</h2>
         <p style="margin-bottom: 2rem; font-size: 0.9rem; color: var(--dim); max-width: 400px; line-height: 1.6;">For
             the best experience, please enable background music. You can toggle it anytime using the music icon on the
             top left.</p>
@@ -3036,7 +3064,6 @@
                     { type: 'warn', msg: 'WARNING: Infinite loop of self-doubt running.', fix: 'FIXED by Mrs. Ashgan — Loop broken. Replaced with: believe().' },
                     { type: 'warn', msg: 'WARNING: Student afraid to ask questions.', fix: 'FIXED by Mrs. Ashgan — "There are no silly questions. Ask everything."' },
                     { type: 'warn', msg: 'WARNING: Dream too large. Risk of giving up.', fix: 'FIXED by Mrs. Ashgan — Dream kept. Roadmap provided. Courage compiled.' },
-                    { type: 'warn', msg: 'WARNING: Student comparing herself to others.', fix: 'FIXED by Mrs. Ashgan — "Your pace is your own. Keep going."' },
                     { type: 'warn', msg: 'WARNING: Frustration overflow after failed attempt.', fix: 'FIXED by Mrs. Ashgan — "Every fail is data. Debug and try again."' },
                     { type: 'info', msg: 'INFO: Student named Kermina entered the classroom.', fix: null },
                     { type: 'fix', msg: 'SUCCESS: Kermina shipped her first working project.', fix: null },
@@ -3070,30 +3097,30 @@
                         icon: '🚪',
                         title: 'The First Welcome',
                         subtitle: 'Between Origami and Code.',
-                        text: 'Remember the very first session of the course? The moment I walked into the lab and felt your warm welcome and that smile that reassured me... From that second, I fell in love with the lab, the place, and everything in it.',
+                        text: 'Remember the first day of the course? The moment I entered the lab and found your welcome and that smile that reassured me... From that moment on, I loved the lab, the place, and everything about it.',
                         accent: 'blue'
                     },
                     {
                         icon: '💡',
                         title: 'The Smart Car',
                         subtitle: 'A close call!',
-                        text: 'Remember the first time I tried to assemble the car? I almost set the whole thing on fire for you! I actually melted a wire... and to be honest, I\'m still burning things till this day.',
+                        text: 'Remember the first time I tried to assemble the car? I almost set the whole place on fire! I actually melted a wire... and to be honest, I\'m still burning things till this day.',
                         accent: 'teal'
                     },
                     {
                         icon: '🖥️',
                         title: 'Lab Soul',
                         subtitle: 'Memories in every corner.',
-                        text: 'The lab isn\'t just cables and screens to me; it\'s every corner filled with a memory. The hard work, the laughter, and your guidance made this one of the most beautiful places in my life because you are in it.',
+                        text: 'To me, the lab isn\'t just devices and cables; it\'s memories in every corner. The sessions, the work, and your voice encouraging us... This lab has become one of the most beautiful places in my life because of your presence.',
                         accent: 'purple'
                     },
                     {
                         icon: '⭐',
                         title: 'Breaking the Fear',
                         subtitle: 'From backstage to the spotlight.',
-                        text: 'I used to beg not to speak, and I’d be shaking with nerves in front of guests or at the Technology Club... But you always insisted on making me present, encouraging me, and honoring my effort.',
+                        text: 'I used to beg not to present, and I’d be so nervous and shaking in front of guests or at the Technology Club... But you always insisted on having me explain, encouraging me, and honoring my effort.',
                         accent: 'gold'
-                    }
+                    },
                 ],
                 'mem.next': 'Next Memory →',
                 'mem.finish': 'Continue the Journey →',
@@ -3114,11 +3141,41 @@
                 // NEW: Moments That Stayed  
                 'stay.title': 'Moments That Stayed', 'stay.subtitle': 'Not big events, but the small, quiet moments that made a big impact. Click on each dot to discover.',
                 'stay.moments': [
-                    { dot: '🚪', year: '4 Years Ago', label: 'The First Lab Session.', detail: 'It started in the lab. Your welcome was simple, but it made me feel from the very first day that this was a safe and comfortable place for me to work and express myself.', color: 'blue' },
-                    { dot: '💡', year: 'Work Mode', label: 'Thinking Process.', detail: 'Whenever we got stuck on a problem, you wouldn\'t just give us the answer. You taught us to think, search, and try different approaches. This shaped my logical thinking and self-reliance.', color: 'purple' },
-                    { dot: '🛡️', year: 'Consistency', label: '"Everything is for the good."', detail: 'You always used this phrase whenever something didn\'t go as planned. It stuck with me, and now I find myself using it in my daily life too. It taught me to look for the lesson in every setback.', color: 'green' },
-                    { dot: '⭐', year: 'Recognition', label: 'You deserve the credit.', detail: 'Even when I was hesitant to present or be honored for my work, you insisted. You always emphasized that hard work deserves recognition, which helped me build confidence.', color: 'gold' },
-                    { dot: '🛠️', year: 'Responsibility', label: 'The Archangel.', detail: 'When you ask me to help with a project or when you talk with me, I feel a sense of responsibility to do it well. Being called your "Archangel Raphael" is a title I cherish.', color: 'pink' },
+                    {
+                        dot: '🚪',
+                        year: '4 Years Ago',
+                        label: 'The First Lab Session.',
+                        detail: 'It all started in my very first session of the course. You greeted me and welcomed me so warmly that I immediately felt like I belonged there.',
+                        color: 'blue'
+                    },
+                    {
+                        dot: '💡',
+                        year: 'Work Mode',
+                        label: 'Finding Solutions.',
+                        detail: 'Whenever we face a challenge, you always guide us to think and search on our own until we find a solution. This approach helped me rely on myself more when it comes to logic.',
+                        color: 'purple'
+                    },
+                    {
+                        dot: '🛡️',
+                        year: 'Under Pressure',
+                        label: '"Everything is for the good."',
+                        detail: 'You say "Everything is for the good" in so many situations. Over time, this phrase stuck with me, and I started applying it in my life and work whenever things don’t go as planned.',
+                        color: 'green'
+                    },
+                    {
+                        dot: '⭐',
+                        year: 'Recognition',
+                        label: 'You deserve the credit.',
+                        detail: 'Even when I try to avoid the spotlight, you insist on telling me: "This is your hard work and your right." You make me feel that I truly matter and that I am achieving something.',
+                        color: 'gold'
+                    },
+                    {
+                        dot: '🛠️',
+                        year: 'Responsibility',
+                        label: 'The Archangel.',
+                        detail: 'When you ask for my help with a project or just talk to me, I feel a responsibility to get things done perfectly. Being your "Archangel Raphael" is something that truly makes me happy.',
+                        color: 'pink'
+                    },
                 ],
                 'stay.tap': 'tap to open',
 
@@ -3213,7 +3270,6 @@
                     { type: 'warn', msg: 'تحذير: loop لانهائي من الشك بالنفس.', fix: 'تصحيح من مس أشجان — الـ loop اتكسر. اتبدّل بـ: believe().' },
                     { type: 'warn', msg: 'تحذير: الطالبة خايفة تسأل.', fix: 'تصحيح من مس أشجان — "مفيش سؤال غلط. اسألي كل حاجة."' },
                     { type: 'warn', msg: 'تحذير: الحلم كبير أوي. خطر من الاستسلام.', fix: 'تصحيح من مس أشجان — الحلم فضل. الخريطة اتعملت. الشجاعة اترجمت.' },
-                    { type: 'warn', msg: 'تحذير: الطالبة بتقارن نفسها بالتانيين.', fix: 'تصحيح من مس أشجان — "إيقاعك بتاعك. كملي."' },
                     { type: 'warn', msg: 'تحذير: frustration بعد محاولة فاشلة.', fix: 'تصحيح من مس أشجان — "كل فشل داتا. صلّحي وحاولي تاني."' },
                     { type: 'info', msg: 'معلومة: طالبة اسمها كيرمينا دخلت المعمل.', fix: null },
                     { type: 'fix', msg: 'نجاح: كيرمينا سلّمت أول مشروع شغّال ليها.', fix: null },
@@ -3291,11 +3347,11 @@
                 // NEW: Moments That Stayed
                 'stay.title': 'لحظات فضلت', 'stay.subtitle': 'مش لازم تكون مواقف كبيرة، هي التفاصيل اللي غيرت طريقة تفكيري.. دوسي على كل واحدة.',
                 'stay.moments': [
-                    { dot: '🚪', year: 'من 4 سنين', label: 'أول سيشن في الكورس.', detail: 'بداية التعامل كانت في المعمل في أول سيشن ليا في الكورس. الترحيب كان بسيط بس خلاني من أول يوم أحس إن المكان ده مناسب لي وأقدر أشتغل فيه براحتي.', color: 'blue' },
+                    { dot: '🚪', year: 'من 4 سنين', label: 'أول سيشن في الكورس.', detail: 'بداية التعامل كانت في المعمل في أول سيشن ليا في الكورس. حضرتك سلمتي عليا و رحبتي بيا و حسستيني انه مكاني.', color: 'blue' },
                     { dot: '💡', year: 'وقت الشغل', label: 'التفكير في الحلول.', detail: 'لما بنقف في مشكلة، حضرتك دايماً بتوجهينا إننا ندور ونفكر بنفسنا لحد ما نوصل لحل. الطريقة دي خلتني أعتمد على نفسي في الـ Logic أكتر من الأول.', color: 'purple' },
                     { dot: '🛡️', year: 'وقت الضغط', label: 'كله للخير.', detail: 'كلمة "كله للخير" حضرتك بتقوليها في مواقف كتير، ومع الوقت الجملة دي ثبتت عندي وبقيت أطبقها في حياتي وفي شغلي لما حاجة متعكس معايا.', color: 'green' },
-                    { dot: '⭐', year: 'التكريم والتشجيع', label: 'ده مجهودك وتستحقيه.', detail: 'حتى لما بكون مش عايزة أطلع أو أتكرم، حضرتك بتصممي وتقولي "ده مجهودك وحقك". حضرتك بتشوفي المجهود اللي بيتعمل وبتقدّريه بجد.', color: 'gold' },
-                    { dot: '🛠️', year: 'المساعدة والمسؤولية', label: 'الملاك رافائيل.', detail: 'لما حضرتك بتطلبي مني مساعدة في مشروع أو تحكي معايا، بحس بمسؤولية إني أنفذ المطلوب بأحسن شكل. إني أكون "الملاك رافائيل" اللي بيسند حضرتك دي حاجة بتبسطني فعلاً.', color: 'pink' },
+                    { dot: '⭐', year: 'التكريم والتشجيع', label: 'ده مجهودك وتستحقيه.', detail: 'حتى لما بكون مش عايزة أطلع أو أتكرم، حضرتك بتصممي وتقولي "ده مجهودك وحقك". بتحسسيني إن ليا لازمة و بعمل حاجة', color: 'gold' },
+                    { dot: '🛠️', year: 'المساعدة والمسؤولية', label: 'الملاك رافائيل.', detail: 'لما حضرتك بتطلبي مني مساعدة في مشروع أو تحكي معايا، بحس بمسؤولية إني أنفذ المطلوب بأحسن شكل. إني أكون "الملاك رافائيل" اللي بيساعد حضرتك دي حاجة بتبسطني فعلاً.', color: 'pink' },
                 ],
                 'stay.tap': 'اضغطي للفتح',
 
@@ -3601,7 +3657,7 @@
             return `<div class="mem-landing">
               <div style="font-size:3.5rem;filter:drop-shadow(0 0 20px rgba(77,168,255,.4));animation:mem-float 3s ease-in-out infinite">🌌</div>
               <div style="text-align:center;">
-                <div style="font-family:Syne,sans-serif;font-size:1.4rem;font-weight:800;color:var(--blue);margin-bottom:.5rem">${t('mem.title')}</div>
+                <div style="font-family: 'JetBrains Mono',monospace;font-size:1.4rem;font-weight:800;color:var(--blue);margin-bottom:.5rem">${t('mem.title')}</div>
                 <div style="font-size:.82rem;color:var(--dim);line-height:1.7">${t('mem.subtitle')}</div>
               </div>
               <button class="mem-start-btn" onclick="startMemories()">${t('mem.start')}</button>
